@@ -1,11 +1,15 @@
 # 🌾 Crop Health AI — Multimodal Satellite Agricultural Intelligence Platform
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-crop--health--ai--q8iv.vercel.app-brightgreen?style=for-the-badge&logo=vercel&logoColor=white)](https://crop-health-ai-q8iv.vercel.app/)
 [![Python Version](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.4.3-black.svg)](https://nextjs.org/)
 [![Copernicus Sentinel](https://img.shields.io/badge/Copernicus-Sentinel--1%20%7C%20Sentinel--2-orange.svg)](https://dataspace.copernicus.eu/)
 [![Tests Passing](https://img.shields.io/badge/tests-216%20passed-success.svg)](#test-suite--verification)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+> [!TIP]
+> 🌐 **Live Production Deployment**: Experience the platform live in your browser at **[https://crop-health-ai-q8iv.vercel.app/](https://crop-health-ai-q8iv.vercel.app/)**
 
 An enterprise-grade, precision agricultural intelligence platform fusing **Copernicus Sentinel-2 optical multispectral reflectance**, **Sentinel-1 C-band synthetic aperture radar (SAR)** microwave observations, and **calibrated machine learning models** to deliver proactive, field-level crop stress detection, time-series growth trajectories, spatial risk zoning, and actionable farmer intelligence.
 
@@ -19,6 +23,7 @@ An enterprise-grade, precision agricultural intelligence platform fusing **Coper
 4. [Live Location Verification (10 Sites Tested)](#-live-location-verification-10-sites-tested)
 5. [Complete REST API Reference](#-complete-rest-api-reference)
 6. [Complete Production Deployment Guide](#-complete-production-deployment-guide)
+   - [Live Production Deployment (Vercel & Render)](#0-live-production-deployment-vercel--render)
    - [Local Development Setup](#1-local-development-setup)
    - [Local Production Setup](#2-local-production-setup)
    - [Docker & Docker Compose Deployment](#3-docker--docker-compose-deployment)
@@ -207,6 +212,20 @@ Interactive OpenAPI documentation is available live at `http://127.0.0.1:8000/do
 ---
 
 ## 🚀 Complete Production Deployment Guide
+
+### 0. Live Production Deployment (Vercel & Render)
+
+The Crop Health AI platform is officially live in production:
+
+| Service | Platform | Live URL / Endpoint | Tier |
+| :--- | :--- | :--- | :--- |
+| **Frontend Application** | **Vercel** | **[https://crop-health-ai-q8iv.vercel.app/](https://crop-health-ai-q8iv.vercel.app/)** | Global Edge CDN (SSL HTTPS) |
+| **Backend API Service** | **Render** | `https://crophealth-backend.onrender.com` | FastAPI ASGI Container |
+
+- **Continuous Deployment**: Automated CI/CD is enabled via GitHub (`Sree-8639/CROP-HEALTH-AI`). Commits to `main` trigger automated builds and zero-downtime updates.
+- **Monthly Cost**: 100% Free tiers on both Vercel and Render ($0.00/month).
+
+---
 
 ### 1. Local Development Setup
 

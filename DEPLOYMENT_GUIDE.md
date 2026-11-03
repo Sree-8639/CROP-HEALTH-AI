@@ -1,6 +1,6 @@
 # PRODUCTION DEPLOYMENT & OPERATIONS GUIDE
 **Crop Health AI: High-Performance Multimodal Satellite Analytics Platform**
-*Target Deployment: Cloud Run / Kubernetes / On-Premise Docker | Version: 1.8.0 | Document ID: CH-AI-OPS-2026-P18*
+*Live Production: [https://crop-health-ai-q8iv.vercel.app/](https://crop-health-ai-q8iv.vercel.app/) | Target Deployment: Vercel + Render / Cloud Run / Docker | Version: 1.8.0*
 
 ---
 
