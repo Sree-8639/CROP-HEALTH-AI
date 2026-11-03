@@ -1,0 +1,24 @@
+# Root gitignore for crop-health-monitor
+
+# Environment variable files - NEVER COMMIT SECRETS
+.env
+.env.*
+!.env.example
+
+# Python
+backend/.venv/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Logs & temp
+*.log
+npm-debug.log*
+yarn-debug.log*
+.DS_Store
+Thumbs.db

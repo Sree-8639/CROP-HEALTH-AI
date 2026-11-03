@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: crophealth-backend-prod
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - DEMO_MODE=false
+      - ALLOWED_ORIGINS=${PRODUCTION_ALLOWED_ORIGINS:-https://crophealth.example.com}
+      - COPERNICUS_CLIENT_ID=${COPERNICUS_CLIENT_ID}
+      - COPERNICUS_CLIENT_SECRET=${COPERNICUS_CLIENT_SECRET}
+      - COPERNICUS_AUTH_URL=https://identity.dataspace.copernicus.eu/auth/realms/CDSE/protocol/openid-connect/token
+      - COPERNICUS_SH_BASE_URL=https://sh.dataspace.copernicus.eu
+      - LOG_LEVEL=INFO
+      - WORKERS=4
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - crophealth-prod-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${PRODUCTION_API_URL:-https://api.crophealth.example.com}
+    container_name: crophealth-frontend-prod
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${PRODUCTION_API_URL:-https://api.crophealth.example.com}
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - crophealth-prod-net
+
+networks:
+  crophealth-prod-net:
+    driver: bridge

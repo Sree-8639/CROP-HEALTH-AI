@@ -1,0 +1,257 @@
+{
+  "model_name": "MultimodalCropStressDetector",
+  "model_version": "v1.0.0-demo",
+  "model_type": "RandomForest_Calibrated",
+  "created_at": "2026-10-27T20:39:08.921749+00:00",
+  "is_demo_model": true,
+  "is_calibrated": true,
+  "feature_count": 37,
+  "features": [
+    "opt_ndvi",
+    "opt_ndmi",
+    "opt_ndre",
+    "opt_evi",
+    "opt_b02",
+    "opt_b03",
+    "opt_b04",
+    "opt_b05",
+    "opt_b08",
+    "opt_b11",
+    "sar_vv",
+    "sar_vh",
+    "sar_vv_vh_ratio",
+    "prev_ndvi",
+    "prev_ndmi",
+    "prev_ndre",
+    "prev_evi",
+    "prev_vv",
+    "prev_vh",
+    "delta_ndvi",
+    "delta_ndmi",
+    "delta_ndre",
+    "delta_evi",
+    "delta_vv",
+    "delta_vh",
+    "rate_ndvi_per_day",
+    "rate_ndmi_per_day",
+    "rate_ndre_per_day",
+    "rate_evi_per_day",
+    "temporal_interval_days",
+    "usable_history_count",
+    "cloud_coverage",
+    "valid_pixel_pct",
+    "nodata_pct",
+    "s1_s2_temporal_gap_days",
+    "missing_sar_flag",
+    "insufficient_history_flag"
+  ],
+  "target_classes": [
+    "No significant stress signal detected",
+    "Potential stress signal detected",
+    "Elevated potential stress signal"
+  ],
+  "dataset_provenance": "Synthetic agricultural demonstrator (agronomic physics curves)",
+  "training_sample_count": 210,
+  "test_sample_count": 45,
+  "evaluation_metrics": {
+    "sample_count": 45,
+    "accuracy": 1.0,
+    "precision_macro": 1.0,
+    "precision_weighted": 1.0,
+    "recall_macro": 1.0,
+    "recall_weighted": 1.0,
+    "f1_macro": 1.0,
+    "f1_weighted": 1.0,
+    "roc_auc_ovr": 1.0,
+    "pr_auc_macro": 1.0,
+    "brier_score_calibration": 0.0041,
+    "per_class": {
+      "No significant stress signal detected": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 23
+      },
+      "Potential stress signal detected": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 13
+      },
+      "Elevated potential stress signal": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 9
+      }
+    },
+    "confusion_matrix": [
+      [
+        23,
+        0,
+        0
+      ],
+      [
+        0,
+        13,
+        0
+      ],
+      [
+        0,
+        0,
+        9
+      ]
+    ]
+  },
+  "global_feature_importance": [
+    {
+      "feature": "opt_ndmi",
+      "importance": 0.142
+    },
+    {
+      "feature": "delta_ndvi",
+      "importance": 0.1078
+    },
+    {
+      "feature": "delta_ndmi",
+      "importance": 0.106
+    },
+    {
+      "feature": "rate_ndmi_per_day",
+      "importance": 0.0951
+    },
+    {
+      "feature": "rate_ndvi_per_day",
+      "importance": 0.0809
+    },
+    {
+      "feature": "opt_ndre",
+      "importance": 0.0664
+    },
+    {
+      "feature": "rate_ndre_per_day",
+      "importance": 0.0637
+    },
+    {
+      "feature": "opt_evi",
+      "importance": 0.0616
+    },
+    {
+      "feature": "opt_ndvi",
+      "importance": 0.0615
+    },
+    {
+      "feature": "delta_ndre",
+      "importance": 0.0424
+    },
+    {
+      "feature": "delta_evi",
+      "importance": 0.0387
+    },
+    {
+      "feature": "delta_vh",
+      "importance": 0.0337
+    },
+    {
+      "feature": "rate_evi_per_day",
+      "importance": 0.0286
+    },
+    {
+      "feature": "prev_ndmi",
+      "importance": 0.0181
+    },
+    {
+      "feature": "opt_b11",
+      "importance": 0.0112
+    },
+    {
+      "feature": "prev_evi",
+      "importance": 0.0086
+    },
+    {
+      "feature": "opt_b08",
+      "importance": 0.0085
+    },
+    {
+      "feature": "delta_vv",
+      "importance": 0.0081
+    },
+    {
+      "feature": "opt_b04",
+      "importance": 0.0066
+    },
+    {
+      "feature": "prev_ndre",
+      "importance": 0.0045
+    },
+    {
+      "feature": "prev_ndvi",
+      "importance": 0.002
+    },
+    {
+      "feature": "sar_vv_vh_ratio",
+      "importance": 0.0012
+    },
+    {
+      "feature": "sar_vv",
+      "importance": 0.0007
+    },
+    {
+      "feature": "nodata_pct",
+      "importance": 0.0004
+    },
+    {
+      "feature": "sar_vh",
+      "importance": 0.0004
+    },
+    {
+      "feature": "s1_s2_temporal_gap_days",
+      "importance": 0.0004
+    },
+    {
+      "feature": "prev_vh",
+      "importance": 0.0002
+    },
+    {
+      "feature": "cloud_coverage",
+      "importance": 0.0001
+    },
+    {
+      "feature": "usable_history_count",
+      "importance": 0.0001
+    },
+    {
+      "feature": "opt_b05",
+      "importance": 0.0001
+    },
+    {
+      "feature": "valid_pixel_pct",
+      "importance": 0.0001
+    },
+    {
+      "feature": "opt_b02",
+      "importance": 0.0001
+    },
+    {
+      "feature": "prev_vv",
+      "importance": 0.0
+    },
+    {
+      "feature": "missing_sar_flag",
+      "importance": 0.0
+    },
+    {
+      "feature": "insufficient_history_flag",
+      "importance": 0.0
+    },
+    {
+      "feature": "temporal_interval_days",
+      "importance": 0.0
+    },
+    {
+      "feature": "opt_b03",
+      "importance": 0.0
+    }
+  ],
+  "scientific_disclaimer": "Early stress detection outputs indicate physical radiometric and active radar backscatter anomalies. They do not constitute diagnostic proof of biological pathogens, soil nitrogen deficiency, or specific causal agents without local agronomist ground verification."
+}

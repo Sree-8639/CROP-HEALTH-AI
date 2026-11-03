@@ -1,0 +1,51 @@
+{
+  "manifest_version": "1.0.0",
+  "project": "CropHealth AI - Early Crop Stress Detection",
+  "description": "Standardized schema manifest and dataset protocol for multimodal satellite crop stress detection.",
+  "target_task": "Multi-class classification of potential vegetative stress signals from combined Sentinel-1 SAR and Sentinel-2 optical time-series.",
+  "class_definitions": {
+    "0": {
+      "name": "No significant stress signal detected",
+      "description": "Nominal vegetative canopy health, stable or increasing multi-spectral vigor, and normal structural backscatter.",
+      "criteria": "Healthy canopy trajectory with no statistically significant radiometric or structural decline across consecutive observation passes."
+    },
+    "1": {
+      "name": "Potential stress signal detected",
+      "description": "Early radiometric or polarimetric anomaly indicating potential early vegetative strain.",
+      "criteria": "Subtle decrease in moisture (NDMI) or red-edge chlorophyll (NDRE) preceding severe NDVI collapse, or anomalous radar cross-polarization ratio shift."
+    },
+    "2": {
+      "name": "Elevated potential stress signal",
+      "description": "Marked, concurrent decline across spectral and structural canopy indicators.",
+      "criteria": "Simultaneous drops in vigor (NDVI/EVI), moisture (NDMI), and red-edge (NDRE) alongside persistent SAR volumetric backscatter loss over >1 observation cycle."
+    }
+  },
+  "required_features_count": 37,
+  "feature_breakdown": {
+    "optical_bands_and_indices": 10,
+    "sar_polarimetric_channels": 3,
+    "temporal_trajectories_and_rates": 18,
+    "data_quality_and_continuity_flags": 6
+  },
+  "provenance_requirements": {
+    "geographic_bounds": "WGS84 Bounding Box and GeoJSON Polygon",
+    "crop_type": "Documented crop species (e.g., paddy rice, maize, wheat, cotton, soybean)",
+    "phenological_stage": "Documented growth stage (vegetative, reproductive, ripening)",
+    "label_source": "Ground-truth field agronomist observation, validated flux tower data, or authoritative agricultural survey",
+    "label_date": "Timestamp of ground inspection within +/- 3 days of satellite overpass",
+    "legal_license": "Permissible for research and model training (e.g. CC-BY 4.0, Open Government License, or proprietary authorized agreement)"
+  },
+  "split_protocol": {
+    "method": "Spatial-Temporal Stratified Group Split",
+    "train_ratio": 0.70,
+    "validation_ratio": 0.15,
+    "test_ratio": 0.15,
+    "spatial_grouping": "Unique field ID or Farm cluster ID (strictly no shared fields between train and test)",
+    "temporal_holdout": "Independent growing season or terminal month holdout"
+  },
+  "known_scientific_limitations": [
+    "Satellite indicators reflect radiometric surface reflectance and active microwave backscatter; they do not identify pathogens or microscopic pests without field ground-truthing.",
+    "Cloud cover and prolonged monsoon precipitation can obstruct optical passes, necessitating reliance on radar backscatter.",
+    "Irrigation events, standing surface water, and tillage induce acute dielectric jumps that must be differentiated from biological crop stress."
+  ]
+}
