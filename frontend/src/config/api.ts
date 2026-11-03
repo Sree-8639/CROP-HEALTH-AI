@@ -6,6 +6,8 @@
 export const API_BASE_URL: string =
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/+$/, "") || "http://127.0.0.1:8000";
 
+export const API_BASE: string = API_BASE_URL;
+
 export const API_ROUTES = {
   HEALTH: `${API_BASE_URL}/api/health`,
   DOCS: `${API_BASE_URL}/docs`,

@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 
+export type MapState = "loading" | "ready" | "error" | "empty";
+
 export type LayerType =
   | "satellite"
   | "ndvi"
@@ -69,6 +71,9 @@ export default function FieldMap({
   const circleRef = useRef<L.Circle | null>(null);
   const overlayRef = useRef<L.ImageOverlay | null>(null);
 
+  const [mapState, setMapState] = useState<MapState>("loading");
+  const [initAttempt, setInitAttempt] = useState(0);
+
   // Active overlay layer: "satellite" | "ndvi" | "ndmi" | "ndre" | "evi" | "none"
   const [internalLayer, setInternalLayer] = useState<LayerType>("satellite");
   const activeLayer = externalSelectedLayer !== undefined ? externalSelectedLayer : internalLayer;
@@ -78,6 +83,19 @@ export default function FieldMap({
     if (onLayerChange) {
       onLayerChange(layer);
     }
+  };
+
+  const handleRetryMap = () => {
+    setMapState("loading");
+    if (mapInstanceRef.current) {
+      try {
+        mapInstanceRef.current.remove();
+      } catch {
+        // ignore
+      }
+      mapInstanceRef.current = null;
+    }
+    setInitAttempt((prev) => prev + 1);
   };
 
   // Automatically switch to available index overlay if satellite is not yet active
@@ -93,57 +111,79 @@ export default function FieldMap({
 
   // Initialize Map
   useEffect(() => {
-    if (!mapContainerRef.current || mapInstanceRef.current) return;
+    if (typeof window === "undefined") return;
 
-    // Base Layers
-    const streetLayer = L.tileLayer(
-      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19,
-      }
-    );
-
-    const satelliteLayer = L.tileLayer(
-      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-      {
-        attribution: "Tiles &copy; Esri &mdash; Source: Esri, USDA, USGS, AeroGRID, IGN, and GIS User Community",
-        maxZoom: 18,
-      }
-    );
-
-    // Initialize Leaflet map
-    const map = L.map(mapContainerRef.current, {
-      center: [latitude, longitude],
-      zoom: 14,
-      layers: [satelliteLayer],
-      zoomControl: true,
-    });
-
-    // Layer control for switching between Satellite and Normal Street Map
-    const baseMaps = {
-      "🛰️ Satellite View": satelliteLayer,
-      "🗺️ Normal Map": streetLayer,
-    };
-    L.control.layers(baseMaps, undefined, { position: "topright" }).addTo(map);
-
-    // Map click listener to allow adjusting location marker
-    if (onCoordinatesChange) {
-      map.on("click", (e: L.LeafletMouseEvent) => {
-        onCoordinatesChange(e.latlng.lat, e.latlng.lng);
-      });
+    if (latitude === undefined || longitude === undefined || isNaN(latitude) || isNaN(longitude)) {
+      setMapState("empty");
+      return;
     }
 
-    mapInstanceRef.current = map;
+    if (!mapContainerRef.current) return;
+    if (mapInstanceRef.current) return;
+
+    setMapState("loading");
+
+    try {
+      // Base Layers
+      const streetLayer = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 19,
+        }
+      );
+
+      const satelliteLayer = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {
+          attribution: "Tiles &copy; Esri &mdash; Source: Esri, USDA, USGS, AeroGRID, IGN, and GIS User Community",
+          maxZoom: 18,
+        }
+      );
+
+      // Initialize Leaflet map
+      const map = L.map(mapContainerRef.current, {
+        center: [latitude, longitude],
+        zoom: 14,
+        layers: [satelliteLayer],
+        zoomControl: true,
+      });
+
+      // Layer control for switching between Satellite and Normal Street Map
+      const baseMaps = {
+        "🛰️ Satellite View": satelliteLayer,
+        "🗺️ Normal Map": streetLayer,
+      };
+      L.control.layers(baseMaps, undefined, { position: "topright" }).addTo(map);
+
+      // Map click listener to allow adjusting location marker
+      if (onCoordinatesChange) {
+        map.on("click", (e: L.LeafletMouseEvent) => {
+          onCoordinatesChange(e.latlng.lat, e.latlng.lng);
+        });
+      }
+
+      mapInstanceRef.current = map;
+      setMapState("ready");
+    } catch (err) {
+      console.error("Leaflet map initialization failed:", err);
+      setMapState("error");
+    }
 
     return () => {
-      map.remove();
-      mapInstanceRef.current = null;
+      if (mapInstanceRef.current) {
+        try {
+          mapInstanceRef.current.remove();
+        } catch {
+          // ignore
+        }
+        mapInstanceRef.current = null;
+      }
       markerRef.current = null;
       circleRef.current = null;
       overlayRef.current = null;
     };
-  }, []); // Run once on mount
+  }, [initAttempt, latitude, longitude, onCoordinatesChange]);
 
   // Update marker, circle, and view when coordinates or radius change
   useEffect(() => {
@@ -307,6 +347,63 @@ export default function FieldMap({
   return (
     <div className="relative w-full h-[480px] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
       <div ref={mapContainerRef} className="w-full h-full" />
+
+      {/* Loading state indicator */}
+      {mapState === "loading" && (
+        <div className="absolute inset-0 z-[1050] bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center">
+          <div className="w-10 h-10 border-2 border-emerald-500/30 border-t-emerald-400 rounded-full animate-spin mb-3" />
+          <p className="text-sm font-medium text-slate-200">Initializing Interactive Field Map...</p>
+          <p className="text-xs text-slate-400 mt-1">Connecting to geospatial tile services</p>
+        </div>
+      )}
+
+      {/* Empty coordinates state */}
+      {mapState === "empty" && (
+        <div className="absolute inset-0 z-[1050] bg-slate-950/95 flex flex-col items-center justify-center p-6 text-center">
+          <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xl mb-3 text-slate-400">
+            📍
+          </div>
+          <p className="text-sm font-semibold text-slate-200">No Field Coordinates Selected</p>
+          <p className="text-xs text-slate-400 mt-1 max-w-sm">
+            Please specify latitude and longitude coordinates or select a sample field to render the interactive map.
+          </p>
+        </div>
+      )}
+
+      {/* Map Initialization Failure State (Issue 5 Fallback) */}
+      {mapState === "error" && (
+        <div className="absolute inset-0 z-[1050] bg-slate-950/95 flex flex-col items-center justify-center p-6 text-center">
+          {(satelliteOverlayImage || ndviOverlayImage) ? (
+            <div className="relative w-full max-w-md rounded-xl overflow-hidden border border-slate-700 mb-4 bg-slate-900">
+              <img
+                src={satelliteOverlayImage || ndviOverlayImage || ""}
+                alt="Static Satellite Raster Preview Fallback"
+                className="w-full h-48 object-cover opacity-90"
+              />
+              <div className="absolute bottom-2 left-2 bg-slate-950/85 px-2.5 py-1 rounded text-[11px] text-emerald-400 border border-emerald-500/30">
+                Static Raster Fallback Preview ({locationName})
+              </div>
+            </div>
+          ) : (
+            <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-xl mb-3 text-amber-400">
+              ⚠️
+            </div>
+          )}
+
+          <p className="text-sm font-semibold text-slate-200">Interactive map is currently unavailable.</p>
+          <p className="text-xs text-slate-400 mt-1 max-w-md">
+            The web mapping client could not establish a connection with the geospatial tile service.
+            {(satelliteOverlayImage || ndviOverlayImage) && " A static verified raster preview has been loaded above."}
+          </p>
+
+          <button
+            onClick={handleRetryMap}
+            className="mt-4 px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg transition flex items-center gap-1.5"
+          >
+            <span>🔄 Retry Map Connection</span>
+          </button>
+        </div>
+      )}
 
       {/* Layer Toggle Controls: Optical vs SAR Layers */}
       {hasAnyOverlay && (

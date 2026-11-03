@@ -18,11 +18,13 @@ export interface AgriculturalRecommendationData {
 
 interface AgriculturalRecommendationsProps {
   recommendations: AgriculturalRecommendationData[];
+  cropType?: string;
   isDemo?: boolean;
 }
 
 export default function AgriculturalRecommendations({
   recommendations,
+  cropType,
   isDemo = false,
 }: AgriculturalRecommendationsProps) {
   const getPriorityStyle = (priority: string) => {

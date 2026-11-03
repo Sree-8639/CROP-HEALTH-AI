@@ -17,6 +17,8 @@ export interface VegetationIndicatorMetricData {
   status_color: string;
 }
 
+export type VegetationMetricsData = Record<string, VegetationIndicatorMetricData>;
+
 interface VegetationMetricsProps {
   metrics: Record<string, VegetationIndicatorMetricData>;
   isDemo?: boolean;

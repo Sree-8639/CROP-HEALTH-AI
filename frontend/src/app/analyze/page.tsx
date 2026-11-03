@@ -13,6 +13,7 @@ import FieldRiskStatistics from "@/components/FieldRiskStatistics";
 import PixelInspectionPanel, { PixelInspectionData } from "@/components/PixelInspectionPanel";
 import RiskEvidencePanel from "@/components/RiskEvidencePanel";
 import { API_BASE_URL } from "@/config/api";
+import GlobalDemoIndicator from "@/components/GlobalDemoIndicator";
 
 // Dynamically import Leaflet FieldMap with SSR disabled (Leaflet requires window object)
 const FieldMap = dynamic(() => import("@/components/FieldMap"), {
@@ -1371,6 +1372,11 @@ export default function AnalyzePage() {
       />
       {/* Ambient glassmorphic tint so the green fields are vibrant while all UI components remain clear */}
       <div className="fixed inset-0 bg-gradient-to-b from-black/45 via-slate-950/60 to-black/75 pointer-events-none -z-10 backdrop-blur-[1px]" />
+      {/* Global Demo Indicator */}
+      <GlobalDemoIndicator
+        isDemo={satelliteImage?.is_demo ?? true}
+        provenance={satelliteImage?.data_source ?? "Sentinel-2 MSI (Copernicus) & Sentinel-1 C-SAR (ESA)"}
+      />
       {/* Header */}
       <header className="bg-[#244324]/95 border-b border-emerald-800/40 backdrop-blur-md sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -1396,7 +1402,7 @@ export default function AnalyzePage() {
               <span>History</span>
             </Link>
             <Link href="/model-performance" className="text-slate-400 hover:text-white transition hidden md:inline">
-              Target Architecture
+              Architecture & Model Targets
             </Link>
             <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border bg-slate-800/80 border-slate-700">
               <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
@@ -1869,6 +1875,9 @@ export default function AnalyzePage() {
                   <span>±3d (Optimal)</span>
                   <span>±7d (Permissive)</span>
                 </div>
+                <p className="text-[11px] text-slate-400 mt-1">
+                  Default temporal matching window: ±3 days. This setting is configurable.
+                </p>
               </div>
               <div>
                 <label className="text-xs text-slate-400 block mb-1">Feature Normalization Strategy</label>
@@ -2264,7 +2273,8 @@ export default function AnalyzePage() {
         {/* SAR INDICATORS SECTION */}
         {sentinel1Result && (
           <section className="bg-slate-900 border-2 border-sky-500/60 rounded-3xl p-6 sm:p-10 space-y-8 shadow-2xl animate-in fade-in duration-500">
-            {/* Header */}
+            
+      {/* Header */}
             <div className="text-center space-y-2 border-b border-slate-800 pb-6">
               <div className="flex items-center justify-center gap-2">
                 <span className="text-xs uppercase tracking-widest text-sky-400 font-extrabold px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20">
@@ -2520,7 +2530,8 @@ export default function AnalyzePage() {
         {/* PHASE 12: MULTIMODAL SATELLITE FEATURE-FUSION SECTION */}
         {fusionResult && (
           <section id="multimodal-fusion-results" className="bg-slate-900 border-2 border-teal-500/60 rounded-3xl p-6 sm:p-10 space-y-8 shadow-2xl animate-in fade-in duration-500">
-            {/* Header */}
+            
+      {/* Header */}
             <div className="text-center space-y-2 border-b border-slate-800 pb-6">
               <div className="flex items-center justify-center gap-2 flex-wrap">
                 <span className="text-xs uppercase tracking-widest text-teal-400 font-extrabold px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20">
@@ -2873,7 +2884,8 @@ export default function AnalyzePage() {
         {/* PHASE 13: AI-POWERED EARLY CROP STRESS DETECTION SECTION */}
         {stressResult && (
           <section id="early-crop-stress-detection" className="bg-slate-900 border-2 border-rose-500/60 rounded-3xl p-6 sm:p-10 space-y-8 shadow-2xl animate-in fade-in duration-500">
-            {/* Header */}
+            
+      {/* Header */}
             <div className="text-center space-y-2 border-b border-slate-800 pb-6">
               <div className="flex items-center justify-center gap-2 flex-wrap">
                 <span className="text-xs uppercase tracking-widest text-rose-400 font-extrabold px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20">
@@ -2905,7 +2917,7 @@ export default function AnalyzePage() {
                 EARLY CROP STRESS DETECTION
               </h2>
               <p className="text-slate-400 text-sm max-w-3xl mx-auto">
-                Multimodal AI pipeline fusing Sentinel-1 SAR backscatter, Sentinel-2 spectral indices (NDVI, NDMI, NDRE, EVI), and multi-temporal historical observation trajectories to detect anomalous canopy vigor shifts prior to visible chlorosis.
+                Supervised production stress detection is currently unavailable pending independently verified agronomic ground-truth data. Aligns available Sentinel-1 SAR and Sentinel-2 optical observations to detect rule-based canopy vigor and moisture anomalies.
               </p>
             </div>
 
@@ -3298,7 +3310,7 @@ export default function AnalyzePage() {
                 CROP GROWTH &amp; TREND PREDICTION
               </h2>
               <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto">
-                Chronological satellite time-series forecasting of optical vegetation &amp; SAR backscatter indicators across empirical revisit cadences with expanding-window walk-forward validation.
+                Provides baseline projections from historical satellite observations, subject to observation availability and validation limitations.
               </p>
 
               {/* Status Badges */}
@@ -3807,7 +3819,7 @@ export default function AnalyzePage() {
             <div className="space-y-1">
               <h3 className="text-lg font-bold text-white">Generating Explainable AI Diagnostics...</h3>
               <p className="text-xs text-slate-400 max-w-md">
-                Computing SHAP TreeExplainer attributions, 4-tier data quality metrics, walk-forward baseline selection rationale, and empirical uncertainty intervals.
+                Displays feature attribution and sensitivity information where supported by available models and input data.
               </p>
             </div>
           </section>
@@ -3871,7 +3883,7 @@ export default function AnalyzePage() {
                   <span>Field-Level AI Risk Mapping</span>
                 </h2>
                 <p className="text-sm text-slate-400 mt-1 max-w-2xl">
-                  High-resolution pixel-level intelligence identifying spatial anomalies across vegetation vigor, canopy moisture, early stress, and temporal trends on a canonical 10m grid.
+                  Visualizes spatial indicators and heuristic risk categories. These categories are not validated agronomic diagnoses. High-resolution pixel-level intelligence on a canonical 10m grid.
                 </p>
               </div>
 
@@ -4395,7 +4407,8 @@ export default function AnalyzePage() {
         {/* 5. PHASE 6: CROP CONDITION INTELLIGENCE SECTION */}
         {conditionResult && (
           <section id="analytical-results" className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-8">
-            {/* Header */}
+            
+      {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-800 gap-4">
               <div>
                 <div className="flex items-center gap-2 mb-1">

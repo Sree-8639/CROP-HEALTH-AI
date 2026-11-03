@@ -1,63 +1,75 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { API_BASE } from "@/config/api";
 import FieldOverviewCard, { FieldOverviewData } from "./FieldOverviewCard";
 import CropConditionSummary, { CropConditionSummaryData } from "./CropConditionSummary";
-import VegetationMetrics, { VegetationIndicatorMetricData } from "./VegetationMetrics";
+import VegetationMetrics, { VegetationMetricsData } from "./VegetationMetrics";
 import StressAlertPanel, { StressIntelligenceData } from "./StressAlertPanel";
 import GrowthForecastPanel, { GrowthForecastData } from "./GrowthForecastPanel";
 import FieldRiskSummary, { FieldRiskSummaryData } from "./FieldRiskSummary";
-import HistoricalMonitoringPanel, { HistoricalMonitoringData } from "./HistoricalMonitoringPanel";
 import AgriculturalRecommendations, { AgriculturalRecommendationData } from "./AgriculturalRecommendations";
-import DataReliabilitySummary, { DataReliabilitySummaryData } from "./DataReliabilitySummary";
-import FieldComparisonPanel, {
-  FieldComparisonResponseData,
-} from "./FieldComparisonPanel";
-import { API_BASE_URL } from "@/config/api";
+import FieldComparisonPanel, { FieldComparisonResponseData } from "./FieldComparisonPanel";
+import GlobalDemoIndicator from "./GlobalDemoIndicator";
 
-export interface DashboardOverviewItem {
+export interface FieldCatalogItem {
   field_id: string;
   field_name: string;
   crop_type: string;
-  location_name: string;
-  area_hectares: number;
-  latest_observation_date: string;
-  overall_risk_level: string;
-  data_quality_tier: string;
-  mean_ndvi: number | null;
-  is_demo: boolean;
+  latitude: number;
+  longitude: number;
+  radius_km: number;
+  last_analyzed: string;
 }
 
 export interface FarmerDashboardFullData {
   status: string;
   field_overview: FieldOverviewData;
   crop_condition: CropConditionSummaryData;
-  vegetation_metrics: Record<string, VegetationIndicatorMetricData>;
+  vegetation_metrics: VegetationMetricsData;
   stress_intelligence: StressIntelligenceData;
   growth_forecast: GrowthForecastData;
   field_risk: FieldRiskSummaryData;
-  historical_monitoring: HistoricalMonitoringData;
   recommendations: AgriculturalRecommendationData[];
-  data_reliability: DataReliabilitySummaryData;
-  warnings: string[];
-  scientific_disclaimers: string[];
+  generated_at: string;
 }
 
-const API_BASE = API_BASE_URL;
+export type DashboardState =
+  | "INITIAL_LOADING"
+  | "SERVER_WAKING"
+  | "LOADING_DATA"
+  | "SUCCESS"
+  | "EMPTY"
+  | "ERROR"
+  | "TIMEOUT";
+
+const REQUEST_TIMEOUT_MS = 40000;
+const WAKE_DETECTION_DELAY_MS = 3500;
 
 export default function FarmerDashboard() {
-  const [fieldsList, setFieldsList] = useState<DashboardOverviewItem[]>([]);
-  const [activeFieldId, setActiveFieldId] = useState<string>("field_1");
+  const [fieldsList, setFieldsList] = useState<FieldCatalogItem[]>([]);
+  const [activeFieldId, setActiveFieldId] = useState<string>("field_paddy_delta_01");
   const [dashboardData, setDashboardData] = useState<FarmerDashboardFullData | null>(null);
-  const [comparisonData, setComparisonData] = useState<FieldComparisonResponseData | null>(null);
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isComparing, setIsComparing] = useState<boolean>(false);
+  // 7-State Lifecycle Management (Phase 20 Issue 4)
+  const [dashboardState, setDashboardState] = useState<DashboardState>("INITIAL_LOADING");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isFieldSelectorOpen, setIsFieldSelectorOpen] = useState<boolean>(false);
-  const [isNewAOIOpen, setIsNewAOIOpen] = useState<boolean>(false);
+  const [wakeSecondsElapsed, setWakeSecondsElapsed] = useState<number>(0);
+
+  // In-flight fetch tracking and timers
+  const activeFetchAbortRef = useRef<AbortController | null>(null);
+  const wakeTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const wakeIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const isFetchingRef = useRef<boolean>(false);
+
+  // Comparison & New AOI Modal State
   const [showComparisonView, setShowComparisonView] = useState<boolean>(false);
+  const [comparisonData, setComparisonData] = useState<FieldComparisonResponseData | null>(null);
+  const [isComparing, setIsComparing] = useState<boolean>(false);
+  const [isFieldSelectorOpen, setIsFieldSelectorOpen] = useState(false);
+  const [isNewAOIOpen, setIsNewAOIOpen] = useState(false);
 
   // New Field AOI form state
   const [newFieldName, setNewFieldName] = useState("");
@@ -67,9 +79,30 @@ export default function FarmerDashboard() {
   const [newRadius, setNewRadius] = useState("2.0");
   const [isSubmittingField, setIsSubmittingField] = useState(false);
 
+  const cleanupTimers = () => {
+    if (wakeTimerRef.current) {
+      clearTimeout(wakeTimerRef.current);
+      wakeTimerRef.current = null;
+    }
+    if (timeoutTimerRef.current) {
+      clearTimeout(timeoutTimerRef.current);
+      timeoutTimerRef.current = null;
+    }
+    if (wakeIntervalRef.current) {
+      clearInterval(wakeIntervalRef.current);
+      wakeIntervalRef.current = null;
+    }
+  };
+
   // Load catalog on initial mount
   useEffect(() => {
     fetchCatalog();
+    return () => {
+      cleanupTimers();
+      if (activeFetchAbortRef.current) {
+        activeFetchAbortRef.current.abort();
+      }
+    };
   }, []);
 
   // Fetch field details whenever activeFieldId changes
@@ -82,34 +115,87 @@ export default function FarmerDashboard() {
   const fetchCatalog = async () => {
     try {
       const res = await fetch(`${API_BASE}/api/v1/farmer-dashboard/overview`);
-      if (!res.ok) {
-        throw new Error(`Catalog fetch failed: HTTP ${res.status}`);
-      }
-      const data = await res.json();
-      setFieldsList(data.fields || []);
-      if (data.active_field_id && !activeFieldId) {
-        setActiveFieldId(data.active_field_id);
+      if (res.ok) {
+        const data = await res.json();
+        setFieldsList(data.fields || []);
+        if (data.active_field_id && !activeFieldId) {
+          setActiveFieldId(data.active_field_id);
+        }
       }
     } catch (err: any) {
-      console.error("Failed to load catalog:", err);
+      console.warn("Catalog fetch fallback engaged:", err);
     }
   };
 
   const fetchFieldData = async (fieldId: string) => {
-    setIsLoading(true);
+    // Prevent duplicate in-flight requests
+    if (isFetchingRef.current) {
+      activeFetchAbortRef.current?.abort();
+    }
+
+    cleanupTimers();
+    isFetchingRef.current = true;
     setErrorMessage(null);
+    setWakeSecondsElapsed(0);
+    setDashboardState("INITIAL_LOADING");
+
+    const controller = new AbortController();
+    activeFetchAbortRef.current = controller;
+
+    // Detect server cold-start on Render (free tier spins down after inactivity)
+    wakeTimerRef.current = setTimeout(() => {
+      if (isFetchingRef.current) {
+        setDashboardState("SERVER_WAKING");
+        wakeIntervalRef.current = setInterval(() => {
+          setWakeSecondsElapsed((prev) => prev + 1);
+        }, 1000);
+      }
+    }, WAKE_DETECTION_DELAY_MS);
+
+    // Timeout guardrail (40 seconds)
+    timeoutTimerRef.current = setTimeout(() => {
+      if (isFetchingRef.current) {
+        controller.abort("TIMEOUT");
+        cleanupTimers();
+        isFetchingRef.current = false;
+        setDashboardState("TIMEOUT");
+        setErrorMessage("Request timed out. The cloud server may still be initializing.");
+      }
+    }, REQUEST_TIMEOUT_MS);
+
     try {
-      const res = await fetch(`${API_BASE}/api/v1/farmer-dashboard/field/${fieldId}`);
+      const res = await fetch(`${API_BASE}/api/v1/farmer-dashboard/field/${fieldId}`, {
+        signal: controller.signal,
+      });
+
+      cleanupTimers();
+      isFetchingRef.current = false;
+
       if (!res.ok) {
         const errJson = await res.json().catch(() => ({}));
-        throw new Error(errJson.detail || `Failed to fetch field: ${res.status}`);
+        throw new Error(errJson.detail || `Server returned status ${res.status}`);
       }
+
+      setDashboardState("LOADING_DATA");
       const data: FarmerDashboardFullData = await res.json();
-      setDashboardData(data);
+
+      if (!data || !data.field_overview) {
+        setDashboardState("EMPTY");
+      } else {
+        setDashboardData(data);
+        setDashboardState("SUCCESS");
+      }
     } catch (err: any) {
-      setErrorMessage(err.message || "Failed to load agricultural intelligence data.");
-    } finally {
-      setIsLoading(false);
+      cleanupTimers();
+      isFetchingRef.current = false;
+
+      if (err.name === "AbortError" || controller.signal.aborted) {
+        setDashboardState("TIMEOUT");
+        setErrorMessage("Unable to connect to the Crop Health AI server. Please try again.");
+      } else {
+        setDashboardState("ERROR");
+        setErrorMessage("Unable to connect to the Crop Health AI server. Please try again.");
+      }
     }
   };
 
@@ -177,27 +263,28 @@ export default function FarmerDashboard() {
               </div>
               <span className="font-bold text-lg text-white tracking-tight">CropHealth</span>
             </Link>
-            <span className="text-xs text-emerald-400 font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+            <span className="text-xs text-emerald-300 font-medium px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
               Farmer Intelligence Hub
             </span>
           </div>
 
-          <nav className="flex items-center gap-5">
-            <Link href="/" className="text-sm font-medium text-slate-400 hover:text-white transition">
+          <nav className="flex items-center gap-4 sm:gap-6 text-sm">
+            <Link href="/" className="text-slate-400 hover:text-white transition">
               Home
             </Link>
-            <Link href="/analyze" className="text-sm font-medium text-slate-400 hover:text-white transition">
+            <Link href="/analyze" className="text-slate-400 hover:text-white transition">
               Analyze
             </Link>
-            <Link href="/history" className="text-sm font-medium text-slate-400 hover:text-white transition">
-              History
+            <Link href="/history" className="text-slate-400 hover:text-white transition flex items-center gap-1">
+              <span>📈</span>
+              <span>History</span>
             </Link>
-            <Link href="/farmer-dashboard" className="text-sm font-bold text-emerald-400 transition flex items-center gap-1">
+            <span className="text-emerald-300 font-bold border-b-2 border-emerald-400 pb-0.5 flex items-center gap-1">
               <span>🌾</span>
               <span>Dashboard</span>
-            </Link>
-            <Link href="/model-performance" className="text-sm font-medium text-slate-400 hover:text-white transition hidden md:inline">
-              Model Performance
+            </span>
+            <Link href="/model-performance" className="text-slate-400 hover:text-white transition hidden md:inline">
+              Architecture &amp; Model Targets
             </Link>
             <a
               href={`${API_BASE}/docs`}
@@ -228,10 +315,17 @@ export default function FarmerDashboard() {
               Farmer Agricultural Operations
             </h1>
             <p className="mt-2 text-sm text-slate-300 leading-relaxed">
-              Consolidated satellite monitoring, crop stress detection, SAR soil moisture index, and actionable field-level management recommendations.
+              Consolidated satellite monitoring, vegetation index analysis, transparent condition scoring, and actionable agronomic management.
             </p>
           </div>
         </div>
+
+        {/* Global Demo & Data Provenance Indicator */}
+        <GlobalDemoIndicator
+          isDemo={dashboardData?.field_overview?.is_demo ?? true}
+          dataSource={dashboardData?.field_overview?.is_demo ? undefined : "Copernicus Sentinel-2 & Sentinel-1 SAR"}
+          acquisitionDate={dashboardData?.crop_condition?.observation_date}
+        />
 
         {/* Top Controls Bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-slate-900/60 p-4 rounded-2xl border border-slate-800 backdrop-blur-md">
@@ -248,181 +342,136 @@ export default function FarmerDashboard() {
               <span className="text-xs text-slate-400">▼</span>
             </button>
 
-            {/* Field Dropdown Menu */}
+            {/* Field Dropdown Popover */}
             {isFieldSelectorOpen && (
-              <div className="absolute top-full left-0 mt-2 w-80 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl z-50 p-2 space-y-1">
-                <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800">
-                  Registered Agricultural Fields
+              <div className="absolute left-0 mt-2 w-80 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-2 z-50 backdrop-blur-xl">
+                <div className="p-2 text-xs font-semibold text-slate-400 border-b border-slate-800">
+                  Registered Farm Plots
                 </div>
-                {fieldsList.map((f) => (
-                  <button
-                    key={f.field_id}
-                    onClick={() => {
-                      setActiveFieldId(f.field_id);
-                      setIsFieldSelectorOpen(false);
-                    }}
-                    className={`w-full text-left px-3 py-2 rounded-xl text-xs transition flex flex-col ${
-                      f.field_id === activeFieldId
-                        ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
-                        : "hover:bg-slate-800 text-slate-200"
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <span className="font-bold">{f.field_name}</span>
-                      <span className="font-mono text-[10px] text-slate-400">
-                        {f.area_hectares.toFixed(1)} ha
+                <div className="max-h-60 overflow-y-auto divide-y divide-slate-800/60 py-1">
+                  {fieldsList.map((f) => (
+                    <button
+                      key={f.field_id}
+                      onClick={() => {
+                        setActiveFieldId(f.field_id);
+                        setIsFieldSelectorOpen(false);
+                      }}
+                      className={`w-full text-left p-2.5 rounded-xl text-xs transition flex items-center justify-between ${
+                        f.field_id === activeFieldId
+                          ? "bg-emerald-950 text-emerald-300 font-bold border border-emerald-500/30"
+                          : "text-slate-300 hover:bg-slate-800"
+                      }`}
+                    >
+                      <div>
+                        <div className="font-semibold text-white">{f.field_name}</div>
+                        <div className="text-[11px] text-slate-400">{f.crop_type}</div>
+                      </div>
+                      <span className="font-mono text-[10px] text-slate-500">
+                        {f.radius_km} km
                       </span>
-                    </div>
-                    <div className="flex justify-between items-center text-[10px] text-slate-400 mt-0.5">
-                      <span>{f.crop_type}</span>
-                      <span>{f.latest_observation_date}</span>
-                    </div>
-                  </button>
-                ))}
-
-                <button
-                  onClick={() => {
-                    setIsFieldSelectorOpen(false);
-                    setIsNewAOIOpen(true);
-                  }}
-                  className="w-full text-center px-3 py-2 mt-2 rounded-xl text-xs font-semibold bg-emerald-600/30 hover:bg-emerald-600/40 text-emerald-300 border border-emerald-500/30 transition flex items-center justify-center gap-1.5"
-                >
-                  <span>➕</span>
-                  <span>Register New Field AOI</span>
-                </button>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>
 
-          {/* Quick Actions */}
-          <div className="flex flex-wrap items-center gap-2.5">
+          {/* Action Buttons */}
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setShowComparisonView(!showComparisonView)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition flex items-center gap-1.5 ${
-                showComparisonView
-                  ? "bg-sky-500/20 text-sky-300 border-sky-500/40"
-                  : "bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700"
-              }`}
+              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700/80 border border-slate-700 text-slate-200 font-semibold text-xs transition flex items-center gap-2"
             >
-              <span>⚖️</span>
+              <span>📊</span>
               <span>{showComparisonView ? "Hide Comparison" : "Compare Fields"}</span>
             </button>
-
             <button
-              onClick={() => fetchFieldData(activeFieldId)}
-              disabled={isLoading}
-              className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition flex items-center gap-1.5"
+              onClick={() => setIsNewAOIOpen(true)}
+              className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center gap-2 shadow-lg shadow-emerald-600/20"
             >
-              <span className={isLoading ? "animate-spin" : ""}>🔄</span>
-              <span>Refresh</span>
+              <span>+</span>
+              <span>Register New Field</span>
             </button>
-
-            <Link
-              href="/analyze"
-              className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1.5 shadow-sm"
-            >
-              <span>🛰️</span>
-              <span>Open Spatial Analysis</span>
-            </Link>
           </div>
         </div>
 
-        {/* Modal: Register New Field AOI */}
+        {/* Modal: Register New Agricultural Field */}
         {isNewAOIOpen && (
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
             <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl relative">
-              <button
-                onClick={() => setIsNewAOIOpen(false)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold"
-              >
-                ✕
-              </button>
-
-              <h3 className="text-base font-bold text-white mb-1 flex items-center gap-2">
-                <span>➕</span>
-                <span>Register New Field AOI</span>
-              </h3>
-              <p className="text-xs text-slate-400 mb-4">
-                Submit agricultural boundaries for automated Sentinel-1/2 acquisition.
-              </p>
-
-              <form onSubmit={handleRegisterField} className="space-y-3.5">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                <h3 className="font-bold text-base text-white">Register Agricultural AOI</h3>
+                <button
+                  onClick={() => setIsNewAOIOpen(false)}
+                  className="text-slate-400 hover:text-white"
+                >
+                  ✕
+                </button>
+              </div>
+              <form onSubmit={handleRegisterField} className="space-y-4 text-xs">
                 <div>
-                  <label className="text-[11px] font-semibold text-slate-300 uppercase block mb-1">
-                    Field Name
-                  </label>
+                  <label className="block text-slate-400 mb-1 font-medium">Field Name</label>
                   <input
                     type="text"
+                    required
                     value={newFieldName}
                     onChange={(e) => setNewFieldName(e.target.value)}
-                    placeholder="e.g. West Godavari Paddy Parcel"
-                    required
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                    placeholder="e.g. West Godavari Rice Parcel B"
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-emerald-500"
                   />
                 </div>
-
                 <div>
-                  <label className="text-[11px] font-semibold text-slate-300 uppercase block mb-1">
-                    Crop Type
-                  </label>
+                  <label className="block text-slate-400 mb-1 font-medium">Crop Type</label>
                   <input
                     type="text"
                     value={newCropType}
                     onChange={(e) => setNewCropType(e.target.value)}
-                    placeholder="e.g. Paddy / Rice, Maize, Cotton"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                    placeholder="e.g. Paddy / Rice, Corn, Wheat"
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-emerald-500"
                   />
                 </div>
-
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-[11px] font-semibold text-slate-300 uppercase block mb-1">
-                      Latitude (°N)
-                    </label>
+                    <label className="block text-slate-400 mb-1 font-medium">Latitude</label>
                     <input
                       type="number"
                       step="any"
+                      required
                       value={newLat}
                       onChange={(e) => setNewLat(e.target.value)}
-                      required
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono"
+                      className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white font-mono focus:outline-none focus:border-emerald-500"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] font-semibold text-slate-300 uppercase block mb-1">
-                      Longitude (°E)
-                    </label>
+                    <label className="block text-slate-400 mb-1 font-medium">Longitude</label>
                     <input
                       type="number"
                       step="any"
+                      required
                       value={newLon}
                       onChange={(e) => setNewLon(e.target.value)}
-                      required
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono"
+                      className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white font-mono focus:outline-none focus:border-emerald-500"
                     />
                   </div>
                 </div>
-
                 <div>
-                  <label className="text-[11px] font-semibold text-slate-300 uppercase block mb-1">
-                    Radius (km)
-                  </label>
+                  <label className="block text-slate-400 mb-1 font-medium">AOI Radius (km)</label>
                   <input
                     type="number"
-                    step="0.5"
+                    step="0.1"
                     min="0.5"
                     max="10.0"
+                    required
                     value={newRadius}
                     onChange={(e) => setNewRadius(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono"
+                    className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white font-mono focus:outline-none focus:border-emerald-500"
                   />
                 </div>
-
-                <div className="pt-2 flex justify-end gap-2">
+                <div className="flex justify-end gap-3 pt-3 border-t border-slate-800">
                   <button
                     type="button"
                     onClick={() => setIsNewAOIOpen(false)}
-                    className="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300"
+                    className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white"
                   >
                     Cancel
                   </button>
@@ -439,29 +488,118 @@ export default function FarmerDashboard() {
           </div>
         )}
 
-        {/* Loading State */}
-        {isLoading && !dashboardData && (
-          <div className="bg-slate-900/60 rounded-3xl border border-slate-800 p-16 text-center space-y-4">
+        {/* 7-STATE RENDERING LOGIC (Issue 4) */}
+
+        {/* State 1: INITIAL_LOADING */}
+        {dashboardState === "INITIAL_LOADING" && !dashboardData && (
+          <div className="bg-slate-900/60 rounded-3xl border border-slate-800 p-16 text-center space-y-4 shadow-xl">
             <div className="inline-block animate-spin text-4xl">🌱</div>
             <h3 className="text-lg font-bold text-white">
-              Aggregating Agricultural Intelligence...
+              Connecting to Agricultural Intelligence Service...
             </h3>
             <p className="text-xs text-slate-400 max-w-md mx-auto">
-              Synthesizing Sentinel-2 multispectral indices, Sentinel-1 SAR backscatter, machine learning stress indicators, and empirical growth trajectories.
+              Requesting field observations, spectral indices, and radar telemetry from server.
             </p>
           </div>
         )}
 
-        {/* Error State */}
-        {errorMessage && (
-          <div className="bg-rose-950/40 border border-rose-800/60 rounded-2xl p-5 text-rose-300 text-xs flex items-center justify-between">
+        {/* State 2: SERVER_WAKING (Cold-start detection on Render free tier) */}
+        {dashboardState === "SERVER_WAKING" && !dashboardData && (
+          <div className="bg-slate-900/80 rounded-3xl border-2 border-emerald-500/40 p-12 text-center space-y-5 shadow-2xl backdrop-blur-md max-w-2xl mx-auto">
+            <div className="inline-flex p-4 rounded-2xl bg-emerald-950/80 border border-emerald-500/30 text-3xl">
+              🛰️
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-xl font-black text-white tracking-tight">
+                Waking up the server. This may take approximately 30 seconds.
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed max-w-lg mx-auto">
+                Cloud instances spin down during periods of inactivity to conserve resources. Your container is currently booting and initializing the multispectral analysis engine.
+              </p>
+            </div>
+
+            {/* Progress indicator */}
+            <div className="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden border border-slate-800">
+              <div
+                className="bg-gradient-to-r from-emerald-500 to-lime-500 h-2.5 rounded-full transition-all duration-1000"
+                style={{ width: `${Math.min(100, Math.max(15, (wakeSecondsElapsed / 30) * 100))}%` }}
+              />
+            </div>
+            <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
+              <span>Status: Initializing ASGI worker</span>
+              <span>{wakeSecondsElapsed}s elapsed</span>
+            </div>
+          </div>
+        )}
+
+        {/* State 3: LOADING_DATA */}
+        {dashboardState === "LOADING_DATA" && !dashboardData && (
+          <div className="bg-slate-900/60 rounded-3xl border border-slate-800 p-16 text-center space-y-4 shadow-xl">
+            <div className="inline-block animate-pulse text-4xl">🌾</div>
+            <h3 className="text-lg font-bold text-white">
+              Synthesizing Multi-Sensor Observations...
+            </h3>
+            <p className="text-xs text-slate-400 max-w-md mx-auto">
+              Assembling NDVI, NDMI, NDRE, EVI, and SAR backscatter features for field review.
+            </p>
+          </div>
+        )}
+
+        {/* State 4 & 5: ERROR or TIMEOUT (with clear message & Retry button) */}
+        {(dashboardState === "ERROR" || dashboardState === "TIMEOUT") && !dashboardData && (
+          <div className="bg-rose-950/30 border-2 border-rose-800/60 rounded-3xl p-10 text-center space-y-4 shadow-2xl max-w-xl mx-auto">
+            <span className="text-4xl block">🛑</span>
+            <div className="space-y-1">
+              <h3 className="text-lg font-bold text-white">
+                {dashboardState === "TIMEOUT" ? "Connection Timed Out" : "Connection Notice"}
+              </h3>
+              <p className="text-xs text-rose-200/90 leading-relaxed">
+                Unable to connect to the Crop Health AI server. Please try again.
+              </p>
+              {errorMessage && (
+                <p className="text-[11px] text-slate-400 font-mono pt-1">
+                  Detail: {errorMessage}
+                </p>
+              )}
+            </div>
+            <div className="pt-2">
+              <button
+                onClick={() => fetchFieldData(activeFieldId)}
+                className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg transition"
+              >
+                Retry Connection
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* State 6: EMPTY */}
+        {dashboardState === "EMPTY" && !dashboardData && (
+          <div className="bg-slate-900/60 rounded-3xl border border-slate-800 p-12 text-center space-y-4 shadow-xl">
+            <span className="text-4xl block">📭</span>
+            <h3 className="text-lg font-bold text-white">No Field Intelligence Found</h3>
+            <p className="text-xs text-slate-400 max-w-md mx-auto">
+              No agricultural data exists for the selected field identifier. Register a new field to initiate monitoring.
+            </p>
+            <button
+              onClick={() => setIsNewAOIOpen(true)}
+              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs"
+            >
+              Register Field
+            </button>
+          </div>
+        )}
+
+        {/* Non-destructive notification if error occurred while previous data is preserved */}
+        {(dashboardState === "ERROR" || dashboardState === "TIMEOUT") && dashboardData && (
+          <div className="bg-amber-950/50 border border-amber-600/60 rounded-2xl p-4 text-amber-200 text-xs flex items-center justify-between gap-3 shadow-lg">
             <div className="flex items-center gap-2">
-              <span className="text-lg">🛑</span>
-              <span>{errorMessage}</span>
+              <span className="text-base">⚠️</span>
+              <span>Unable to connect to the Crop Health AI server. Displaying previously loaded field.</span>
             </div>
             <button
               onClick={() => fetchFieldData(activeFieldId)}
-              className="px-3 py-1 rounded-lg bg-rose-900/60 hover:bg-rose-800 text-white font-semibold"
+              className="px-3 py-1 rounded-lg bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs"
             >
               Retry
             </button>
@@ -478,7 +616,7 @@ export default function FarmerDashboard() {
           />
         )}
 
-        {/* Main Dashboard Content */}
+        {/* State 7: SUCCESS — Main Dashboard Content */}
         {dashboardData && (
           <div className="space-y-6">
             {/* 1. Field Overview */}
@@ -522,32 +660,27 @@ export default function FarmerDashboard() {
               isDemo={dashboardData.field_overview.is_demo}
             />
 
-            {/* 7. Historical Monitoring Timeline */}
-            <HistoricalMonitoringPanel
-              historical={dashboardData.historical_monitoring}
-              isDemo={dashboardData.field_overview.is_demo}
-            />
-
-            {/* 8. Evidence-Based Agricultural Recommendations */}
+            {/* 7. Actionable Agricultural Recommendations */}
             <AgriculturalRecommendations
               recommendations={dashboardData.recommendations}
-              isDemo={dashboardData.field_overview.is_demo}
-            />
-
-            {/* 9. Multi-Dimensional Data Reliability */}
-            <DataReliabilitySummary
-              reliability={dashboardData.data_reliability}
-              isDemo={dashboardData.field_overview.is_demo}
+              cropType={dashboardData.field_overview.crop_type}
             />
           </div>
         )}
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 bg-slate-950 mt-12">
-        <p>
-          Crop Health AI Platform • Advanced Farmer Intelligence Dashboard • Optical & SAR Constellations
-        </p>
+      <footer className="border-t border-slate-800 bg-slate-950 py-6 text-center text-xs text-slate-500 mt-12">
+        <div className="max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1536px] mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p>© 2026 Crop Health AI. Farmer Agricultural Operations Platform.</p>
+          <div className="flex items-center gap-4 text-slate-400">
+            <Link href="/" className="hover:text-emerald-400 transition">Home</Link>
+            <span>•</span>
+            <Link href="/analyze" className="hover:text-emerald-400 transition">Analyze</Link>
+            <span>•</span>
+            <Link href="/model-performance" className="hover:text-emerald-400 transition">Architecture &amp; Model Targets</Link>
+          </div>
+        </div>
       </footer>
     </div>
   );
