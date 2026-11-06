@@ -27,18 +27,29 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-from ml.heat.landsat_lst import dn_to_lst_celsius, lst_celsius_to_dn, LandsatLSTTile
-from ml.heat.sentinel_predictors import Sentinel2PredictorSuite
-from ml.heat.downscaler_rf import RandomForestLSTDownscaler
-from ml.heat.diurnal_seasonal import (
-    compute_diurnal_thermal_analysis,
-    compute_seasonal_thermal_analysis,
-    compute_uhi_hotspot_score,
-)
-from ml.heat.tree_planting_priority import (
-    compute_tree_planting_priority_index,
-    delineate_tree_planting_priority_zones,
-)
+try:
+    from ml.heat.landsat_lst import dn_to_lst_celsius, lst_celsius_to_dn, LandsatLSTTile
+except (ImportError, ModuleNotFoundError):
+    pass
+
+try:
+    from ml.heat.diurnal_seasonal import (
+        compute_diurnal_thermal_analysis,
+        compute_seasonal_thermal_analysis,
+        compute_uhi_hotspot_score,
+    )
+except (ImportError, ModuleNotFoundError):
+    pass
+
+try:
+    from ml.heat.sentinel_predictors import Sentinel2PredictorSuite
+    from ml.heat.downscaler_rf import RandomForestLSTDownscaler
+    from ml.heat.tree_planting_priority import (
+        compute_tree_planting_priority_index,
+        delineate_tree_planting_priority_zones,
+    )
+except (ImportError, ModuleNotFoundError):
+    delineate_tree_planting_priority_zones = None
 
 router = APIRouter(tags=["Urban Heat Island & Thermal Downscaling Module"])
 

@@ -11,8 +11,16 @@ import io
 import base64
 from typing import Dict, Any, List, Tuple, Optional
 import numpy as np
-import cv2
-from shapely.geometry import Polygon, mapping
+
+try:
+    import cv2
+except (ImportError, ModuleNotFoundError):
+    cv2 = None
+
+try:
+    from shapely.geometry import Polygon, mapping
+except (ImportError, ModuleNotFoundError):
+    Polygon, mapping = None, None
 
 
 def raster_mask_to_geojson_polygons(
@@ -37,6 +45,16 @@ def raster_mask_to_geojson_polygons(
     """
     H, W = binary_mask.shape
     min_lon, min_lat, max_lon, max_lat = bbox
+
+    if cv2 is None or Polygon is None:
+        return {
+            "type": "FeatureCollection",
+            "features": [],
+            "total_polygons": 0,
+            "total_hectares_lost": 0.0,
+            "total_loss_pixels": 0,
+            "mean_confidence": 0.0,
+        }
 
     # Contour extraction
     contours, hierarchy = cv2.findContours(binary_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)

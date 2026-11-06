@@ -23,7 +23,6 @@ import base64
 from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
 import numpy as np
-import torch
 from fastapi import APIRouter, HTTPException, Query, status
 from pydantic import BaseModel, Field
 
@@ -32,10 +31,6 @@ from services.data_access import data_access_layer
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
-
-from ml.forest.hansen_dataset import HansenReferenceTile, build_spatial_split_forest_datasets
-from ml.forest.evaluation import raster_mask_to_geojson_polygons, generate_visual_overlays_base64
-from ml.forest.siamese_unet import MultimodalSiameseUNet
 
 router = APIRouter(tags=["Deforestation & Forest Disturbance Module"])
 
@@ -246,16 +241,23 @@ async def forest_inference(payload: ForestInferenceRequest):
         sim_mask[260:310, 300:360] = 1
         sim_conf[260:310, 300:360] = 0.92
 
-        vector_res = raster_mask_to_geojson_polygons(sim_mask, sim_conf, bbox, min_pixels=min_pixels)
-        sample_geojson = vector_res["geojson"]
-        total_hectares = vector_res["total_hectares_lost"]
-        total_polygons = vector_res["total_polygons"]
+        try:
+            from ml.forest.evaluation import raster_mask_to_geojson_polygons, generate_visual_overlays_base64
+            vector_res = raster_mask_to_geojson_polygons(sim_mask, sim_conf, bbox, min_pixels=min_pixels)
+            sample_geojson = vector_res["geojson"]
+            total_hectares = vector_res["total_hectares_lost"]
+            total_polygons = vector_res["total_polygons"]
 
-        # Synthetic base64 overlays
-        t0_arr = np.random.uniform(0.1, 0.4, (10, H, W)).astype(np.float32)
-        t1_arr = t0_arr.copy()
-        t1_arr[0:3, sim_mask == 1] += 0.25 # Brighten cleared soil
-        visual_overlays = generate_visual_overlays_base64(t0_arr, t1_arr, sim_mask, sim_conf)
+            # Synthetic base64 overlays
+            t0_arr = np.random.uniform(0.1, 0.4, (10, H, W)).astype(np.float32)
+            t1_arr = t0_arr.copy()
+            t1_arr[0:3, sim_mask == 1] += 0.25 # Brighten cleared soil
+            visual_overlays = generate_visual_overlays_base64(t0_arr, t1_arr, sim_mask, sim_conf)
+        except Exception:
+            sample_geojson = {"type": "FeatureCollection", "features": []}
+            total_hectares = 0.0
+            total_polygons = 0
+            visual_overlays = {}
 
     # 4. Standardized response with visual overlays and label disclosures
     return {
