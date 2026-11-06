@@ -85,7 +85,7 @@ class CropConditionSummary(BaseModel):
     evaluation_method: str = "Multispectral Radiometric Assessment"
 
 # -----------------------------------------------------------------------------
-# 3. Early Stress Intelligence
+# 3. Vigour Anomaly Intelligence
 # -----------------------------------------------------------------------------
 
 class FeatureContribution(BaseModel):

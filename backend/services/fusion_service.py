@@ -36,6 +36,7 @@ from services.ndvi_service import (
 from services.ndmi_service import calculate_ndmi
 from services.ndre_service import calculate_ndre
 from services.evi_service import calculate_evi
+from services.provenance import build_provenance_badge
 
 class MultimodalFusionError(Exception):
     """Base exception for multimodal data fusion operations."""
@@ -664,12 +665,26 @@ class MultimodalFusionService:
             raw_feature_stack, quality_mask
         )
 
+        # Build standardized provenance badge
+        provenance = build_provenance_badge(
+            is_demo=is_demo_run,
+            sensor="Copernicus Sentinel-2 MSI + Sentinel-1 C-SAR",
+            optical_date=s2_scene.get("acquisition_date"),
+            sar_date=s1_scene_info.get("acquisition_date") if s1_scene_info else None,
+            temporal_gap_days=temporal_match.get("temporal_gap_days"),
+            cloud_coverage_percentage=s2_scene.get("cloud_coverage", 0.0),
+            valid_pixel_percentage=fused_valid_pct,
+            scene_id=f"{s2_scene.get('scene_id', 'S2_SCENE')} + {s1_scene_info.get('scene_id', 'NO_SAR') if s1_scene_info else 'NO_SAR'}",
+        )
+
         # Compile final fusion record
         fusion_record = {
             "status": "success",
+            "data_source": "SIMULATED" if is_demo_run else "REAL",
             "is_demo": is_demo_run,
             "fusion_readiness": fusion_readiness,
             "readiness_description": readiness_desc,
+            "provenance": provenance,
             "features_available_count": features_available_count,
             "total_features_count": len(MULTIMODAL_FEATURE_NAMES),
             "normalization_applied": normalization,

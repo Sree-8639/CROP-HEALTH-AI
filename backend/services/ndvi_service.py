@@ -106,6 +106,25 @@ def create_valid_pixel_mask(
 
     return valid
 
+def extract_scl_cloud_metrics(scl: Optional[np.ndarray]) -> Dict[str, Any]:
+    """
+    Computes precise pixel percentages for cloud, shadow, and valid pixels from the SCL band.
+    """
+    if scl is None:
+        return {"cloud_pct": 0.0, "valid_pct": 100.0, "shadow_pct": 0.0}
+    scl_arr = np.asarray(scl)
+    total = int(scl_arr.size)
+    if total == 0:
+        return {"cloud_pct": 0.0, "valid_pct": 100.0, "shadow_pct": 0.0}
+    cloud_mask = np.isin(scl_arr, [8, 9, 10])
+    shadow_mask = (scl_arr == 3)
+    invalid_mask = np.isin(scl_arr, [0, 1, 3, 8, 9, 10, 11])
+    return {
+        "cloud_pct": round(float(np.count_nonzero(cloud_mask) / total) * 100.0, 2),
+        "shadow_pct": round(float(np.count_nonzero(shadow_mask) / total) * 100.0, 2),
+        "valid_pct": round(float(np.count_nonzero(~invalid_mask) / total) * 100.0, 2),
+    }
+
 def calculate_ndvi_statistics(
     ndvi: np.ndarray,
     valid_mask: Optional[np.ndarray] = None,

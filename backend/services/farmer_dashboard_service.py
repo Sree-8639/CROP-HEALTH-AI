@@ -102,6 +102,26 @@ class FarmerDashboardService:
         # Session cache for computed field dashboards
         self._dashboard_cache: Dict[str, Dict[str, Any]] = {}
 
+    def _resolve_field_id(self, field_id: str) -> str:
+        """Resolves field aliases and canonical IDs to ensure robust lookup."""
+        if not field_id:
+            return "field_1"
+        clean_id = field_id.strip()
+        if clean_id in self._fields:
+            return clean_id
+
+        alias_map = {
+            "field_paddy_delta_01": "field_1",
+            "paddy_delta_01": "field_1",
+            "tadepalligudem": "field_1",
+            "krishna": "field_2",
+            "guntur": "field_3",
+        }
+        mapped = alias_map.get(clean_id.lower())
+        if mapped and mapped in self._fields:
+            return mapped
+        return clean_id
+
     @property
     def is_demo_mode(self) -> bool:
         demo_env = os.getenv("DEMO_MODE", "true").lower()
@@ -257,8 +277,12 @@ class FarmerDashboardService:
         - Evidence-based non-prescriptive recommendations
         - Multi-dimensional data reliability indicators
         """
+        field_id = self._resolve_field_id(field_id)
         if field_id not in self._fields:
-            raise FieldNotFoundError(f"Field with ID '{field_id}' was not found in registry.")
+            raise FieldNotFoundError(
+                f"Field with ID '{field_id}' was not found in registry. "
+                f"Available fields: {list(self._fields.keys())}"
+            )
 
         if not force_refresh and field_id in self._dashboard_cache:
             return self._dashboard_cache[field_id]["dashboard"]
@@ -683,11 +707,20 @@ class FarmerDashboardService:
         if not field_ids or len(field_ids) < 2:
             raise ValueError("Field comparison requires at least 2 valid field identifiers.")
 
+        resolved_ids: List[str] = []
+        for fid in field_ids:
+            rid = self._resolve_field_id(fid)
+            if rid not in resolved_ids:
+                resolved_ids.append(rid)
+
+        if len(resolved_ids) < 2:
+            raise ValueError("Field comparison requires at least 2 distinct field identifiers.")
+
         items: List[FieldComparisonItem] = []
         obs_dates: List[datetime.date] = []
         warnings: List[str] = []
 
-        for fid in field_ids:
+        for fid in resolved_ids:
             dash = await self.get_field_dashboard(fid)
             f_over = dash.field_overview
             v_met = dash.vegetation_metrics

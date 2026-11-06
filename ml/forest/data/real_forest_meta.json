@@ -1,0 +1,78 @@
+{
+  "dataset_name": "Copernicus CDSE Sentinel + Hansen GFC v1.11 Multi-Region Real Forest Benchmark",
+  "data_source": "REAL",
+  "is_simulated": false,
+  "reference_label_source": "Hansen Global Forest Change v1.11 (treecover2000, lossyear)",
+  "ground_truth_policy": "Strictly independent Landsat 30m Hansen GFC labels; NEVER derived from NBR/NDVI",
+  "total_regions": 4,
+  "regions": {
+    "prim": {
+      "name": "Eastern Ghats Forest Corridor (Maredumilli Reserve), Andhra Pradesh, India",
+      "bbox": [
+        81.55,
+        17.45,
+        81.65,
+        17.55
+      ],
+      "years": [
+        2020,
+        2021
+      ],
+      "treecover_mean_pct": 68.69,
+      "hansen_loss_pixels": 1217
+    },
+    "hasdeo": {
+      "name": "Hasdeo Arand Forest (Parsa East & Kete Basan Sector), Chhattisgarh, India",
+      "bbox": [
+        82.75,
+        22.75,
+        82.85,
+        22.85
+      ],
+      "years": [
+        2020,
+        2021
+      ],
+      "treecover_mean_pct": 15.2,
+      "hansen_loss_pixels": 235
+    },
+    "wayanad": {
+      "name": "Western Ghats / Wayanad-Nilgiris Montane Corridor, Kerala/Tamil Nadu, India",
+      "bbox": [
+        76.15,
+        11.6,
+        76.25,
+        11.7
+      ],
+      "years": [
+        2021,
+        2022
+      ],
+      "treecover_mean_pct": 55.83,
+      "hansen_loss_pixels": 611,
+      "s2_t0_scene": "S2B_MSIL2A_20210210T051939_N0500_R062_T43PFP_20230606T070210.SAFE",
+      "s2_t1_scene": "S2B_MSIL2A_20220205T052009_N0510_R062_T43PFP_20240511T235906.SAFE",
+      "s1_t0_scene": "S1_GRD_LIVE_OBSERVATION",
+      "s1_t1_scene": "S1_GRD_LIVE_OBSERVATION"
+    },
+    "dandeli": {
+      "name": "Dandeli-Anshi / Kali Tiger Reserve Corridor, Karnataka, India",
+      "bbox": [
+        74.65,
+        15.2,
+        74.75,
+        15.3
+      ],
+      "years": [
+        2021,
+        2022
+      ],
+      "treecover_mean_pct": 13.65,
+      "hansen_loss_pixels": 0,
+      "s2_t0_scene": "S2A_MSIL2A_20210228T052751_N0500_R105_T43PDS_20230520T192806.SAFE",
+      "s2_t1_scene": "S2B_MSIL2A_20220228T052749_N0510_R105_T43PDS_20240524T101817.SAFE",
+      "s1_t0_scene": "S1_GRD_LIVE_OBSERVATION",
+      "s1_t1_scene": "S1_GRD_LIVE_OBSERVATION"
+    }
+  }
+}

@@ -1,0 +1,3580 @@
+{
+  "dataset": "CHIRPS v2.0 (Climate Hazards Center, UC Santa Barbara)",
+  "aoi_name": "Tadepalligudem, West Godavari, Andhra Pradesh",
+  "bbox": [
+    81.503,
+    16.793,
+    81.543,
+    16.833
+  ],
+  "temporal_range": {
+    "start_date": "2023-06-01",
+    "end_date": "2024-02-29"
+  },
+  "total_days": 274,
+  "total_precipitation_mm": 813.0,
+  "data": [
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 1,
+      "date": "06/01/2023",
+      "epochTime": 1685577600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/01/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 2,
+      "date": "06/02/2023",
+      "epochTime": 1685664000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/02/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 3,
+      "date": "06/03/2023",
+      "epochTime": 1685750400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/03/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 4,
+      "date": "06/04/2023",
+      "epochTime": 1685836800,
+      "value": {
+        "avg": 14.793030738830566
+      },
+      "raw_value": 14.793030738830566,
+      "NaN": 0.0,
+      "isodate": "06/04/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 5,
+      "date": "06/05/2023",
+      "epochTime": 1685923200,
+      "value": {
+        "avg": 4.9310102462768555
+      },
+      "raw_value": 4.9310102462768555,
+      "NaN": 0.0,
+      "isodate": "06/05/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 6,
+      "date": "06/06/2023",
+      "epochTime": 1686009600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/06/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 7,
+      "date": "06/07/2023",
+      "epochTime": 1686096000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/07/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 8,
+      "date": "06/08/2023",
+      "epochTime": 1686182400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/08/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 9,
+      "date": "06/09/2023",
+      "epochTime": 1686268800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/09/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 10,
+      "date": "06/10/2023",
+      "epochTime": 1686355200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/10/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 11,
+      "date": "06/11/2023",
+      "epochTime": 1686441600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/11/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 12,
+      "date": "06/12/2023",
+      "epochTime": 1686528000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/12/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 13,
+      "date": "06/13/2023",
+      "epochTime": 1686614400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/13/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 14,
+      "date": "06/14/2023",
+      "epochTime": 1686700800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/14/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 15,
+      "date": "06/15/2023",
+      "epochTime": 1686787200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/15/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 16,
+      "date": "06/16/2023",
+      "epochTime": 1686873600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/16/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 17,
+      "date": "06/17/2023",
+      "epochTime": 1686960000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/17/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 18,
+      "date": "06/18/2023",
+      "epochTime": 1687046400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/18/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 19,
+      "date": "06/19/2023",
+      "epochTime": 1687132800,
+      "value": {
+        "avg": 13.84353256225586
+      },
+      "raw_value": 13.84353256225586,
+      "NaN": 0.0,
+      "isodate": "06/19/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 20,
+      "date": "06/20/2023",
+      "epochTime": 1687219200,
+      "value": {
+        "avg": 6.92176628112793
+      },
+      "raw_value": 6.92176628112793,
+      "NaN": 0.0,
+      "isodate": "06/20/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 21,
+      "date": "06/21/2023",
+      "epochTime": 1687305600,
+      "value": {
+        "avg": 10.562819480895996
+      },
+      "raw_value": 10.562819480895996,
+      "NaN": 0.0,
+      "isodate": "06/21/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 22,
+      "date": "06/22/2023",
+      "epochTime": 1687392000,
+      "value": {
+        "avg": 10.562819480895996
+      },
+      "raw_value": 10.562819480895996,
+      "NaN": 0.0,
+      "isodate": "06/22/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 23,
+      "date": "06/23/2023",
+      "epochTime": 1687478400,
+      "value": {
+        "avg": 15.844228744506836
+      },
+      "raw_value": 15.844228744506836,
+      "NaN": 0.0,
+      "isodate": "06/23/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 24,
+      "date": "06/24/2023",
+      "epochTime": 1687564800,
+      "value": {
+        "avg": 15.844228744506836
+      },
+      "raw_value": 15.844228744506836,
+      "NaN": 0.0,
+      "isodate": "06/24/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 25,
+      "date": "06/25/2023",
+      "epochTime": 1687651200,
+      "value": {
+        "avg": 15.844228744506836
+      },
+      "raw_value": 15.844228744506836,
+      "NaN": 0.0,
+      "isodate": "06/25/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 26,
+      "date": "06/26/2023",
+      "epochTime": 1687737600,
+      "value": {
+        "avg": 14.424995422363281
+      },
+      "raw_value": 14.424995422363281,
+      "NaN": 0.0,
+      "isodate": "06/26/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 27,
+      "date": "06/27/2023",
+      "epochTime": 1687824000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/27/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 28,
+      "date": "06/28/2023",
+      "epochTime": 1687910400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/28/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 29,
+      "date": "06/29/2023",
+      "epochTime": 1687996800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/29/2023"
+    },
+    {
+      "year": 2023,
+      "month": 6,
+      "day": 30,
+      "date": "06/30/2023",
+      "epochTime": 1688083200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "06/30/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 1,
+      "date": "07/01/2023",
+      "epochTime": 1688169600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/01/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 2,
+      "date": "07/02/2023",
+      "epochTime": 1688256000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/02/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 3,
+      "date": "07/03/2023",
+      "epochTime": 1688342400,
+      "value": {
+        "avg": 5.534257411956787
+      },
+      "raw_value": 5.534257411956787,
+      "NaN": 0.0,
+      "isodate": "07/03/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 4,
+      "date": "07/04/2023",
+      "epochTime": 1688428800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/04/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 5,
+      "date": "07/05/2023",
+      "epochTime": 1688515200,
+      "value": {
+        "avg": 22.13702964782715
+      },
+      "raw_value": 22.13702964782715,
+      "NaN": 0.0,
+      "isodate": "07/05/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 6,
+      "date": "07/06/2023",
+      "epochTime": 1688601600,
+      "value": {
+        "avg": 23.45487403869629
+      },
+      "raw_value": 23.45487403869629,
+      "NaN": 0.0,
+      "isodate": "07/06/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 7,
+      "date": "07/07/2023",
+      "epochTime": 1688688000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/07/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 8,
+      "date": "07/08/2023",
+      "epochTime": 1688774400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/08/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 9,
+      "date": "07/09/2023",
+      "epochTime": 1688860800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/09/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 10,
+      "date": "07/10/2023",
+      "epochTime": 1688947200,
+      "value": {
+        "avg": 23.45487403869629
+      },
+      "raw_value": 23.45487403869629,
+      "NaN": 0.0,
+      "isodate": "07/10/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 11,
+      "date": "07/11/2023",
+      "epochTime": 1689033600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/11/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 12,
+      "date": "07/12/2023",
+      "epochTime": 1689120000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/12/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 13,
+      "date": "07/13/2023",
+      "epochTime": 1689206400,
+      "value": {
+        "avg": 17.24433708190918
+      },
+      "raw_value": 17.24433708190918,
+      "NaN": 0.0,
+      "isodate": "07/13/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 14,
+      "date": "07/14/2023",
+      "epochTime": 1689292800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/14/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 15,
+      "date": "07/15/2023",
+      "epochTime": 1689379200,
+      "value": {
+        "avg": 25.866506576538086
+      },
+      "raw_value": 25.866506576538086,
+      "NaN": 0.0,
+      "isodate": "07/15/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 16,
+      "date": "07/16/2023",
+      "epochTime": 1689465600,
+      "value": {
+        "avg": 7.92670202255249
+      },
+      "raw_value": 7.92670202255249,
+      "NaN": 0.0,
+      "isodate": "07/16/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 17,
+      "date": "07/17/2023",
+      "epochTime": 1689552000,
+      "value": {
+        "avg": 7.92670202255249
+      },
+      "raw_value": 7.92670202255249,
+      "NaN": 0.0,
+      "isodate": "07/17/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 18,
+      "date": "07/18/2023",
+      "epochTime": 1689638400,
+      "value": {
+        "avg": 15.85340404510498
+      },
+      "raw_value": 15.85340404510498,
+      "NaN": 0.0,
+      "isodate": "07/18/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 19,
+      "date": "07/19/2023",
+      "epochTime": 1689724800,
+      "value": {
+        "avg": 15.85340404510498
+      },
+      "raw_value": 15.85340404510498,
+      "NaN": 0.0,
+      "isodate": "07/19/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 20,
+      "date": "07/20/2023",
+      "epochTime": 1689811200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/20/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 21,
+      "date": "07/21/2023",
+      "epochTime": 1689897600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/21/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 22,
+      "date": "07/22/2023",
+      "epochTime": 1689984000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/22/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 23,
+      "date": "07/23/2023",
+      "epochTime": 1690070400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/23/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 24,
+      "date": "07/24/2023",
+      "epochTime": 1690156800,
+      "value": {
+        "avg": 13.456663131713867
+      },
+      "raw_value": 13.456663131713867,
+      "NaN": 0.0,
+      "isodate": "07/24/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 25,
+      "date": "07/25/2023",
+      "epochTime": 1690243200,
+      "value": {
+        "avg": 67.28330993652344
+      },
+      "raw_value": 67.28330993652344,
+      "NaN": 0.0,
+      "isodate": "07/25/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 26,
+      "date": "07/26/2023",
+      "epochTime": 1690329600,
+      "value": {
+        "avg": 42.62429428100586
+      },
+      "raw_value": 42.62429428100586,
+      "NaN": 0.0,
+      "isodate": "07/26/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 27,
+      "date": "07/27/2023",
+      "epochTime": 1690416000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/27/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 28,
+      "date": "07/28/2023",
+      "epochTime": 1690502400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/28/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 29,
+      "date": "07/29/2023",
+      "epochTime": 1690588800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/29/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 30,
+      "date": "07/30/2023",
+      "epochTime": 1690675200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "07/30/2023"
+    },
+    {
+      "year": 2023,
+      "month": 7,
+      "day": 31,
+      "date": "07/31/2023",
+      "epochTime": 1690761600,
+      "value": {
+        "avg": 17.04971694946289
+      },
+      "raw_value": 17.04971694946289,
+      "NaN": 0.0,
+      "isodate": "07/31/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 1,
+      "date": "08/01/2023",
+      "epochTime": 1690848000,
+      "value": {
+        "avg": 11.531625747680664
+      },
+      "raw_value": 11.531625747680664,
+      "NaN": 0.0,
+      "isodate": "08/01/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 2,
+      "date": "08/02/2023",
+      "epochTime": 1690934400,
+      "value": {
+        "avg": 11.531625747680664
+      },
+      "raw_value": 11.531625747680664,
+      "NaN": 0.0,
+      "isodate": "08/02/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 3,
+      "date": "08/03/2023",
+      "epochTime": 1691020800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/03/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 4,
+      "date": "08/04/2023",
+      "epochTime": 1691107200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/04/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 5,
+      "date": "08/05/2023",
+      "epochTime": 1691193600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/05/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 6,
+      "date": "08/06/2023",
+      "epochTime": 1691280000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/06/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 7,
+      "date": "08/07/2023",
+      "epochTime": 1691366400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/07/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 8,
+      "date": "08/08/2023",
+      "epochTime": 1691452800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/08/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 9,
+      "date": "08/09/2023",
+      "epochTime": 1691539200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/09/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 10,
+      "date": "08/10/2023",
+      "epochTime": 1691625600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/10/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 11,
+      "date": "08/11/2023",
+      "epochTime": 1691712000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/11/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 12,
+      "date": "08/12/2023",
+      "epochTime": 1691798400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/12/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 13,
+      "date": "08/13/2023",
+      "epochTime": 1691884800,
+      "value": {
+        "avg": 20.12191390991211
+      },
+      "raw_value": 20.12191390991211,
+      "NaN": 0.0,
+      "isodate": "08/13/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 14,
+      "date": "08/14/2023",
+      "epochTime": 1691971200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/14/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 15,
+      "date": "08/15/2023",
+      "epochTime": 1692057600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/15/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 16,
+      "date": "08/16/2023",
+      "epochTime": 1692144000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/16/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 17,
+      "date": "08/17/2023",
+      "epochTime": 1692230400,
+      "value": {
+        "avg": 16.144794464111328
+      },
+      "raw_value": 16.144794464111328,
+      "NaN": 0.0,
+      "isodate": "08/17/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 18,
+      "date": "08/18/2023",
+      "epochTime": 1692316800,
+      "value": {
+        "avg": 16.144794464111328
+      },
+      "raw_value": 16.144794464111328,
+      "NaN": 0.0,
+      "isodate": "08/18/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 19,
+      "date": "08/19/2023",
+      "epochTime": 1692403200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/19/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 20,
+      "date": "08/20/2023",
+      "epochTime": 1692489600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/20/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 21,
+      "date": "08/21/2023",
+      "epochTime": 1692576000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/21/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 22,
+      "date": "08/22/2023",
+      "epochTime": 1692662400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/22/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 23,
+      "date": "08/23/2023",
+      "epochTime": 1692748800,
+      "value": {
+        "avg": 7.861475467681885
+      },
+      "raw_value": 7.861475467681885,
+      "NaN": 0.0,
+      "isodate": "08/23/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 24,
+      "date": "08/24/2023",
+      "epochTime": 1692835200,
+      "value": {
+        "avg": 15.72295093536377
+      },
+      "raw_value": 15.72295093536377,
+      "NaN": 0.0,
+      "isodate": "08/24/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 25,
+      "date": "08/25/2023",
+      "epochTime": 1692921600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/25/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 26,
+      "date": "08/26/2023",
+      "epochTime": 1693008000,
+      "value": {
+        "avg": 23.703773498535156
+      },
+      "raw_value": 23.703773498535156,
+      "NaN": 0.0,
+      "isodate": "08/26/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 27,
+      "date": "08/27/2023",
+      "epochTime": 1693094400,
+      "value": {
+        "avg": 7.9012579917907715
+      },
+      "raw_value": 7.9012579917907715,
+      "NaN": 0.0,
+      "isodate": "08/27/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 28,
+      "date": "08/28/2023",
+      "epochTime": 1693180800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/28/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 29,
+      "date": "08/29/2023",
+      "epochTime": 1693267200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/29/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 30,
+      "date": "08/30/2023",
+      "epochTime": 1693353600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/30/2023"
+    },
+    {
+      "year": 2023,
+      "month": 8,
+      "day": 31,
+      "date": "08/31/2023",
+      "epochTime": 1693440000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "08/31/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 1,
+      "date": "09/01/2023",
+      "epochTime": 1693526400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/01/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 2,
+      "date": "09/02/2023",
+      "epochTime": 1693612800,
+      "value": {
+        "avg": 21.170637130737305
+      },
+      "raw_value": 21.170637130737305,
+      "NaN": 0.0,
+      "isodate": "09/02/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 3,
+      "date": "09/03/2023",
+      "epochTime": 1693699200,
+      "value": {
+        "avg": 10.585318565368652
+      },
+      "raw_value": 10.585318565368652,
+      "NaN": 0.0,
+      "isodate": "09/03/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 4,
+      "date": "09/04/2023",
+      "epochTime": 1693785600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/04/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 5,
+      "date": "09/05/2023",
+      "epochTime": 1693872000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/05/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 6,
+      "date": "09/06/2023",
+      "epochTime": 1693958400,
+      "value": {
+        "avg": 8.533000946044922
+      },
+      "raw_value": 8.533000946044922,
+      "NaN": 0.0,
+      "isodate": "09/06/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 7,
+      "date": "09/07/2023",
+      "epochTime": 1694044800,
+      "value": {
+        "avg": 8.533000946044922
+      },
+      "raw_value": 8.533000946044922,
+      "NaN": 0.0,
+      "isodate": "09/07/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 8,
+      "date": "09/08/2023",
+      "epochTime": 1694131200,
+      "value": {
+        "avg": 8.533000946044922
+      },
+      "raw_value": 8.533000946044922,
+      "NaN": 0.0,
+      "isodate": "09/08/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 9,
+      "date": "09/09/2023",
+      "epochTime": 1694217600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/09/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 10,
+      "date": "09/10/2023",
+      "epochTime": 1694304000,
+      "value": {
+        "avg": 12.7995023727417
+      },
+      "raw_value": 12.7995023727417,
+      "NaN": 0.0,
+      "isodate": "09/10/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 11,
+      "date": "09/11/2023",
+      "epochTime": 1694390400,
+      "value": {
+        "avg": 3.2767677307128906
+      },
+      "raw_value": 3.2767677307128906,
+      "NaN": 0.0,
+      "isodate": "09/11/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 12,
+      "date": "09/12/2023",
+      "epochTime": 1694476800,
+      "value": {
+        "avg": 9.830302238464355
+      },
+      "raw_value": 9.830302238464355,
+      "NaN": 0.0,
+      "isodate": "09/12/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 13,
+      "date": "09/13/2023",
+      "epochTime": 1694563200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/13/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 14,
+      "date": "09/14/2023",
+      "epochTime": 1694649600,
+      "value": {
+        "avg": 3.2767677307128906
+      },
+      "raw_value": 3.2767677307128906,
+      "NaN": 0.0,
+      "isodate": "09/14/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 15,
+      "date": "09/15/2023",
+      "epochTime": 1694736000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/15/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 16,
+      "date": "09/16/2023",
+      "epochTime": 1694822400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/16/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 17,
+      "date": "09/17/2023",
+      "epochTime": 1694908800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/17/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 18,
+      "date": "09/18/2023",
+      "epochTime": 1694995200,
+      "value": {
+        "avg": 3.5105884075164795
+      },
+      "raw_value": 3.5105884075164795,
+      "NaN": 0.0,
+      "isodate": "09/18/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 19,
+      "date": "09/19/2023",
+      "epochTime": 1695081600,
+      "value": {
+        "avg": 3.5105884075164795
+      },
+      "raw_value": 3.5105884075164795,
+      "NaN": 0.0,
+      "isodate": "09/19/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 20,
+      "date": "09/20/2023",
+      "epochTime": 1695168000,
+      "value": {
+        "avg": 17.552942276000977
+      },
+      "raw_value": 17.552942276000977,
+      "NaN": 0.0,
+      "isodate": "09/20/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 21,
+      "date": "09/21/2023",
+      "epochTime": 1695254400,
+      "value": {
+        "avg": 13.04377269744873
+      },
+      "raw_value": 13.04377269744873,
+      "NaN": 0.0,
+      "isodate": "09/21/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 22,
+      "date": "09/22/2023",
+      "epochTime": 1695340800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/22/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 23,
+      "date": "09/23/2023",
+      "epochTime": 1695427200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/23/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 24,
+      "date": "09/24/2023",
+      "epochTime": 1695513600,
+      "value": {
+        "avg": 13.04377269744873
+      },
+      "raw_value": 13.04377269744873,
+      "NaN": 0.0,
+      "isodate": "09/24/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 25,
+      "date": "09/25/2023",
+      "epochTime": 1695600000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/25/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 26,
+      "date": "09/26/2023",
+      "epochTime": 1695686400,
+      "value": {
+        "avg": 6.051515102386475
+      },
+      "raw_value": 6.051515102386475,
+      "NaN": 0.0,
+      "isodate": "09/26/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 27,
+      "date": "09/27/2023",
+      "epochTime": 1695772800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/27/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 28,
+      "date": "09/28/2023",
+      "epochTime": 1695859200,
+      "value": {
+        "avg": 6.051515102386475
+      },
+      "raw_value": 6.051515102386475,
+      "NaN": 0.0,
+      "isodate": "09/28/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 29,
+      "date": "09/29/2023",
+      "epochTime": 1695945600,
+      "value": {
+        "avg": 6.051515102386475
+      },
+      "raw_value": 6.051515102386475,
+      "NaN": 0.0,
+      "isodate": "09/29/2023"
+    },
+    {
+      "year": 2023,
+      "month": 9,
+      "day": 30,
+      "date": "09/30/2023",
+      "epochTime": 1696032000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "09/30/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 1,
+      "date": "10/01/2023",
+      "epochTime": 1696118400,
+      "value": {
+        "avg": 8.7315092086792
+      },
+      "raw_value": 8.7315092086792,
+      "NaN": 0.0,
+      "isodate": "10/01/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 2,
+      "date": "10/02/2023",
+      "epochTime": 1696204800,
+      "value": {
+        "avg": 26.19452476501465
+      },
+      "raw_value": 26.19452476501465,
+      "NaN": 0.0,
+      "isodate": "10/02/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 3,
+      "date": "10/03/2023",
+      "epochTime": 1696291200,
+      "value": {
+        "avg": 8.7315092086792
+      },
+      "raw_value": 8.7315092086792,
+      "NaN": 0.0,
+      "isodate": "10/03/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 4,
+      "date": "10/04/2023",
+      "epochTime": 1696377600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/04/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 5,
+      "date": "10/05/2023",
+      "epochTime": 1696464000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/05/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 6,
+      "date": "10/06/2023",
+      "epochTime": 1696550400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/06/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 7,
+      "date": "10/07/2023",
+      "epochTime": 1696636800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/07/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 8,
+      "date": "10/08/2023",
+      "epochTime": 1696723200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/08/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 9,
+      "date": "10/09/2023",
+      "epochTime": 1696809600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/09/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 10,
+      "date": "10/10/2023",
+      "epochTime": 1696896000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/10/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 11,
+      "date": "10/11/2023",
+      "epochTime": 1696982400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/11/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 12,
+      "date": "10/12/2023",
+      "epochTime": 1697068800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/12/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 13,
+      "date": "10/13/2023",
+      "epochTime": 1697155200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/13/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 14,
+      "date": "10/14/2023",
+      "epochTime": 1697241600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/14/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 15,
+      "date": "10/15/2023",
+      "epochTime": 1697328000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/15/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 16,
+      "date": "10/16/2023",
+      "epochTime": 1697414400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/16/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 17,
+      "date": "10/17/2023",
+      "epochTime": 1697500800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/17/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 18,
+      "date": "10/18/2023",
+      "epochTime": 1697587200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/18/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 19,
+      "date": "10/19/2023",
+      "epochTime": 1697673600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/19/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 20,
+      "date": "10/20/2023",
+      "epochTime": 1697760000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/20/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 21,
+      "date": "10/21/2023",
+      "epochTime": 1697846400,
+      "value": {
+        "avg": 3.6388447284698486
+      },
+      "raw_value": 3.6388447284698486,
+      "NaN": 0.0,
+      "isodate": "10/21/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 22,
+      "date": "10/22/2023",
+      "epochTime": 1697932800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/22/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 23,
+      "date": "10/23/2023",
+      "epochTime": 1698019200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/23/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 24,
+      "date": "10/24/2023",
+      "epochTime": 1698105600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/24/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 25,
+      "date": "10/25/2023",
+      "epochTime": 1698192000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/25/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 26,
+      "date": "10/26/2023",
+      "epochTime": 1698278400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/26/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 27,
+      "date": "10/27/2023",
+      "epochTime": 1698364800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/27/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 28,
+      "date": "10/28/2023",
+      "epochTime": 1698451200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/28/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 29,
+      "date": "10/29/2023",
+      "epochTime": 1698537600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/29/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 30,
+      "date": "10/30/2023",
+      "epochTime": 1698624000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/30/2023"
+    },
+    {
+      "year": 2023,
+      "month": 10,
+      "day": 31,
+      "date": "10/31/2023",
+      "epochTime": 1698710400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "10/31/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 1,
+      "date": "11/01/2023",
+      "epochTime": 1698796800,
+      "value": {
+        "avg": 5.445284843444824
+      },
+      "raw_value": 5.445284843444824,
+      "NaN": 0.0,
+      "isodate": "11/01/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 2,
+      "date": "11/02/2023",
+      "epochTime": 1698883200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/02/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 3,
+      "date": "11/03/2023",
+      "epochTime": 1698969600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/03/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 4,
+      "date": "11/04/2023",
+      "epochTime": 1699056000,
+      "value": {
+        "avg": 5.445284843444824
+      },
+      "raw_value": 5.445284843444824,
+      "NaN": 0.0,
+      "isodate": "11/04/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 5,
+      "date": "11/05/2023",
+      "epochTime": 1699142400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/05/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 6,
+      "date": "11/06/2023",
+      "epochTime": 1699228800,
+      "value": {
+        "avg": 3.5559353828430176
+      },
+      "raw_value": 3.5559353828430176,
+      "NaN": 0.0,
+      "isodate": "11/06/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 7,
+      "date": "11/07/2023",
+      "epochTime": 1699315200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/07/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 8,
+      "date": "11/08/2023",
+      "epochTime": 1699401600,
+      "value": {
+        "avg": 3.5559353828430176
+      },
+      "raw_value": 3.5559353828430176,
+      "NaN": 0.0,
+      "isodate": "11/08/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 9,
+      "date": "11/09/2023",
+      "epochTime": 1699488000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/09/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 10,
+      "date": "11/10/2023",
+      "epochTime": 1699574400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/10/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 11,
+      "date": "11/11/2023",
+      "epochTime": 1699660800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/11/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 12,
+      "date": "11/12/2023",
+      "epochTime": 1699747200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/12/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 13,
+      "date": "11/13/2023",
+      "epochTime": 1699833600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/13/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 14,
+      "date": "11/14/2023",
+      "epochTime": 1699920000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/14/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 15,
+      "date": "11/15/2023",
+      "epochTime": 1700006400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/15/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 16,
+      "date": "11/16/2023",
+      "epochTime": 1700092800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/16/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 17,
+      "date": "11/17/2023",
+      "epochTime": 1700179200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/17/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 18,
+      "date": "11/18/2023",
+      "epochTime": 1700265600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/18/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 19,
+      "date": "11/19/2023",
+      "epochTime": 1700352000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/19/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 20,
+      "date": "11/20/2023",
+      "epochTime": 1700438400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/20/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 21,
+      "date": "11/21/2023",
+      "epochTime": 1700524800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/21/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 22,
+      "date": "11/22/2023",
+      "epochTime": 1700611200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/22/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 23,
+      "date": "11/23/2023",
+      "epochTime": 1700697600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/23/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 24,
+      "date": "11/24/2023",
+      "epochTime": 1700784000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/24/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 25,
+      "date": "11/25/2023",
+      "epochTime": 1700870400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/25/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 26,
+      "date": "11/26/2023",
+      "epochTime": 1700956800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/26/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 27,
+      "date": "11/27/2023",
+      "epochTime": 1701043200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/27/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 28,
+      "date": "11/28/2023",
+      "epochTime": 1701129600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/28/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 29,
+      "date": "11/29/2023",
+      "epochTime": 1701216000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/29/2023"
+    },
+    {
+      "year": 2023,
+      "month": 11,
+      "day": 30,
+      "date": "11/30/2023",
+      "epochTime": 1701302400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "11/30/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 1,
+      "date": "12/01/2023",
+      "epochTime": 1701388800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/01/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 2,
+      "date": "12/02/2023",
+      "epochTime": 1701475200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/02/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 3,
+      "date": "12/03/2023",
+      "epochTime": 1701561600,
+      "value": {
+        "avg": 8.111115455627441
+      },
+      "raw_value": 8.111115455627441,
+      "NaN": 0.0,
+      "isodate": "12/03/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 4,
+      "date": "12/04/2023",
+      "epochTime": 1701648000,
+      "value": {
+        "avg": 13.518524169921875
+      },
+      "raw_value": 13.518524169921875,
+      "NaN": 0.0,
+      "isodate": "12/04/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 5,
+      "date": "12/05/2023",
+      "epochTime": 1701734400,
+      "value": {
+        "avg": 10.8148193359375
+      },
+      "raw_value": 10.8148193359375,
+      "NaN": 0.0,
+      "isodate": "12/05/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 6,
+      "date": "12/06/2023",
+      "epochTime": 1701820800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/06/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 7,
+      "date": "12/07/2023",
+      "epochTime": 1701907200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/07/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 8,
+      "date": "12/08/2023",
+      "epochTime": 1701993600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/08/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 9,
+      "date": "12/09/2023",
+      "epochTime": 1702080000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/09/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 10,
+      "date": "12/10/2023",
+      "epochTime": 1702166400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/10/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 11,
+      "date": "12/11/2023",
+      "epochTime": 1702252800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/11/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 12,
+      "date": "12/12/2023",
+      "epochTime": 1702339200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/12/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 13,
+      "date": "12/13/2023",
+      "epochTime": 1702425600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/13/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 14,
+      "date": "12/14/2023",
+      "epochTime": 1702512000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/14/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 15,
+      "date": "12/15/2023",
+      "epochTime": 1702598400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/15/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 16,
+      "date": "12/16/2023",
+      "epochTime": 1702684800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/16/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 17,
+      "date": "12/17/2023",
+      "epochTime": 1702771200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/17/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 18,
+      "date": "12/18/2023",
+      "epochTime": 1702857600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/18/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 19,
+      "date": "12/19/2023",
+      "epochTime": 1702944000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/19/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 20,
+      "date": "12/20/2023",
+      "epochTime": 1703030400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/20/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 21,
+      "date": "12/21/2023",
+      "epochTime": 1703116800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/21/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 22,
+      "date": "12/22/2023",
+      "epochTime": 1703203200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/22/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 23,
+      "date": "12/23/2023",
+      "epochTime": 1703289600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/23/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 24,
+      "date": "12/24/2023",
+      "epochTime": 1703376000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/24/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 25,
+      "date": "12/25/2023",
+      "epochTime": 1703462400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/25/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 26,
+      "date": "12/26/2023",
+      "epochTime": 1703548800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/26/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 27,
+      "date": "12/27/2023",
+      "epochTime": 1703635200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/27/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 28,
+      "date": "12/28/2023",
+      "epochTime": 1703721600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/28/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 29,
+      "date": "12/29/2023",
+      "epochTime": 1703808000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/29/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 30,
+      "date": "12/30/2023",
+      "epochTime": 1703894400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/30/2023"
+    },
+    {
+      "year": 2023,
+      "month": 12,
+      "day": 31,
+      "date": "12/31/2023",
+      "epochTime": 1703980800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "12/31/2023"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 1,
+      "date": "01/01/2024",
+      "epochTime": 1704067200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/01/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 2,
+      "date": "01/02/2024",
+      "epochTime": 1704153600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/02/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 3,
+      "date": "01/03/2024",
+      "epochTime": 1704240000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/03/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 4,
+      "date": "01/04/2024",
+      "epochTime": 1704326400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/04/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 5,
+      "date": "01/05/2024",
+      "epochTime": 1704412800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/05/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 6,
+      "date": "01/06/2024",
+      "epochTime": 1704499200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/06/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 7,
+      "date": "01/07/2024",
+      "epochTime": 1704585600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/07/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 8,
+      "date": "01/08/2024",
+      "epochTime": 1704672000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/08/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 9,
+      "date": "01/09/2024",
+      "epochTime": 1704758400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/09/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 10,
+      "date": "01/10/2024",
+      "epochTime": 1704844800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/10/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 11,
+      "date": "01/11/2024",
+      "epochTime": 1704931200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/11/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 12,
+      "date": "01/12/2024",
+      "epochTime": 1705017600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/12/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 13,
+      "date": "01/13/2024",
+      "epochTime": 1705104000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/13/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 14,
+      "date": "01/14/2024",
+      "epochTime": 1705190400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/14/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 15,
+      "date": "01/15/2024",
+      "epochTime": 1705276800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/15/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 16,
+      "date": "01/16/2024",
+      "epochTime": 1705363200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/16/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 17,
+      "date": "01/17/2024",
+      "epochTime": 1705449600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/17/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 18,
+      "date": "01/18/2024",
+      "epochTime": 1705536000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/18/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 19,
+      "date": "01/19/2024",
+      "epochTime": 1705622400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/19/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 20,
+      "date": "01/20/2024",
+      "epochTime": 1705708800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/20/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 21,
+      "date": "01/21/2024",
+      "epochTime": 1705795200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/21/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 22,
+      "date": "01/22/2024",
+      "epochTime": 1705881600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/22/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 23,
+      "date": "01/23/2024",
+      "epochTime": 1705968000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/23/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 24,
+      "date": "01/24/2024",
+      "epochTime": 1706054400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/24/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 25,
+      "date": "01/25/2024",
+      "epochTime": 1706140800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/25/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 26,
+      "date": "01/26/2024",
+      "epochTime": 1706227200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/26/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 27,
+      "date": "01/27/2024",
+      "epochTime": 1706313600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/27/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 28,
+      "date": "01/28/2024",
+      "epochTime": 1706400000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/28/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 29,
+      "date": "01/29/2024",
+      "epochTime": 1706486400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/29/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 30,
+      "date": "01/30/2024",
+      "epochTime": 1706572800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/30/2024"
+    },
+    {
+      "year": 2024,
+      "month": 1,
+      "day": 31,
+      "date": "01/31/2024",
+      "epochTime": 1706659200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "01/31/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 1,
+      "date": "02/01/2024",
+      "epochTime": 1706745600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/01/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 2,
+      "date": "02/02/2024",
+      "epochTime": 1706832000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/02/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 3,
+      "date": "02/03/2024",
+      "epochTime": 1706918400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/03/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 4,
+      "date": "02/04/2024",
+      "epochTime": 1707004800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/04/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 5,
+      "date": "02/05/2024",
+      "epochTime": 1707091200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/05/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 6,
+      "date": "02/06/2024",
+      "epochTime": 1707177600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/06/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 7,
+      "date": "02/07/2024",
+      "epochTime": 1707264000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/07/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 8,
+      "date": "02/08/2024",
+      "epochTime": 1707350400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/08/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 9,
+      "date": "02/09/2024",
+      "epochTime": 1707436800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/09/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 10,
+      "date": "02/10/2024",
+      "epochTime": 1707523200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/10/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 11,
+      "date": "02/11/2024",
+      "epochTime": 1707609600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/11/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 12,
+      "date": "02/12/2024",
+      "epochTime": 1707696000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/12/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 13,
+      "date": "02/13/2024",
+      "epochTime": 1707782400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/13/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 14,
+      "date": "02/14/2024",
+      "epochTime": 1707868800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/14/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 15,
+      "date": "02/15/2024",
+      "epochTime": 1707955200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/15/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 16,
+      "date": "02/16/2024",
+      "epochTime": 1708041600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/16/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 17,
+      "date": "02/17/2024",
+      "epochTime": 1708128000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/17/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 18,
+      "date": "02/18/2024",
+      "epochTime": 1708214400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/18/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 19,
+      "date": "02/19/2024",
+      "epochTime": 1708300800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/19/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 20,
+      "date": "02/20/2024",
+      "epochTime": 1708387200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/20/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 21,
+      "date": "02/21/2024",
+      "epochTime": 1708473600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/21/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 22,
+      "date": "02/22/2024",
+      "epochTime": 1708560000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/22/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 23,
+      "date": "02/23/2024",
+      "epochTime": 1708646400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/23/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 24,
+      "date": "02/24/2024",
+      "epochTime": 1708732800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/24/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 25,
+      "date": "02/25/2024",
+      "epochTime": 1708819200,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/25/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 26,
+      "date": "02/26/2024",
+      "epochTime": 1708905600,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/26/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 27,
+      "date": "02/27/2024",
+      "epochTime": 1708992000,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/27/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 28,
+      "date": "02/28/2024",
+      "epochTime": 1709078400,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/28/2024"
+    },
+    {
+      "year": 2024,
+      "month": 2,
+      "day": 29,
+      "date": "02/29/2024",
+      "epochTime": 1709164800,
+      "value": {
+        "avg": 0.0
+      },
+      "raw_value": 0.0,
+      "NaN": 0.0,
+      "isodate": "02/29/2024"
+    }
+  ]
+}

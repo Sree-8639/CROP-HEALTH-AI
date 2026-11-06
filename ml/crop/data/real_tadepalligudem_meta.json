@@ -1,0 +1,84 @@
+{
+  "dataset_name": "Tadepalligudem Multimodal Crop Time Series",
+  "aoi_name": "Tadepalligudem, West Godavari District, Andhra Pradesh, India",
+  "bbox": [
+    81.503,
+    16.793,
+    81.543,
+    16.833
+  ],
+  "grid_shape": [
+    64,
+    64
+  ],
+  "total_pixels": 4096,
+  "timesteps_count": 4,
+  "channels": [
+    "NDVI",
+    "NDRE",
+    "NDMI",
+    "VV_dB",
+    "VH_dB",
+    "Ratio_dB"
+  ],
+  "data_source": "REAL (Copernicus Sentinel-2 L2A & Sentinel-1 GRD)",
+  "is_simulated": false,
+  "observation_windows": [
+    {
+      "timestep": 0,
+      "window_name": "early_vegetative_t0",
+      "sentinel2_scene_id": "S2A_MSIL2A_20240105T050211_N0510_R119_T44QND_20240105T075552.SAFE",
+      "sentinel2_acquisition_date": "2024-01-05T05:14:08.025Z",
+      "sentinel1_scene_id": "N/A",
+      "sentinel1_temporal_gap_days": 0,
+      "scl_valid_pixel_pct": 100.0,
+      "mean_ndvi": 0.3793,
+      "mean_ndre": 0.2073,
+      "mean_ndmi": 0.2069,
+      "mean_vv_db": -9.0,
+      "mean_vh_db": -17.5
+    },
+    {
+      "timestep": 1,
+      "window_name": "mid_vegetative_t1",
+      "sentinel2_scene_id": "S2B_MSIL2A_20240110T050159_N0510_R119_T44QND_20240110T071958.SAFE",
+      "sentinel2_acquisition_date": "2024-01-10T05:14:09.9Z",
+      "sentinel1_scene_id": "S1A_IW_GRDH_1SDV_20240112T002303_20240112T002328_052066_064AE8_0FE0_COG.SAFE",
+      "sentinel1_temporal_gap_days": 2,
+      "scl_valid_pixel_pct": 100.0,
+      "mean_ndvi": 0.3615,
+      "mean_ndre": 0.1905,
+      "mean_ndmi": 0.1834,
+      "mean_vv_db": -9.13,
+      "mean_vh_db": -18.08
+    },
+    {
+      "timestep": 2,
+      "window_name": "tillering_t2",
+      "sentinel2_scene_id": "S2B_MSIL2A_20240219T045839_N0510_R119_T44QND_20240219T071610.SAFE",
+      "sentinel2_acquisition_date": "2024-02-19T05:14:12.569Z",
+      "sentinel1_scene_id": "S1A_IW_GRDH_1SDV_20240217T002302_20240217T002328_052591_065CAB_F6E0_COG.SAFE",
+      "sentinel1_temporal_gap_days": -2,
+      "scl_valid_pixel_pct": 96.49,
+      "mean_ndvi": 0.5088,
+      "mean_ndre": 0.3629,
+      "mean_ndmi": 0.1401,
+      "mean_vv_db": -8.23,
+      "mean_vh_db": -16.35
+    },
+    {
+      "timestep": 3,
+      "window_name": "heading_flowering_t3",
+      "sentinel2_scene_id": "S2B_MSIL2A_20240229T045729_N0510_R119_T44QND_20240229T075454.SAFE",
+      "sentinel2_acquisition_date": "2024-02-29T05:14:09.755Z",
+      "sentinel1_scene_id": "S1A_IW_GRDH_1SDV_20240229T002302_20240229T002328_052766_06629B_046E_COG.SAFE",
+      "sentinel1_temporal_gap_days": 0,
+      "scl_valid_pixel_pct": 100.0,
+      "mean_ndvi": 0.5438,
+      "mean_ndre": 0.3877,
+      "mean_ndmi": 0.1342,
+      "mean_vv_db": -8.61,
+      "mean_vh_db": -16.39
+    }
+  ]
+}

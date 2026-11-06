@@ -1,0 +1,7 @@
+Model,Ground Truth Class,Pred: Healthy / No Stress,Pred: Mild Stress,Pred: Severe Stress,Class Recall (%)
+Descals et al. Baseline (S2 Phenology),Healthy / No Stress,1386,25,0,98.2%
+Descals et al. Baseline (S2 Phenology),Mild Stress,0,428,1,99.8%
+Descals et al. Baseline (S2 Phenology),Severe Stress,0,0,2256,100.0%
+Multimodal Fused S1+S2 (Improved),Healthy / No Stress,1409,2,0,99.9%
+Multimodal Fused S1+S2 (Improved),Mild Stress,3,422,4,98.4%
+Multimodal Fused S1+S2 (Improved),Severe Stress,0,2,2254,99.9%

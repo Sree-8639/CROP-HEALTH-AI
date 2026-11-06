@@ -1,0 +1,45 @@
+{
+  "dataset_name": "Crop Health AI - Multimodal Crop Condition Dataset",
+  "phase": "Phase A - Dataset Export",
+  "generation_timestamp": "2026-11-05T23:42:25.703099+00:00",
+  "total_samples": 96,
+  "num_fields": 8,
+  "field_ids": [
+    "AP_GN_01",
+    "AP_KR_01",
+    "AP_WG_01",
+    "AP_WG_02",
+    "AP_WG_03",
+    "AP_WG_04",
+    "AP_WG_05",
+    "AP_WG_06"
+  ],
+  "date_range": {
+    "start": "2023-08-10",
+    "end": "2024-06-25"
+  },
+  "class_distribution": {
+    "healthy": 45,
+    "nutrient-stressed": 19,
+    "water-stressed": 18,
+    "suspected disease-pest": 14
+  },
+  "label_sources": {
+    "weak_weather_based": 96
+  },
+  "is_weak_label_pct": 100.0,
+  "demo_mode": true,
+  "non_circular_validation_guarantee": "Verified: NDVI is excluded from the label assignment logic. Labels are determined solely from NDMI (moisture), NDRE (chlorophyll), SAR backscatter (VV/VH), and rainfall deficit metrics.",
+  "image_chips": {
+    "format": "PNG",
+    "dimensions": "224x224",
+    "rgb_count": 96,
+    "ndvi_count": 96,
+    "rgb_dir": "images/rgb",
+    "ndvi_dir": "images/ndvi"
+  },
+  "files": {
+    "parquet": "crop_condition_dataset.parquet",
+    "csv": "crop_condition_dataset.csv"
+  }
+}

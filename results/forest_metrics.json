@@ -1,0 +1,1835 @@
+{
+  "project": "Crop Health AI \u2014 Forest Disturbance & Canopy Change Monitoring",
+  "data_source": "REAL",
+  "timestamp_utc": "2026-11-06T02:15:09.933215+00:00",
+  "reference_dataset": {
+    "name": "Hansen Global Forest Change (GFC v1.11)",
+    "nominal_resolution": "30 meters (Landsat 7/8 ETM+/OLI)",
+    "target_resolution": "10 meters (Sentinel-2 Optical & Sentinel-1 C-SAR)",
+    "total_regions_evaluated": 4,
+    "ground_truth_policy": "Strictly independent Hansen GFC v1.11 labels (treecover2000 >= 30, lossyear matching acquisition dates); NEVER derived from NBR/NDVI",
+    "scientific_disclosure": "Hansen Global Forest Change labels are Landsat-derived at 30 m nominal resolution, with known label noise. Threshold search is strictly isolated to the validation set."
+  },
+  "spatial_evaluation_protocol": {
+    "methodology": "Strict non-overlapping geographic spatial partition. Hyperparameters (decision thresholds) optimized strictly on the validation set.",
+    "patch_dimensions": "256x256 pixels at 10m Ground Sample Distance (GSD)",
+    "spatial_metadata": {
+      "data_source": "REAL",
+      "is_simulated": false,
+      "patch_size": 256,
+      "stride": 64,
+      "train_patch_count": 15,
+      "val_patch_count": 6,
+      "test_patch_count": 4,
+      "cloudy_test_patch_count": 4,
+      "indian_aoi_patch_count": 25,
+      "wayanad_patch_count": 25,
+      "dandeli_patch_count": 25,
+      "total_regions": 4,
+      "spatial_split_protocol": "Strict non-overlapping geographic spatial partition. Train from Northern/Western extents; Val from North-Eastern transitional sector; Test from South-Eastern extents to eliminate spatial autocorrelation leakage.",
+      "primary_benchmark_details": {
+        "name": "Eastern Ghats Forest Corridor (Maredumilli Reserve), Andhra Pradesh, India",
+        "bbox": [
+          81.55,
+          17.45,
+          81.65,
+          17.55
+        ],
+        "treecover_mean_pct": 68.69,
+        "hansen_2020_2021_loss_pixels": 1217
+      },
+      "indian_aoi_details": {
+        "name": "Hasdeo Arand Forest (Parsa East & Kete Basan Sector)",
+        "state": "Chhattisgarh, India",
+        "bbox": [
+          82.75,
+          22.75,
+          82.85,
+          22.85
+        ],
+        "forest_type": "Tropical Moist Deciduous (Sal - Shorea robusta dominants)",
+        "threat_profile": "Opencast coal mining face expansion, access roads, and canopy fragmentation",
+        "treecover_mean_pct": 15.2,
+        "hansen_2020_2021_loss_pixels": 235
+      },
+      "wayanad_aoi_details": {
+        "name": "Western Ghats / Wayanad-Nilgiris Montane Corridor",
+        "state": "Kerala / Tamil Nadu, India",
+        "bbox": [
+          76.15,
+          11.6,
+          76.25,
+          11.7
+        ],
+        "forest_type": "Tropical Montane Evergreen & Shola Rainforest",
+        "years": [
+          2021,
+          2022
+        ],
+        "hansen_2021_2022_loss_pixels": 611
+      },
+      "dandeli_aoi_details": {
+        "name": "Dandeli-Anshi / Kali Tiger Reserve Corridor",
+        "state": "Karnataka, India",
+        "bbox": [
+          74.65,
+          15.2,
+          74.75,
+          15.3
+        ],
+        "forest_type": "Moist Deciduous & Teak-Bamboo Forest",
+        "years": [
+          2021,
+          2022
+        ],
+        "hansen_2021_2022_loss_pixels": 0
+      },
+      "hansen_label_disclaimer": "Hansen GFC labels are Landsat-derived at 30 m nominal resolution with inherent label noise (omission of sub-30m selective logging, commission of plantation harvests, and pixel discretization artifacts when resampled to Sentinel 10 m). Labels are strictly independent and NEVER derived from NBR/NDVI."
+    }
+  },
+  "model_performance_test_region": {
+    "primary_test_region": {
+      "spectral_differencing_nbr": {
+        "model_name": "Spectral Differencing (DELTA_NBR)",
+        "threshold": 0.16,
+        "precision": 0.1135,
+        "recall": 0.3452,
+        "f1": 0.1708,
+        "iou": 0.0934,
+        "total_pixels_evaluated": 262144,
+        "true_loss_pixels": 2700,
+        "pred_loss_pixels": 8212
+      },
+      "spectral_differencing_ndvi": {
+        "model_name": "Spectral Differencing (DELTA_NDVI)",
+        "threshold": 0.14,
+        "precision": 0.1228,
+        "recall": 0.2978,
+        "f1": 0.1739,
+        "iou": 0.0952,
+        "total_pixels_evaluated": 262144,
+        "true_loss_pixels": 2700,
+        "pred_loss_pixels": 6547
+      },
+      "sar_differencing_vh": {
+        "model_name": "SAR Differencing (Delta-VH dB)",
+        "threshold": 0.5875,
+        "precision": 0.038,
+        "recall": 0.0419,
+        "f1": 0.0398,
+        "iou": 0.0203,
+        "total_pixels_evaluated": 262144,
+        "true_loss_pixels": 2700,
+        "pred_loss_pixels": 2976
+      },
+      "multimodal_differencing_nbr_vh": {
+        "model_name": "Multimodal Differencing (Delta-NBR + Delta-VH)",
+        "threshold_nbr": 0.15,
+        "threshold_vh": 0.4,
+        "precision": 0.0498,
+        "recall": 0.4356,
+        "f1": 0.0893,
+        "iou": 0.0468,
+        "total_pixels_evaluated": 262144,
+        "true_loss_pixels": 2700,
+        "pred_loss_pixels": 23630
+      },
+      "torres_unet_early_concat_s2": {
+        "model_name": "Torres et al. (2021) Early-Concat U-Net (S2 Only)",
+        "threshold": 0.17,
+        "precision": 0.0103,
+        "recall": 0.9993,
+        "f1": 0.0204,
+        "iou": 0.0103,
+        "total_pixels_evaluated": 262144,
+        "true_loss_pixels": 2700,
+        "pred_loss_pixels": 261352
+      },
+      "siamese_unet_multimodal_s1_s2": {
+        "model_name": "Multimodal Siamese U-Net (S1+S2 Fused)",
+        "threshold": 0.7,
+        "precision": 0.4726699369306237,
+        "recall": 0.49962962962962965,
+        "f1": 0.48577601728483977,
+        "iou": 0.32080856123662305,
+        "total_pixels_evaluated": 262144,
+        "true_loss_pixels": 2700,
+        "pred_loss_pixels": 2854,
+        "hansen_caveat": "Evaluated against 30m Landsat-derived Hansen GFC labels. Discretization artifacts and sub-pixel noise inherently bound maximum empirical IoU on 10m satellite grids."
+      }
+    },
+    "cloudy_scene_test_subset": {
+      "spectral_differencing_nbr": {
+        "model_name": "Spectral Differencing (DELTA_NBR)",
+        "threshold": 0.16,
+        "precision": 0.1225,
+        "recall": 0.1359,
+        "f1": 0.1288,
+        "iou": 0.0689,
+        "total_pixels_evaluated": 262144,
+        "true_loss_pixels": 2700,
+        "pred_loss_pixels": 2997
+      },
+      "spectral_differencing_ndvi": {
+        "model_name": "Spectral Differencing (DELTA_NDVI)",
+        "threshold": 0.14,
+        "precision": 0.0127,
+        "recall": 0.6933,
+        "f1": 0.025,
+        "iou": 0.0127,
+        "total_pixels_evaluated": 262144,
+        "true_loss_pixels": 2700,
+        "pred_loss_pixels": 147100
+      },
+      "sar_differencing_vh": {
+        "model_name": "SAR Differencing (Delta-VH dB)",
+        "threshold": 0.5875,
+        "precision": 0.038,
+        "recall": 0.0419,
+        "f1": 0.0398,
+        "iou": 0.0203,
+        "total_pixels_evaluated": 262144,
+        "true_loss_pixels": 2700,
+        "pred_loss_pixels": 2976
+      },
+      "multimodal_differencing_nbr_vh": {
+        "model_name": "Multimodal Differencing (Delta-NBR + Delta-VH)",
+        "threshold_nbr": 0.15,
+        "threshold_vh": 0.4,
+        "precision": 0.0371,
+        "recall": 0.2552,
+        "f1": 0.0648,
+        "iou": 0.0335,
+        "total_pixels_evaluated": 262144,
+        "true_loss_pixels": 2700,
+        "pred_loss_pixels": 18566
+      },
+      "torres_unet_early_concat_s2": {
+        "model_name": "Torres et al. (2021) Early-Concat U-Net (S2 Only)",
+        "threshold": 0.17,
+        "precision": 0.0103,
+        "recall": 1.0,
+        "f1": 0.0204,
+        "iou": 0.0103,
+        "total_pixels_evaluated": 262144,
+        "true_loss_pixels": 2700,
+        "pred_loss_pixels": 262142
+      },
+      "siamese_unet_multimodal_s1_s2": {
+        "model_name": "Multimodal Siamese U-Net (S1+S2 Fused)",
+        "threshold": 0.7,
+        "precision": 0.0122787732219413,
+        "recall": 0.4137037037037037,
+        "f1": 0.023849685064588448,
+        "iou": 0.01206876060203343,
+        "total_pixels_evaluated": 262144,
+        "true_loss_pixels": 2700,
+        "pred_loss_pixels": 90970,
+        "hansen_caveat": "Evaluated against 30m Landsat-derived Hansen GFC labels. Discretization artifacts and sub-pixel noise inherently bound maximum empirical IoU on 10m satellite grids."
+      },
+      "sar_resilience_analysis": {
+        "siamese_f1_retention_cloudy_pct": 4.91,
+        "sar_differencing_f1_retention_cloudy_pct": 100.0,
+        "torres_f1_retention_cloudy_pct": 100.0
+      }
+    },
+    "metrics_ranking": [
+      {
+        "rank": 1,
+        "model": "Multimodal Siamese U-Net (S1+S2 Fused)",
+        "f1_score": 0.48577601728483977,
+        "iou": 0.32080856123662305,
+        "precision": 0.4726699369306237,
+        "recall": 0.49962962962962965,
+        "cloudy_f1": 0.023849685064588448
+      },
+      {
+        "rank": 2,
+        "model": "Spectral Differencing (Delta-NDVI)",
+        "f1_score": 0.1739,
+        "iou": 0.0952,
+        "precision": 0.1228,
+        "recall": 0.2978,
+        "cloudy_f1": 0.025
+      },
+      {
+        "rank": 3,
+        "model": "Spectral Differencing (Delta-NBR)",
+        "f1_score": 0.1708,
+        "iou": 0.0934,
+        "precision": 0.1135,
+        "recall": 0.3452,
+        "cloudy_f1": 0.1288
+      },
+      {
+        "rank": 4,
+        "model": "Multimodal Differencing (Delta-NBR + Delta-VH)",
+        "f1_score": 0.0893,
+        "iou": 0.0468,
+        "precision": 0.0498,
+        "recall": 0.4356,
+        "cloudy_f1": 0.0648
+      },
+      {
+        "rank": 5,
+        "model": "SAR Differencing (Delta-VH dB)",
+        "f1_score": 0.0398,
+        "iou": 0.0203,
+        "precision": 0.038,
+        "recall": 0.0419,
+        "cloudy_f1": 0.0398
+      },
+      {
+        "rank": 6,
+        "model": "Torres et al. (2021) Early-Concat U-Net (S2 Only)",
+        "f1_score": 0.0204,
+        "iou": 0.0103,
+        "precision": 0.0103,
+        "recall": 0.9993,
+        "cloudy_f1": 0.0204
+      }
+    ]
+  },
+  "multi_region_generalisation_evaluation": {
+    "region_2_hasdeo_arand": {
+      "details": {
+        "name": "Hasdeo Arand Forest (Parsa East & Kete Basan Sector)",
+        "state": "Chhattisgarh, India",
+        "bbox": [
+          82.75,
+          22.75,
+          82.85,
+          22.85
+        ],
+        "forest_type": "Tropical Moist Deciduous (Sal - Shorea robusta dominants)",
+        "threat_profile": "Opencast coal mining face expansion, access roads, and canopy fragmentation",
+        "treecover_mean_pct": 15.2,
+        "hansen_2020_2021_loss_pixels": 235
+      },
+      "results": {
+        "spectral_differencing_nbr": {
+          "model_name": "Spectral Differencing (DELTA_NBR)",
+          "threshold": 0.16,
+          "precision": 0.0032,
+          "recall": 0.1768,
+          "f1": 0.0063,
+          "iou": 0.0032,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 1629,
+          "pred_loss_pixels": 89622
+        },
+        "spectral_differencing_ndvi": {
+          "model_name": "Spectral Differencing (DELTA_NDVI)",
+          "threshold": 0.14,
+          "precision": 0.0007,
+          "recall": 0.1915,
+          "f1": 0.0014,
+          "iou": 0.0007,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 1629,
+          "pred_loss_pixels": 439095
+        },
+        "sar_differencing_vh": {
+          "model_name": "SAR Differencing (Delta-VH dB)",
+          "threshold": 0.5875,
+          "precision": 0.0008,
+          "recall": 0.0295,
+          "f1": 0.0016,
+          "iou": 0.0008,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 1629,
+          "pred_loss_pixels": 58150
+        },
+        "multimodal_differencing_nbr_vh": {
+          "model_name": "Multimodal Differencing (Delta-NBR + Delta-VH)",
+          "threshold_nbr": 0.15,
+          "threshold_vh": 0.4,
+          "precision": 0.0012,
+          "recall": 0.2259,
+          "f1": 0.0024,
+          "iou": 0.0012,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 1629,
+          "pred_loss_pixels": 306062
+        },
+        "torres_unet_early_concat_s2": {
+          "model_name": "Torres et al. (2021) Early-Concat U-Net (S2 Only)",
+          "threshold": 0.17,
+          "precision": 0.001,
+          "recall": 0.9638,
+          "f1": 0.0019,
+          "iou": 0.001,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 1629,
+          "pred_loss_pixels": 1637396
+        },
+        "siamese_unet_multimodal_s1_s2": {
+          "model_name": "Multimodal Siamese U-Net (S1+S2 Fused)",
+          "threshold": 0.7,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "iou": 0.0,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 1629,
+          "pred_loss_pixels": 0,
+          "hansen_caveat": "Evaluated against 30m Landsat-derived Hansen GFC labels. Discretization artifacts and sub-pixel noise inherently bound maximum empirical IoU on 10m satellite grids."
+        }
+      }
+    },
+    "region_3_wayanad_nilgiris": {
+      "details": {
+        "name": "Western Ghats / Wayanad-Nilgiris Montane Corridor",
+        "state": "Kerala / Tamil Nadu, India",
+        "bbox": [
+          76.15,
+          11.6,
+          76.25,
+          11.7
+        ],
+        "forest_type": "Tropical Montane Evergreen & Shola Rainforest",
+        "years": [
+          2021,
+          2022
+        ],
+        "hansen_2021_2022_loss_pixels": 611
+      },
+      "results": {
+        "spectral_differencing_nbr": {
+          "model_name": "Spectral Differencing (DELTA_NBR)",
+          "threshold": 0.16,
+          "precision": 0.0325,
+          "recall": 0.3056,
+          "f1": 0.0587,
+          "iou": 0.0302,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 4306,
+          "pred_loss_pixels": 40543
+        },
+        "spectral_differencing_ndvi": {
+          "model_name": "Spectral Differencing (DELTA_NDVI)",
+          "threshold": 0.14,
+          "precision": 0.0382,
+          "recall": 0.3567,
+          "f1": 0.069,
+          "iou": 0.0357,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 4306,
+          "pred_loss_pixels": 40225
+        },
+        "sar_differencing_vh": {
+          "model_name": "SAR Differencing (Delta-VH dB)",
+          "threshold": 0.5875,
+          "precision": 0.0061,
+          "recall": 0.059,
+          "f1": 0.0111,
+          "iou": 0.0056,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 4306,
+          "pred_loss_pixels": 41484
+        },
+        "multimodal_differencing_nbr_vh": {
+          "model_name": "Multimodal Differencing (Delta-NBR + Delta-VH)",
+          "threshold_nbr": 0.15,
+          "threshold_vh": 0.4,
+          "precision": 0.0091,
+          "recall": 0.4059,
+          "f1": 0.0178,
+          "iou": 0.009,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 4306,
+          "pred_loss_pixels": 191828
+        },
+        "torres_unet_early_concat_s2": {
+          "model_name": "Torres et al. (2021) Early-Concat U-Net (S2 Only)",
+          "threshold": 0.17,
+          "precision": 0.0026,
+          "recall": 0.9847,
+          "f1": 0.0053,
+          "iou": 0.0026,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 4306,
+          "pred_loss_pixels": 1606026
+        },
+        "siamese_unet_multimodal_s1_s2": {
+          "model_name": "Multimodal Siamese U-Net (S1+S2 Fused)",
+          "threshold": 0.7,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "iou": 0.0,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 4306,
+          "pred_loss_pixels": 3,
+          "hansen_caveat": "Evaluated against 30m Landsat-derived Hansen GFC labels. Discretization artifacts and sub-pixel noise inherently bound maximum empirical IoU on 10m satellite grids."
+        }
+      }
+    },
+    "region_4_dandeli_kali": {
+      "details": {
+        "name": "Dandeli-Anshi / Kali Tiger Reserve Corridor",
+        "state": "Karnataka, India",
+        "bbox": [
+          74.65,
+          15.2,
+          74.75,
+          15.3
+        ],
+        "forest_type": "Moist Deciduous & Teak-Bamboo Forest",
+        "years": [
+          2021,
+          2022
+        ],
+        "hansen_2021_2022_loss_pixels": 0
+      },
+      "results": {
+        "spectral_differencing_nbr": {
+          "model_name": "Spectral Differencing (DELTA_NBR)",
+          "threshold": 0.16,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "iou": 0.0,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 0,
+          "pred_loss_pixels": 9207
+        },
+        "spectral_differencing_ndvi": {
+          "model_name": "Spectral Differencing (DELTA_NDVI)",
+          "threshold": 0.14,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "iou": 0.0,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 0,
+          "pred_loss_pixels": 22299
+        },
+        "sar_differencing_vh": {
+          "model_name": "SAR Differencing (Delta-VH dB)",
+          "threshold": 0.5875,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "iou": 0.0,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 0,
+          "pred_loss_pixels": 37895
+        },
+        "multimodal_differencing_nbr_vh": {
+          "model_name": "Multimodal Differencing (Delta-NBR + Delta-VH)",
+          "threshold_nbr": 0.15,
+          "threshold_vh": 0.4,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "iou": 0.0,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 0,
+          "pred_loss_pixels": 135679
+        },
+        "torres_unet_early_concat_s2": {
+          "model_name": "Torres et al. (2021) Early-Concat U-Net (S2 Only)",
+          "threshold": 0.17,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "iou": 0.0,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 0,
+          "pred_loss_pixels": 1638356
+        },
+        "siamese_unet_multimodal_s1_s2": {
+          "model_name": "Multimodal Siamese U-Net (S1+S2 Fused)",
+          "threshold": 0.7,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "iou": 0.0,
+          "total_pixels_evaluated": 1638400,
+          "true_loss_pixels": 0,
+          "pred_loss_pixels": 0,
+          "hansen_caveat": "Evaluated against 30m Landsat-derived Hansen GFC labels. Discretization artifacts and sub-pixel noise inherently bound maximum empirical IoU on 10m satellite grids."
+        }
+      }
+    }
+  },
+  "out_of_region_generalisation_test": {
+    "aoi_name": "Hasdeo Arand Forest (Parsa East & Kete Basan Sector)",
+    "state_country": "Chhattisgarh, India",
+    "geographic_coordinates": [
+      82.75,
+      22.75,
+      82.85,
+      22.85
+    ],
+    "forest_ecosystem": "Tropical Moist Deciduous (Sal - Shorea robusta dominants)",
+    "threat_profile": "Opencast coal mining face expansion, access roads, and canopy fragmentation",
+    "evaluation_results": {
+      "spectral_differencing_nbr": {
+        "model_name": "Spectral Differencing (DELTA_NBR)",
+        "threshold": 0.16,
+        "precision": 0.0032,
+        "recall": 0.1768,
+        "f1": 0.0063,
+        "iou": 0.0032,
+        "total_pixels_evaluated": 1638400,
+        "true_loss_pixels": 1629,
+        "pred_loss_pixels": 89622
+      },
+      "spectral_differencing_ndvi": {
+        "model_name": "Spectral Differencing (DELTA_NDVI)",
+        "threshold": 0.14,
+        "precision": 0.0007,
+        "recall": 0.1915,
+        "f1": 0.0014,
+        "iou": 0.0007,
+        "total_pixels_evaluated": 1638400,
+        "true_loss_pixels": 1629,
+        "pred_loss_pixels": 439095
+      },
+      "torres_unet_early_concat_s2": {
+        "model_name": "Torres et al. (2021) Early-Concat U-Net (S2 Only)",
+        "threshold": 0.17,
+        "precision": 0.001,
+        "recall": 0.9638,
+        "f1": 0.0019,
+        "iou": 0.001,
+        "total_pixels_evaluated": 1638400,
+        "true_loss_pixels": 1629,
+        "pred_loss_pixels": 1637396
+      },
+      "siamese_unet_multimodal_s1_s2": {
+        "model_name": "Multimodal Siamese U-Net (S1+S2 Fused)",
+        "threshold": 0.7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "iou": 0.0,
+        "total_pixels_evaluated": 1638400,
+        "true_loss_pixels": 1629,
+        "pred_loss_pixels": 0,
+        "hansen_caveat": "Evaluated against 30m Landsat-derived Hansen GFC labels. Discretization artifacts and sub-pixel noise inherently bound maximum empirical IoU on 10m satellite grids."
+      }
+    },
+    "domain_shift_analysis": {
+      "test_region_f1": 0.48577601728483977,
+      "indian_aoi_f1": 0.0,
+      "f1_retention_pct": 0.0
+    },
+    "vector_polygon_summary": {
+      "total_polygons_delineated": 16,
+      "total_hectares_lost": 2.35,
+      "total_loss_pixels_10m": 235
+    }
+  },
+  "sample_geojson": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "id": "loss_poly_0050",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848437,
+                22.751562
+              ],
+              [
+                82.848242,
+                22.751367
+              ],
+              [
+                82.848242,
+                22.751172
+              ],
+              [
+                82.848437,
+                22.751172
+              ],
+              [
+                82.848633,
+                22.750977
+              ],
+              [
+                82.848828,
+                22.751172
+              ],
+              [
+                82.848828,
+                22.751562
+              ],
+              [
+                82.848437,
+                22.751562
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 50,
+          "area_hectares": 0.12,
+          "pixel_count": 12,
+          "mean_confidence": 0.916,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0053",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.817188,
+                22.751562
+              ],
+              [
+                82.816992,
+                22.751367
+              ],
+              [
+                82.816992,
+                22.750977
+              ],
+              [
+                82.817188,
+                22.750781
+              ],
+              [
+                82.817188,
+                22.750195
+              ],
+              [
+                82.817383,
+                22.750195
+              ],
+              [
+                82.817578,
+                22.750391
+              ],
+              [
+                82.817383,
+                22.750586
+              ],
+              [
+                82.817383,
+                22.750781
+              ],
+              [
+                82.817188,
+                22.750977
+              ],
+              [
+                82.817383,
+                22.751172
+              ],
+              [
+                82.817383,
+                22.751367
+              ],
+              [
+                82.817578,
+                22.751562
+              ],
+              [
+                82.817188,
+                22.751562
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 53,
+          "area_hectares": 0.2,
+          "pixel_count": 20,
+          "mean_confidence": 0.854,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0083",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848437,
+                22.760938
+              ],
+              [
+                82.848633,
+                22.760742
+              ],
+              [
+                82.848633,
+                22.760547
+              ],
+              [
+                82.848828,
+                22.760352
+              ],
+              [
+                82.849414,
+                22.760352
+              ],
+              [
+                82.849609,
+                22.760547
+              ],
+              [
+                82.849414,
+                22.760547
+              ],
+              [
+                82.849219,
+                22.760742
+              ],
+              [
+                82.849023,
+                22.760742
+              ],
+              [
+                82.848828,
+                22.760938
+              ],
+              [
+                82.848437,
+                22.760938
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 83,
+          "area_hectares": 0.17,
+          "pixel_count": 17,
+          "mean_confidence": 0.845,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0091",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848828,
+                22.764062
+              ],
+              [
+                82.848633,
+                22.763867
+              ],
+              [
+                82.848633,
+                22.763477
+              ],
+              [
+                82.848828,
+                22.763281
+              ],
+              [
+                82.849219,
+                22.763672
+              ],
+              [
+                82.848828,
+                22.764062
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 91,
+          "area_hectares": 0.12,
+          "pixel_count": 12,
+          "mean_confidence": 0.883,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0141",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848828,
+                22.795117
+              ],
+              [
+                82.848633,
+                22.794922
+              ],
+              [
+                82.849023,
+                22.794531
+              ],
+              [
+                82.849414,
+                22.794531
+              ],
+              [
+                82.849414,
+                22.794727
+              ],
+              [
+                82.849219,
+                22.794922
+              ],
+              [
+                82.849023,
+                22.794922
+              ],
+              [
+                82.848828,
+                22.795117
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 141,
+          "area_hectares": 0.12,
+          "pixel_count": 12,
+          "mean_confidence": 0.873,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0144",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848437,
+                22.796875
+              ],
+              [
+                82.848437,
+                22.796484
+              ],
+              [
+                82.848633,
+                22.796289
+              ],
+              [
+                82.849219,
+                22.796289
+              ],
+              [
+                82.849219,
+                22.796484
+              ],
+              [
+                82.849023,
+                22.796484
+              ],
+              [
+                82.848633,
+                22.796875
+              ],
+              [
+                82.848437,
+                22.796875
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 144,
+          "area_hectares": 0.14,
+          "pixel_count": 14,
+          "mean_confidence": 0.924,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0153",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848828,
+                22.801562
+              ],
+              [
+                82.848437,
+                22.801172
+              ],
+              [
+                82.848633,
+                22.801172
+              ],
+              [
+                82.848828,
+                22.800977
+              ],
+              [
+                82.849023,
+                22.800977
+              ],
+              [
+                82.849219,
+                22.801172
+              ],
+              [
+                82.848828,
+                22.801562
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 153,
+          "area_hectares": 0.11,
+          "pixel_count": 11,
+          "mean_confidence": 0.813,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0156",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848828,
+                22.80293
+              ],
+              [
+                82.848633,
+                22.802734
+              ],
+              [
+                82.848633,
+                22.802539
+              ],
+              [
+                82.848828,
+                22.802344
+              ],
+              [
+                82.849219,
+                22.802344
+              ],
+              [
+                82.849414,
+                22.802539
+              ],
+              [
+                82.849414,
+                22.802734
+              ],
+              [
+                82.849219,
+                22.80293
+              ],
+              [
+                82.848828,
+                22.80293
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 156,
+          "area_hectares": 0.16,
+          "pixel_count": 16,
+          "mean_confidence": 0.877,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0163",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848828,
+                22.80625
+              ],
+              [
+                82.848633,
+                22.806055
+              ],
+              [
+                82.848633,
+                22.805859
+              ],
+              [
+                82.848828,
+                22.805664
+              ],
+              [
+                82.848828,
+                22.805469
+              ],
+              [
+                82.849023,
+                22.805469
+              ],
+              [
+                82.849414,
+                22.805859
+              ],
+              [
+                82.849219,
+                22.806055
+              ],
+              [
+                82.849023,
+                22.806055
+              ],
+              [
+                82.848828,
+                22.80625
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 163,
+          "area_hectares": 0.15,
+          "pixel_count": 15,
+          "mean_confidence": 0.89,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0180",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848437,
+                22.820117
+              ],
+              [
+                82.848437,
+                22.819922
+              ],
+              [
+                82.848633,
+                22.819727
+              ],
+              [
+                82.848633,
+                22.819531
+              ],
+              [
+                82.849023,
+                22.819531
+              ],
+              [
+                82.849219,
+                22.819727
+              ],
+              [
+                82.849219,
+                22.819922
+              ],
+              [
+                82.849023,
+                22.820117
+              ],
+              [
+                82.848437,
+                22.820117
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 180,
+          "area_hectares": 0.16,
+          "pixel_count": 16,
+          "mean_confidence": 0.877,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0183",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848828,
+                22.821875
+              ],
+              [
+                82.848633,
+                22.82168
+              ],
+              [
+                82.848437,
+                22.82168
+              ],
+              [
+                82.848437,
+                22.821484
+              ],
+              [
+                82.848828,
+                22.821094
+              ],
+              [
+                82.849219,
+                22.821094
+              ],
+              [
+                82.849414,
+                22.821289
+              ],
+              [
+                82.849414,
+                22.821484
+              ],
+              [
+                82.849219,
+                22.821484
+              ],
+              [
+                82.848828,
+                22.821875
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 183,
+          "area_hectares": 0.19,
+          "pixel_count": 19,
+          "mean_confidence": 0.881,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0187",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848828,
+                22.826367
+              ],
+              [
+                82.848633,
+                22.826172
+              ],
+              [
+                82.849023,
+                22.825781
+              ],
+              [
+                82.849219,
+                22.825781
+              ],
+              [
+                82.849219,
+                22.826172
+              ],
+              [
+                82.849023,
+                22.826367
+              ],
+              [
+                82.848828,
+                22.826367
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 187,
+          "area_hectares": 0.11,
+          "pixel_count": 11,
+          "mean_confidence": 0.843,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0193",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848633,
+                22.829688
+              ],
+              [
+                82.848633,
+                22.829297
+              ],
+              [
+                82.848828,
+                22.829102
+              ],
+              [
+                82.849023,
+                22.829102
+              ],
+              [
+                82.849219,
+                22.828906
+              ],
+              [
+                82.849609,
+                22.828906
+              ],
+              [
+                82.849414,
+                22.829102
+              ],
+              [
+                82.849609,
+                22.829297
+              ],
+              [
+                82.849414,
+                22.829297
+              ],
+              [
+                82.849023,
+                22.829688
+              ],
+              [
+                82.848633,
+                22.829688
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 193,
+          "area_hectares": 0.2,
+          "pixel_count": 20,
+          "mean_confidence": 0.886,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0199",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848633,
+                22.835742
+              ],
+              [
+                82.848633,
+                22.835547
+              ],
+              [
+                82.848828,
+                22.835352
+              ],
+              [
+                82.849219,
+                22.835352
+              ],
+              [
+                82.849414,
+                22.835547
+              ],
+              [
+                82.849219,
+                22.835742
+              ],
+              [
+                82.848633,
+                22.835742
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 199,
+          "area_hectares": 0.12,
+          "pixel_count": 12,
+          "mean_confidence": 0.824,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0217",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848828,
+                22.845117
+              ],
+              [
+                82.848633,
+                22.844922
+              ],
+              [
+                82.848633,
+                22.844531
+              ],
+              [
+                82.849219,
+                22.844531
+              ],
+              [
+                82.849219,
+                22.844922
+              ],
+              [
+                82.849023,
+                22.844922
+              ],
+              [
+                82.848828,
+                22.845117
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 217,
+          "area_hectares": 0.13,
+          "pixel_count": 13,
+          "mean_confidence": 0.866,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      },
+      {
+        "type": "Feature",
+        "id": "loss_poly_0218",
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                82.848633,
+                22.84668
+              ],
+              [
+                82.849023,
+                22.84668
+              ],
+              [
+                82.849219,
+                22.846484
+              ],
+              [
+                82.849219,
+                22.846289
+              ],
+              [
+                82.849414,
+                22.846094
+              ],
+              [
+                82.848828,
+                22.846094
+              ],
+              [
+                82.848828,
+                22.846289
+              ],
+              [
+                82.848633,
+                22.846484
+              ],
+              [
+                82.848633,
+                22.84668
+              ]
+            ]
+          ]
+        },
+        "properties": {
+          "polygon_id": 218,
+          "area_hectares": 0.15,
+          "pixel_count": 15,
+          "mean_confidence": 0.885,
+          "loss_status": "Deforestation / Canopy Removal",
+          "severity": "High"
+        }
+      }
+    ]
+  },
+  "multi_seed_evaluation_10_seeds": {
+    "random_seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "primary_test_region": {
+      "spectral_differencing_nbr": {
+        "name": "Spectral Differencing (Delta-NBR)",
+        "f1": {
+          "mean": 0.1654,
+          "std": 0.015457109115944747,
+          "ci_95": [
+            0.15581958451376512,
+            0.17498041548623486
+          ],
+          "ci_95_margin": 0.009580415486234867
+        },
+        "iou": {
+          "mean": 0.09022,
+          "std": 0.009230601280523386,
+          "ci_95": [
+            0.08449881405301313,
+            0.09594118594698686
+          ],
+          "ci_95_margin": 0.005721185946986864
+        },
+        "precision": {
+          "mean": 0.1092,
+          "std": 0.012971592894560877,
+          "ci_95": [
+            0.10116012342825534,
+            0.11723987657174467
+          ],
+          "ci_95_margin": 0.008039876571744674
+        },
+        "recall": {
+          "mean": 0.34303999999999996,
+          "std": 0.008139642361785795,
+          "ci_95": [
+            0.3379949973963226,
+            0.3480850026036773
+          ],
+          "ci_95_margin": 0.005045002603677339
+        }
+      },
+      "spectral_differencing_ndvi": {
+        "name": "Spectral Differencing (Delta-NDVI)",
+        "f1": {
+          "mean": 0.17153000000000002,
+          "std": 0.00808593428945186,
+          "ci_95": [
+            0.16651828600443588,
+            0.17654171399556415
+          ],
+          "ci_95_margin": 0.005011713995564126
+        },
+        "iou": {
+          "mean": 0.09383999999999999,
+          "std": 0.004853223441979339,
+          "ci_95": [
+            0.09083194094620615,
+            0.09684805905379383
+          ],
+          "ci_95_margin": 0.003008059053793843
+        },
+        "precision": {
+          "mean": 0.12109999999999999,
+          "std": 0.006693446214187595,
+          "ci_95": [
+            0.11695135905519784,
+            0.12524864094480215
+          ],
+          "ci_95_margin": 0.004148640944802153
+        },
+        "recall": {
+          "mean": 0.29415,
+          "std": 0.01000136101849255,
+          "ci_95": [
+            0.2879510922180687,
+            0.30034890778193135
+          ],
+          "ci_95_margin": 0.00619890778193134
+        }
+      },
+      "torres_unet_early_concat_s2": {
+        "name": "Torres et al. (2021) Early-Concat U-Net",
+        "f1": {
+          "mean": 0.02017,
+          "std": 0.0008882567196480972,
+          "ci_95": [
+            0.019619452781316625,
+            0.020720547218683376
+          ],
+          "ci_95_margin": 0.0005505472186833744
+        },
+        "iou": {
+          "mean": 0.010190000000000001,
+          "std": 0.0004581363212940981,
+          "ci_95": [
+            0.009906044166188552,
+            0.01047395583381145
+          ],
+          "ci_95_margin": 0.00028395583381144964
+        },
+        "precision": {
+          "mean": 0.010190000000000001,
+          "std": 0.0004581363212940981,
+          "ci_95": [
+            0.009906044166188552,
+            0.01047395583381145
+          ],
+          "ci_95_margin": 0.00028395583381144964
+        },
+        "recall": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95": [
+            1.0,
+            1.0
+          ],
+          "ci_95_margin": 0.0
+        }
+      },
+      "siamese_unet_multimodal_s1_s2": {
+        "name": "Multimodal Siamese U-Net (S1+S2 Fused)",
+        "f1": {
+          "mean": 0.35864915086784305,
+          "std": 0.016273024303787333,
+          "ci_95": [
+            0.3485630259088713,
+            0.3687352758268148
+          ],
+          "ci_95_margin": 0.01008612495897178
+        },
+        "iou": {
+          "mean": 0.21861702801336508,
+          "std": 0.012161157328155979,
+          "ci_95": [
+            0.21107946460980342,
+            0.22615459141692673
+          ],
+          "ci_95_margin": 0.007537563403561642
+        },
+        "precision": {
+          "mean": 0.2624289191284731,
+          "std": 0.01913148864189765,
+          "ci_95": [
+            0.25057109961741764,
+            0.27428673863952857
+          ],
+          "ci_95_margin": 0.011857819511055454
+        },
+        "recall": {
+          "mean": 0.5702995559747516,
+          "std": 0.03178943744220555,
+          "ci_95": [
+            0.5505962585156015,
+            0.5900028534339017
+          ],
+          "ci_95_margin": 0.019703297459150136
+        }
+      }
+    },
+    "cloudy_scene_test_subset": {
+      "spectral_differencing_nbr": {
+        "name": "Spectral Differencing (Delta-NBR)",
+        "f1": {
+          "mean": 0.12707000000000002,
+          "std": 0.01004236028033251,
+          "ci_95": [
+            0.1208456806123079,
+            0.13329431938769215
+          ],
+          "ci_95_margin": 0.006224319387692121
+        },
+        "iou": {
+          "mean": 0.06786,
+          "std": 0.005721538254700393,
+          "ci_95": [
+            0.06431375384949099,
+            0.07140624615050901
+          ],
+          "ci_95_margin": 0.003546246150509015
+        },
+        "precision": {
+          "mean": 0.11905000000000002,
+          "std": 0.015531491307090323,
+          "ci_95": [
+            0.10942348195405584,
+            0.12867651804594418
+          ],
+          "ci_95_margin": 0.009626518045944176
+        },
+        "recall": {
+          "mean": 0.13709000000000002,
+          "std": 0.004542013748205624,
+          "ci_95": [
+            0.13427483071280688,
+            0.13990516928719315
+          ],
+          "ci_95_margin": 0.0028151692871931453
+        }
+      },
+      "spectral_differencing_ndvi": {
+        "name": "Spectral Differencing (Delta-NDVI)",
+        "f1": {
+          "mean": 0.02472,
+          "std": 0.0012514880032274466,
+          "ci_95": [
+            0.023944319699303322,
+            0.025495680300696676
+          ],
+          "ci_95_margin": 0.0007756803006966777
+        },
+        "iou": {
+          "mean": 0.0125,
+          "std": 0.0006271629240742261,
+          "ci_95": [
+            0.012111280392399183,
+            0.012888719607600818
+          ],
+          "ci_95_margin": 0.0003887196076008173
+        },
+        "precision": {
+          "mean": 0.012570000000000001,
+          "std": 0.0006549809157525126,
+          "ci_95": [
+            0.012164038622526725,
+            0.012975961377473278
+          ],
+          "ci_95_margin": 0.00040596137747327636
+        },
+        "recall": {
+          "mean": 0.69176,
+          "std": 0.007238815127107774,
+          "ci_95": [
+            0.6872733359009419,
+            0.6962466640990582
+          ],
+          "ci_95_margin": 0.0044866640990582005
+        }
+      },
+      "torres_unet_early_concat_s2": {
+        "name": "Torres et al. (2021) Early-Concat U-Net",
+        "f1": {
+          "mean": 0.02017,
+          "std": 0.0008882567196480972,
+          "ci_95": [
+            0.019619452781316625,
+            0.020720547218683376
+          ],
+          "ci_95_margin": 0.0005505472186833744
+        },
+        "iou": {
+          "mean": 0.010190000000000001,
+          "std": 0.0004581363212940981,
+          "ci_95": [
+            0.009906044166188552,
+            0.01047395583381145
+          ],
+          "ci_95_margin": 0.00028395583381144964
+        },
+        "precision": {
+          "mean": 0.010190000000000001,
+          "std": 0.0004581363212940981,
+          "ci_95": [
+            0.009906044166188552,
+            0.01047395583381145
+          ],
+          "ci_95_margin": 0.00028395583381144964
+        },
+        "recall": {
+          "mean": 1.0,
+          "std": 0.0,
+          "ci_95": [
+            1.0,
+            1.0
+          ],
+          "ci_95_margin": 0.0
+        }
+      },
+      "siamese_unet_multimodal_s1_s2": {
+        "name": "Multimodal Siamese U-Net (S1+S2 Fused)",
+        "f1": {
+          "mean": 0.0206435373630316,
+          "std": 0.0010886375842546249,
+          "ci_95": [
+            0.01996879279774082,
+            0.021318281928322382
+          ],
+          "ci_95_margin": 0.000674744565290782
+        },
+        "iou": {
+          "mean": 0.01042969389173384,
+          "std": 0.0005558884947067234,
+          "ci_95": [
+            0.010085150633136123,
+            0.010774237150331557
+          ],
+          "ci_95_margin": 0.00034454325859771713
+        },
+        "precision": {
+          "mean": 0.010440476400827809,
+          "std": 0.0005558408996910902,
+          "ci_95": [
+            0.010095962641926408,
+            0.01078499015972921
+          ],
+          "ci_95_margin": 0.0003445137589014014
+        },
+        "recall": {
+          "mean": 0.909348356411949,
+          "std": 0.009558423926062576,
+          "ci_95": [
+            0.9034239838841789,
+            0.9152727289397191
+          ],
+          "ci_95_margin": 0.005924372527770096
+        }
+      }
+    }
+  },
+  "visual_overlays": {
+    "status": "stored_separately",
+    "url": "/forest_overlays.json",
+    "api_endpoint": "/api/v1/forest/overlays",
+    "description": "Base64 raster overlays moved to separate on-demand file."
+  }
+}

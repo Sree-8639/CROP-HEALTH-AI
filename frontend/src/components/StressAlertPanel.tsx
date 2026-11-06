@@ -41,7 +41,7 @@ export default function StressAlertPanel({
           <div className="flex items-center gap-2">
             <span className="text-xl">⚠️</span>
             <h3 className="text-base font-bold text-white tracking-tight">
-              Early Stress Intelligence
+              Vigour Anomaly Intelligence
             </h3>
           </div>
           <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">
@@ -82,7 +82,7 @@ export default function StressAlertPanel({
           <span className="text-xl">🛰️</span>
           <div>
             <h3 className="text-base font-bold text-white tracking-tight">
-              Early Stress Intelligence
+              Vigour Anomaly Intelligence
             </h3>
             <p className="text-xs text-slate-400">
               Machine learning anomaly detection across combined optical and SAR feature layers.

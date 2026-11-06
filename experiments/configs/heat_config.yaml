@@ -1,0 +1,55 @@
+# experiments/configs/heat_config.yaml
+# Configuration for Urban Heat Island & Thermal Downscaling Experiments
+module: "heat"
+random_seed: 42
+
+aoi:
+  name: "Visakhapatnam"
+  state: "Andhra Pradesh, India"
+  bbox: [83.15, 17.62, 83.35, 17.80]
+  center: [17.6868, 83.2185]
+  typology: "Coastal Industrial Port City with Forested Hill Ridges"
+  land_hectares: 5184.0
+
+sensors:
+  landsat:
+    thermal_band: "ST_B10"
+    collection: "Landsat 8/9 Collection 2 Level-2"
+    native_resolution_m: 30.0
+    scale_factor: 0.00341802
+    add_offset: 149.0
+    kelvin_to_celsius: 273.15
+  sentinel2:
+    resolution_m: 10.0
+    predictors:
+      - "NDVI"
+      - "NDBI"
+      - "MNDWI"
+      - "Albedo"
+
+downscaling:
+  method: "Yao et al. 2020 Random Forest with Energy-Conserving Residual Preservation"
+  spatial_split_ratio: 0.70  # 70% North/West train, 30% South-East held-out test
+  rf_n_estimators: 60
+  rf_max_depth: 10
+
+uhi_hotspot_scoring:
+  canopy_deficit_threshold: 0.45
+  built_factor_offset: 0.20
+  score_weight_thermal: 0.70
+  score_weight_built_canopy: 0.30
+
+tree_planting_program:
+  program_name: "Greater Visakhapatnam Municipal Corporation (GVMC) Urban Forest Action Plan"
+  target_parcels: 9
+  min_patch_pixels: 12
+  tppi_threshold: 0.65
+
+outputs:
+  json_metrics: "results/heat_metrics.json"
+  table_csv: "paper_assets/tables/table3_heat_metrics.csv"
+  table_md: "paper_assets/tables/table3_heat_metrics.md"
+  table_tex: "paper_assets/tables/table3_heat_metrics.tex"
+  figure_png: "paper_assets/figures/fig3_urban_heat_downscaling.png"
+  comparisons_png: "paper_assets/figures/fig4_model_comparisons.png"
+

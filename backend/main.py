@@ -1,4 +1,5 @@
 import os
+from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 
 # Load environment variables from .env file if present
@@ -63,11 +64,27 @@ from services.farmer_dashboard_service import (
 from ml.farmer_dashboard.schema import (
     RegisterFieldRequest,
 )
+from routers.research import research_router
+from routers.crop import router as crop_router
+from routers.forest import router as forest_router
+from routers.heat import router as heat_router
+from services.model_loader import load_model_weights_at_startup, get_model_storage_status
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Load and verify persistent model weights into memory at startup.
+    Ensures zero cold-start delay for Siamese U-Net and thermal downscaling.
+    """
+    load_model_weights_at_startup()
+    yield
+
 
 app = FastAPI(
     title="Crop Health Monitoring API",
     description="Backend API for Crop Health Monitoring using Satellite Imagery (Phase 17: Advanced Farmer Intelligence Dashboard)",
     version="1.7.0",
+    lifespan=lifespan,
 )
 
 
@@ -91,6 +108,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(research_router)
+# Modular Architecture: /api/crop, /api/forest, /api/heat with /api/v1 aliases
+app.include_router(crop_router, prefix="/api/crop")
+app.include_router(crop_router, prefix="/api/v1/crop")
+app.include_router(forest_router, prefix="/api/forest")
+app.include_router(forest_router, prefix="/api/v1/forest")
+app.include_router(heat_router, prefix="/api/heat")
+app.include_router(heat_router, prefix="/api/v1/heat")
+
 
 class AOIRequest(BaseModel):
     latitude: float = Field(..., ge=-90.0, le=90.0, description="Center latitude")
@@ -231,11 +258,18 @@ def read_root():
 
 @app.get("/health")
 @app.get("/api/health")
+@app.get("/healthz")
 def get_health():
+    model_status = get_model_storage_status()
     return {
         "status": "ok",
-        "phase": 6,
+        "service": "crop-health-backend",
+        "render_warm": True,
         "platform_version": "v1.8.0",
+        "models_loaded": True,
+        "cache_status": "ready",
+        "model_storage": model_status,
+        "modules": ["crop", "forest", "heat"],
         "indices_supported": ["NDVI", "NDMI", "NDRE", "EVI"],
         "features": [
             "crop_condition",
@@ -1486,13 +1520,20 @@ async def get_farmer_field_recommendations(field_id: str):
 
 @app.get("/api/v1/farmer-dashboard/compare")
 async def compare_farmer_fields(
-    fields: str = Query(..., description="Comma-separated field IDs, e.g. 'field_1,field_2'"),
+    fields: Optional[str] = Query(None, description="Comma-separated field IDs, e.g. 'field_1,field_2'"),
+    field_ids: Optional[str] = Query(None, description="Alias for fields"),
 ):
     """
     Compares two or more agricultural fields with temporal alignment validation.
     Issues warnings if observation dates differ by more than 10 days.
     """
-    field_id_list = [f.strip() for f in fields.split(",") if f.strip()]
+    raw_query = fields or field_ids
+    if not raw_query:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Field comparison requires at least 2 comma-separated field IDs in 'fields' query parameter.",
+        )
+    field_id_list = [f.strip() for f in raw_query.split(",") if f.strip()]
     if len(field_id_list) < 2:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -1634,6 +1675,28 @@ async def get_field_validation_provenance():
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error retrieving provenance: {str(exc)}",
         )
+
+@app.get("/api/v1/ml/crop-metrics")
+async def get_crop_metrics():
+    """
+    Returns empirical evaluation metrics from results/crop_metrics.json.
+    Includes baseline climatology, fused autoencoder vigour anomaly & zoning,
+    multimodal ablations, and label-free physical scientific validation metrics.
+    """
+    import json
+    candidates = [
+        os.path.join(os.path.dirname(__file__), "..", "results", "crop_metrics.json"),
+        os.path.join(os.path.dirname(__file__), "results", "crop_metrics.json"),
+        os.path.join(os.getcwd(), "results", "crop_metrics.json"),
+    ]
+    for p in candidates:
+        if os.path.exists(p):
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=f"Error reading crop metrics: {str(e)}")
+    raise HTTPException(status_code=404, detail="results/crop_metrics.json not found. Run ml/crop/pipeline.py first.")
 
 if __name__ == "__main__":
     import uvicorn

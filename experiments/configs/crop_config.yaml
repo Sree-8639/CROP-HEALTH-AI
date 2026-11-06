@@ -1,0 +1,53 @@
+# experiments/configs/crop_config.yaml
+# Configuration for Crop Vigour Anomaly & Multimodal Fusion Experiments
+module: "crop"
+random_seed: 42
+
+aoi:
+  name: "Tadepalligudem"
+  state: "Andhra Pradesh, India"
+  lat: 16.8143
+  lon: 81.5269
+  grid_shape: [64, 64]
+  pixel_resolution_meters: 10.0
+
+time_series:
+  start_date: "2023-01-01"
+  end_date: "2024-03-31"
+  step_days: 5
+  channels:
+    - "NDVI"
+    - "NDMI"
+    - "NDRE"
+    - "VV_dB"
+    - "VH_dB"
+    - "VV_VH_diff_dB"
+
+models:
+  climatology_baseline:
+    historical_baseline_years: 5
+    z_score_threshold: -1.5
+  fused_autoencoder:
+    latent_dim: 16
+    hidden_dims: [64, 32]
+    learning_rate: 0.001
+    epochs: 25
+    batch_size: 64
+    k_vigour_zones: 4
+
+case_study:
+  start_date: "2024-01-01"
+  end_date: "2024-02-29"
+
+outputs:
+  json_metrics: "results/crop_metrics.json"
+  table_csv: "paper_assets/tables/table1_crop_metrics.csv"
+  table_md: "paper_assets/tables/table1_crop_metrics.md"
+  table_tex: "paper_assets/tables/table1_crop_metrics.tex"
+  table_cm_csv: "paper_assets/tables/table1b_crop_confusion_matrix.csv"
+  ablation_csv: "paper_assets/tables/table4_ablation_summary.csv"
+  ablation_md: "paper_assets/tables/table4_ablation_summary.md"
+  ablation_tex: "paper_assets/tables/table4_ablation_summary.tex"
+  figure_png: "paper_assets/figures/fig1_crop_vigour_anomaly.png"
+  figure_cm_png: "paper_assets/figures/fig1b_crop_confusion_matrix.png"
+

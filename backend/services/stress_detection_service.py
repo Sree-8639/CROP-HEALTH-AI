@@ -490,7 +490,7 @@ class StressDetectionService:
         - Evaluates pixels where `quality_mask > 0`.
         - Generates RGBA colormapped PNG overlay:
             🟩 Green: Nominal Canopy (Low stress)
-            🟨 Amber: Potential Early Stress
+            🟨 Amber: Potential Vigour Anomaly
             🟥 Crimson: Elevated Stress
             ⬛ Transparent / MASK_INVALID: Unassessed / NoData
         """
@@ -619,7 +619,7 @@ class StressDetectionService:
             },
             "legend": {
                 "nominal": {"label": "Nominal / Low Stress", "color": "#22c55e", "code": 0},
-                "potential_stress": {"label": "Potential Early Stress", "color": "#f59e0b", "code": 1},
+                "potential_stress": {"label": "Potential Vigour Anomaly", "color": "#f59e0b", "code": 1},
                 "elevated_stress": {"label": "Elevated Potential Stress", "color": "#e11d48", "code": 2},
                 "unassessed": {"label": "Unassessed / Obscured / NoData", "color": "#64748b", "code": -1},
             },

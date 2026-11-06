@@ -234,11 +234,13 @@ export default function HistoryPage() {
       />
       {/* Ambient glassmorphic tint so the green fields are vibrant while all UI components remain clear */}
       <div className="fixed inset-0 bg-gradient-to-b from-black/45 via-slate-950/60 to-black/75 pointer-events-none -z-10 backdrop-blur-[1px]" />
-      {/* Global Demo Indicator */}
-      <GlobalDemoIndicator
-        isDemo={historyData?.is_demo ?? true}
-        provenance="Multi-temporal Sentinel-1 SAR & Sentinel-2 Optical Observations"
-      />
+      {/* Global Demo Indicator — visible strictly only in demo mode */}
+      {historyData?.is_demo && (
+        <GlobalDemoIndicator
+          isDemo={true}
+          provenance="Multi-temporal Sentinel-1 SAR & Sentinel-2 Optical Observations"
+        />
+      )}
       {/* Navigation Header */}
       <header className="bg-[#244324]/95 border-b border-emerald-800/40 backdrop-blur-md sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">

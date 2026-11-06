@@ -1,0 +1,174 @@
+{
+  "evaluation_timestamp": "2026-11-05T23:42:17.668108+00:00",
+  "target_variable": "Future Satellite-Observed NDVI (t+h)",
+  "task_type": "Satellite Vegetation-Index Time-Series Regression",
+  "dataset_info": {
+    "total_samples": 21,
+    "unique_fields": 3,
+    "temporal_span": {
+      "start_date": "2024-01-01",
+      "end_date": "2026-06-10"
+    }
+  },
+  "models_evaluated": {
+    "baselines": [
+      "LastObservation_Persistence",
+      "MovingAverage_2Step",
+      "LinearTrend_Damped"
+    ],
+    "ml_model": "HistGradientBoosting_NDVI_Forecaster"
+  },
+  "baseline_metrics": {
+    "LastObservation_Persistence": {
+      "metrics": {
+        "sample_count": 6,
+        "mae": 0.0517,
+        "rmse": 0.0531,
+        "r2": -6.2177,
+        "mean_bias": 0.0517,
+        "mape_pct": 11.25
+      },
+      "confidence_intervals": {
+        "mae_ci": [
+          0.0517,
+          0.0517
+        ],
+        "rmse_ci": [
+          0.0531,
+          0.0531
+        ],
+        "r2_ci": [
+          -6.2177,
+          -6.2177
+        ],
+        "bootstrap_resamples": 500
+      }
+    },
+    "MovingAverage_2Step": {
+      "metrics": {
+        "sample_count": 6,
+        "mae": 0.0859,
+        "rmse": 0.0871,
+        "r2": -18.456,
+        "mean_bias": 0.0859,
+        "mape_pct": 18.76
+      }
+    },
+    "LinearTrend_Damped": {
+      "metrics": {
+        "sample_count": 6,
+        "mae": 0.0088,
+        "rmse": 0.0118,
+        "r2": 0.6435,
+        "mean_bias": -0.0088,
+        "mape_pct": 2.02
+      }
+    }
+  },
+  "ml_model_metrics": {
+    "model_name": "HistGradientBoosting_NDVI_Forecaster",
+    "model_version": "v1.0.0-research",
+    "metrics": {
+      "sample_count": 6,
+      "mae": 0.0863,
+      "rmse": 0.0891,
+      "r2": -19.3552,
+      "mean_bias": 0.0863,
+      "mape_pct": 19.19
+    },
+    "confidence_intervals": {
+      "mae_ci": [
+        0.0863,
+        0.0863
+      ],
+      "rmse_ci": [
+        0.0891,
+        0.0891
+      ],
+      "r2_ci": [
+        -19.3552,
+        -19.3552
+      ],
+      "bootstrap_resamples": 500
+    },
+    "feature_importances": {
+      "ndvi": 0.0,
+      "ndmi": 0.0,
+      "ndre": 0.0,
+      "evi": 0.0,
+      "b02": 0.0,
+      "b03": 0.0,
+      "b04": 0.0,
+      "b05": 0.0,
+      "b08": 0.0,
+      "b11": 0.0,
+      "sar_vv": 0.0,
+      "sar_vh": 0.0,
+      "sar_vv_vh_ratio": 0.0,
+      "prev_ndvi": 0.0,
+      "prev_ndmi": 0.0,
+      "delta_ndvi": 0.0,
+      "delta_ndmi": 0.0,
+      "rate_ndvi_per_day": 0.0,
+      "observation_interval_days": 0.0,
+      "history_observation_count": 0.0,
+      "valid_pixel_pct": 0.0,
+      "is_missing_sar": 0.0,
+      "is_missing_optical": 0.0,
+      "target_horizon_days": 0.0,
+      "cloud_coverage": -0.2072
+    },
+    "training_metadata": {
+      "model_name": "HistGradientBoosting_NDVI_Forecaster",
+      "model_version": "v1.0.0-research",
+      "model_type": "HistGradientBoostingRegressor",
+      "trained_at": "2026-11-05T23:42:15.886215+00:00",
+      "training_duration_seconds": 0.178,
+      "training_samples_count": 15,
+      "dataset_version": "v1.0.0",
+      "random_seed": 42,
+      "hyperparameters": {
+        "max_iter": 100,
+        "learning_rate": 0.08,
+        "min_samples_leaf": 3
+      },
+      "feature_schema": [
+        "ndvi",
+        "ndmi",
+        "ndre",
+        "evi",
+        "b02",
+        "b03",
+        "b04",
+        "b05",
+        "b08",
+        "b11",
+        "sar_vv",
+        "sar_vh",
+        "sar_vv_vh_ratio",
+        "prev_ndvi",
+        "prev_ndmi",
+        "delta_ndvi",
+        "delta_ndmi",
+        "rate_ndvi_per_day",
+        "observation_interval_days",
+        "history_observation_count",
+        "cloud_coverage",
+        "valid_pixel_pct",
+        "is_missing_sar",
+        "is_missing_optical",
+        "target_horizon_days"
+      ],
+      "notes": "Satellite NDVI time-series forecasting across Andhra Pradesh AOIs."
+    }
+  },
+  "comparison_against_persistence": {
+    "persistence_mae": 0.0517,
+    "ml_model_mae": 0.0863,
+    "delta_mae": 0.0346,
+    "percentage_improvement": -66.92,
+    "ml_outperformed_baseline": false
+  },
+  "scientific_recommendation": "Retain Persistence baseline. The machine learning model did not consistently outperform last observation on this validation partition.",
+  "scientific_caveat": "Predicting future NDVI validates satellite spectral-index forecasting. It does not independently establish crop biomass, official yield, disease etiology, or biological plant health."
+}

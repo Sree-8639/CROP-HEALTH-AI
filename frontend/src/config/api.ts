@@ -33,4 +33,11 @@ export const API_ROUTES = {
   FARMER_DASHBOARD_RECOMMENDATIONS: (fieldId: string) => `${API_BASE_URL}/api/v1/farmer-dashboard/field/${encodeURIComponent(fieldId)}/recommendations`,
   FARMER_DASHBOARD_COMPARE: `${API_BASE_URL}/api/v1/farmer-dashboard/compare`,
   FIELD_VALIDATION: `${API_BASE_URL}/api/v1/field-validation/observations`,
+  CROP_METRICS: `${API_BASE_URL}/api/v1/ml/crop-metrics`,
+  FOREST_METRICS: `${API_BASE_URL}/api/v1/forest/metrics`,
+  FOREST_INFERENCE: `${API_BASE_URL}/api/v1/forest/inference`,
+  FOREST_PRESETS: `${API_BASE_URL}/api/v1/forest/presets`,
+  HEAT_METRICS: `${API_BASE_URL}/api/v1/heat/metrics`,
+  HEAT_DOWNSCALE: `${API_BASE_URL}/api/v1/heat/downscale`,
+  HEAT_TREE_PRIORITIES: `${API_BASE_URL}/api/v1/heat/tree-planting-priorities`,
 };

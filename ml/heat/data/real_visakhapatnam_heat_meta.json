@@ -1,0 +1,82 @@
+{
+  "dataset_name": "Planetary Computer Landsat + Copernicus DEM + Sentinel-1/2 Heat Benchmark",
+  "aoi": "Visakhapatnam, Andhra Pradesh, India",
+  "bbox": [
+    83.15,
+    17.62,
+    83.35,
+    17.8
+  ],
+  "grid_shape_30m": [
+    256,
+    256
+  ],
+  "grid_shape_10m": [
+    768,
+    768
+  ],
+  "data_source": "REAL",
+  "is_simulated": false,
+  "landsat_dates_count": 6,
+  "landsat_dates": [
+    {
+      "scene_id": "LC09_L2SP_141048_20230106_02_T1",
+      "date": "2023-01-06",
+      "season": "Winter (Early)",
+      "npz_key": "lst_landsat_20230106",
+      "mean_lst_celsius": 28.95,
+      "cloud_cover": 5.0
+    },
+    {
+      "scene_id": "LC08_L2SP_141048_20230215_02_T1",
+      "date": "2023-02-15",
+      "season": "Late Winter",
+      "npz_key": "lst_landsat_20230215",
+      "mean_lst_celsius": 32.17,
+      "cloud_cover": 1.54
+    },
+    {
+      "scene_id": "LC09_L2SP_141048_20230412_02_T1",
+      "date": "2023-04-12",
+      "season": "Pre-Monsoon Spring",
+      "npz_key": "lst_landsat_20230412",
+      "mean_lst_celsius": 38.59,
+      "cloud_cover": 0.04
+    },
+    {
+      "scene_id": "LC08_L2SP_141048_20230522_02_T1",
+      "date": "2023-05-22",
+      "season": "Peak Summer",
+      "npz_key": "lst_landsat_20230522",
+      "mean_lst_celsius": 35.7,
+      "cloud_cover": 10.0
+    },
+    {
+      "scene_id": "LC09_L2SP_141048_20231005_02_T1",
+      "date": "2023-10-05",
+      "season": "Post-Monsoon",
+      "npz_key": "lst_landsat_20231005",
+      "mean_lst_celsius": 34.88,
+      "cloud_cover": 8.29
+    },
+    {
+      "scene_id": "LC09_L2SP_141048_20231224_02_T1",
+      "date": "2023-12-24",
+      "season": "Mid-Winter Peak",
+      "npz_key": "lst_landsat_20231224",
+      "mean_lst_celsius": 27.76,
+      "cloud_cover": 1.61
+    }
+  ],
+  "predictors_list": [
+    "NDVI (Canopy Vigor)",
+    "NDBI (Built-up Density)",
+    "MNDWI (Water / Moisture)",
+    "Broadband Albedo (Liang 2001)",
+    "Copernicus GLO-30 DEM Elevation (m)",
+    "Topographic Slope (deg)",
+    "Distance to Coast (km)",
+    "Sentinel-1 SAR Texture VV (dB std)",
+    "Sentinel-1 SAR Texture VH (dB std)"
+  ]
+}

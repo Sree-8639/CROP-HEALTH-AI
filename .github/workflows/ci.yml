@@ -1,0 +1,95 @@
+name: CI Suite (Lint, Tests, Scientific Audit)
+
+on:
+  push:
+    branches: [ "main", "master", "feat/*", "develop" ]
+  pull_request:
+    branches: [ "main", "master", "develop" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend-tests:
+    name: Backend Pytest Suite
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio httpx
+
+      - name: Run Backend Test Suite
+        env:
+          PYTHONPATH: ".:.."
+        run: |
+          python -m pytest tests/test_modular_architecture.py \
+                           tests/test_index_engine.py \
+                           tests/test_temporal_matching.py \
+                           tests/test_crop_ml_pipeline.py \
+                           tests/test_forest_monitoring.py \
+                           tests/test_heat_monitoring.py \
+                           --tb=short
+
+  frontend-build:
+    name: Frontend Lint & Production Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci || npm install
+
+      - name: TypeScript Static Typecheck
+        run: npx tsc --noEmit
+
+      - name: Next.js Production Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: "https://crop-health-monitor-api.onrender.com"
+          NEXT_PUBLIC_DEMO_MODE: "false"
+
+  scientific-audit:
+    name: Scientific Artifact & Zero-Untracked Numbers Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Audit Generated Tables, Figures, and JSON Metrics
+        run: |
+          python experiments/run_all.py --audit-only --allow-simulated
+

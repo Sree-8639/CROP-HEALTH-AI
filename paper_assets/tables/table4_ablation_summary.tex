@@ -1,0 +1,14 @@
+\begin{table}[htbp]
+\centering
+\caption{Ablation Analysis of Multimodal Satellite Inputs for Crop Anomaly Detection}
+\label{tab:crop_ablation}
+\begin{tabular}{llllllll}
+\hline
+\textbf{Configuration} & \textbf{Channels} & \textbf{Train Loss} & \textbf{Reconstruction Error (Mean)} & \textbf{Reconstruction Error (Median)} & \textbf{Latent Silhouette Score} & \textbf{Cloud Occlusion Loss Inflation} & \textbf{Vigour Anomaly Pixels (%)} \\
+\hline
+Sentinel-2 Optical (NDVI, NDMI, NDRE) & 10 & 0.0126 & 0.0126 & 0.0062 & 0.3650 & 3.42x & 55.10\% \\
+Sentinel-1 SAR (VV, VH, VV-VH dB) & 9 & 0.1279 & 0.1279 & 0.0902 & 0.3090 & 1.02x & 55.10\% \\
+Fused S1 (SAR) + S2 (Optical) & 19 & 0.1398 & 0.1398 & 0.0957 & 0.3960 & 1.14x & 55.10\% \\
+\hline
+\end{tabular}
+\end{table}

@@ -13,6 +13,10 @@ from services.copernicus_auth import (
     CopernicusAuthError,
     copernicus_auth,
 )
+from services.tile_cache import tile_cache
+from services.http_retry import request_with_retry
+from services.provenance import build_provenance_badge
+from services.ndvi_service import extract_scl_cloud_metrics
 
 class Sentinel2Error(Exception):
     """Base exception for Sentinel-2 service operations."""
@@ -122,28 +126,27 @@ class Sentinel2Service:
         }
 
         try:
-            async with httpx.AsyncClient(timeout=25.0) as client:
-                response = await client.post(catalog_url, json=payload, headers=headers)
+            response = await request_with_retry(
+                method="POST",
+                url=catalog_url,
+                headers=headers,
+                json_payload=payload,
+                timeout_seconds=30.0,
+                token_refresh_callback=lambda: self.auth.get_access_token(force_refresh=True),
+            )
 
-                if response.status_code == 401:
-                    # Token might have expired on server side; refresh once
-                    self.auth.clear_cached_token()
-                    token = await self.auth.get_access_token(force_refresh=True)
-                    headers["Authorization"] = f"Bearer {token}"
-                    response = await client.post(catalog_url, json=payload, headers=headers)
+            if response.status_code in (401, 403):
+                raise CopernicusAuthError("Authentication with Sentinel Hub failed. Verify credentials.")
 
-                if response.status_code in (401, 403):
-                    raise CopernicusAuthError("Authentication with Sentinel Hub failed. Verify credentials.")
+            if response.status_code == 429:
+                raise Sentinel2Error("Satellite service rate limit reached. Please wait a moment.")
 
-                if response.status_code == 429:
-                    raise Sentinel2Error("Satellite service rate limit reached. Please wait a moment.")
+            if response.status_code >= 400:
+                raise Sentinel2Error(
+                    f"Satellite catalog search failed with status {response.status_code}."
+                )
 
-                if response.status_code >= 400:
-                    raise Sentinel2Error(
-                        f"Satellite catalog search failed with status {response.status_code}."
-                    )
-
-                data = response.json()
+            data = response.json()
 
         except httpx.TimeoutException:
             raise Sentinel2Error("Satellite catalog search timed out. Copernicus service may be busy.")
@@ -217,6 +220,8 @@ class Sentinel2Service:
 
         # First verify metadata / scene availability
         scene_info = await self.search_imagery(geometry, start_date, end_date, max_cloud_coverage)
+        from services.raster_utils import derive_pinned_timerange
+        pinned_timerange = derive_pinned_timerange(scene_info["acquisition_date"])
 
         token = await self.auth.get_access_token()
         # Copernicus Sentinel Hub Process API endpoint
@@ -252,10 +257,7 @@ function evaluatePixel(sample) {
                     {
                         "type": "sentinel-2-l2a",
                         "dataFilter": {
-                            "timeRange": {
-                                "from": f"{start_date}T00:00:00Z",
-                                "to": f"{end_date}T23:59:59Z",
-                            },
+                            "timeRange": pinned_timerange,
                             "maxCloudCoverage": max_cloud_coverage,
                         },
                     }
@@ -470,9 +472,20 @@ function evaluatePixel(sample) {
             )
             ndvi_map = generate_ndvi_colormap(ndvi, valid_mask=valid_mask, is_demo=True)
 
+            scl_metrics = extract_scl_cloud_metrics(scl)
+            demo_scene_id = f"S2A_MSIL2A_DEMO_{end_date.replace('-', '')}T052021_N0500_R019_T44QND"
+            provenance = build_provenance_badge(
+                is_demo=True,
+                sensor="Copernicus Sentinel-2 MSI Level-2A",
+                optical_date=f"{end_date}T05:20:21Z",
+                cloud_coverage_percentage=4.8,
+                valid_pixel_percentage=stats["valid_pixel_percentage"],
+                scene_id=demo_scene_id,
+            )
+
             return {
                 "status": "success",
-                "scene_id": f"S2A_MSIL2A_DEMO_{end_date.replace('-', '')}T052021_N0500_R019_T44QND",
+                "scene_id": demo_scene_id,
                 "acquisition_date": f"{end_date}T05:20:21Z",
                 "cloud_coverage": 4.8,
                 "data_source": "Copernicus Sentinel-2",
@@ -482,6 +495,7 @@ function evaluatePixel(sample) {
                 "statistics": stats,
                 "ndvi_map": ndvi_map,
                 "is_demo": True,
+                "provenance": provenance,
                 "date_range": {"start_date": start_date, "end_date": end_date},
             }
 
@@ -493,6 +507,8 @@ function evaluatePixel(sample) {
 
         # 1. Search for suitable Sentinel-2 scene
         scene_info = await self.search_imagery(geometry, start_date, end_date, max_cloud_coverage)
+        from services.raster_utils import derive_pinned_timerange
+        pinned_timerange = derive_pinned_timerange(scene_info["acquisition_date"])
 
         # 2. Query Sentinel Hub Process API for raw Float32 B04, B08, SCL, dataMask
         token = await self.auth.get_access_token()
@@ -530,10 +546,7 @@ function evaluatePixel(sample) {
                     {
                         "type": "sentinel-2-l2a",
                         "dataFilter": {
-                            "timeRange": {
-                                "from": f"{start_date}T00:00:00Z",
-                                "to": f"{end_date}T23:59:59Z",
-                            },
+                            "timeRange": pinned_timerange,
                             "maxCloudCoverage": max_cloud_coverage,
                         },
                     }
@@ -605,12 +618,21 @@ function evaluatePixel(sample) {
             ndvi, valid_mask=valid_mask, pixel_size_m=10.0, total_aoi_area_km2=aoi_area_km2
         )
         ndvi_map = generate_ndvi_colormap(ndvi, valid_mask=valid_mask, is_demo=False)
+        scl_metrics = extract_scl_cloud_metrics(scl)
+        provenance = build_provenance_badge(
+            is_demo=False,
+            sensor="Copernicus Sentinel-2 MSI Level-2A",
+            optical_date=scene_info.get("acquisition_date"),
+            cloud_coverage_percentage=scl_metrics.get("cloud_pct", scene_info.get("cloud_coverage", 0.0)),
+            valid_pixel_percentage=stats["valid_pixel_percentage"],
+            scene_id=scene_info.get("scene_id"),
+        )
 
         return {
             "status": "success",
             "scene_id": scene_info.get("scene_id", "S2-PROCESSED"),
             "acquisition_date": scene_info.get("acquisition_date", f"{end_date}T10:00:00Z"),
-            "cloud_coverage": scene_info.get("cloud_coverage", 0.0),
+            "cloud_coverage": scl_metrics.get("cloud_pct", scene_info.get("cloud_coverage", 0.0)),
             "data_source": "Copernicus Sentinel-2",
             "processing_level": "Level-2A",
             "bands_used": ["B04 (Red)", "B08 (NIR)"],
@@ -618,6 +640,7 @@ function evaluatePixel(sample) {
             "statistics": stats,
             "ndvi_map": ndvi_map,
             "is_demo": False,
+            "provenance": provenance,
             "date_range": {"start_date": start_date, "end_date": end_date},
         }
 
@@ -660,6 +683,22 @@ function evaluatePixel(sample) {
 
         # 1. Search scene in catalog
         scene_info = await self.search_imagery(geometry, start_date, end_date, max_cloud_coverage)
+        from services.raster_utils import derive_pinned_timerange
+        pinned_timerange = derive_pinned_timerange(scene_info["acquisition_date"])
+
+        all_req_bands = list(dict.fromkeys(band_names + ["SCL", "dataMask"]))
+
+        # Check tile cache
+        cache_key = tile_cache.generate_cache_key(
+            "s2_l2a",
+            geometry,
+            scene_info["acquisition_date"],
+            {"bands": sorted(all_req_bands)}
+        )
+        cached_result = tile_cache.get(cache_key)
+        if cached_result is not None:
+            cached_bands, cached_meta = cached_result
+            return cached_meta, cached_bands
 
         # 2. Build Process API request
         token = await self.auth.get_access_token()
@@ -673,7 +712,6 @@ function evaluatePixel(sample) {
         }
 
         # Dynamically build evalscript for requested bands + SCL + dataMask
-        all_req_bands = list(dict.fromkeys(band_names + ["SCL", "dataMask"]))
         evalscript = f"""//VERSION=3
 function setup() {{
   return {{
@@ -697,10 +735,7 @@ function evaluatePixel(sample) {{
                     {
                         "type": "sentinel-2-l2a",
                         "dataFilter": {
-                            "timeRange": {
-                                "from": f"{start_date}T00:00:00Z",
-                                "to": f"{end_date}T23:59:59Z",
-                            },
+                            "timeRange": pinned_timerange,
                             "maxCloudCoverage": max_cloud_coverage,
                         },
                     }
@@ -715,22 +750,23 @@ function evaluatePixel(sample) {{
         }
 
         try:
-            async with httpx.AsyncClient(timeout=50.0) as client:
-                response = await client.post(process_url, json=payload, headers=headers)
-                if response.status_code == 401:
-                    self.auth.clear_cached_token()
-                    token = await self.auth.get_access_token(force_refresh=True)
-                    headers["Authorization"] = f"Bearer {token}"
-                    response = await client.post(process_url, json=payload, headers=headers)
+            response = await request_with_retry(
+                method="POST",
+                url=process_url,
+                headers=headers,
+                json_payload=payload,
+                timeout_seconds=50.0,
+                token_refresh_callback=lambda: self.auth.get_access_token(force_refresh=True),
+            )
 
-                if response.status_code in (401, 403):
-                    raise CopernicusAuthError("Satellite processing failed: Unauthorized access.")
-                if response.status_code == 429:
-                    raise Sentinel2Error("Satellite processing rate limit reached. Please wait a moment.")
-                if response.status_code >= 400:
-                    raise Sentinel2Error(f"Sentinel-2 multispectral API error ({response.status_code})")
+            if response.status_code in (401, 403):
+                raise CopernicusAuthError("Satellite processing failed: Unauthorized access.")
+            if response.status_code == 429:
+                raise Sentinel2Error("Satellite processing rate limit reached. Please wait a moment.")
+            if response.status_code >= 400:
+                raise Sentinel2Error(f"Sentinel-2 multispectral API error ({response.status_code}): {response.text[:200]}")
 
-                tiff_bytes = response.content
+            tiff_bytes = response.content
         except httpx.TimeoutException:
             raise Sentinel2Error("Multispectral query timed out. Sentinel Hub service may be congested.")
         except httpx.RequestError as exc:
@@ -749,6 +785,7 @@ function evaluatePixel(sample) {{
             raise Sentinel2Error(f"Unexpected TIFF dimensions from Process API: shape={raw_tiff.shape}")
 
         aligned = align_bands(band_dict, reference_band="B08")
+        tile_cache.put(cache_key, aligned, scene_info)
         return scene_info, aligned
 
     async def calculate_ndmi_for_aoi(
@@ -784,6 +821,15 @@ function evaluatePixel(sample) {{
             ndmi, valid_mask=valid_mask, pixel_size_m=10.0, total_aoi_area_km2=aoi_area_km2
         )
         ndmi_map = generate_ndmi_colormap(ndmi, valid_mask=valid_mask, is_demo=scene_info.get("is_demo", False))
+        scl_metrics = extract_scl_cloud_metrics(bands.get("SCL"))
+        provenance = build_provenance_badge(
+            is_demo=scene_info.get("is_demo", False),
+            sensor="Copernicus Sentinel-2 MSI Level-2A",
+            optical_date=scene_info.get("acquisition_date"),
+            cloud_coverage_percentage=scl_metrics.get("cloud_pct", scene_info.get("cloud_coverage", 0.0)),
+            valid_pixel_percentage=stats["valid_pixel_percentage"],
+            scene_id=scene_info.get("scene_id"),
+        )
 
         return {
             "status": "success",
@@ -791,7 +837,7 @@ function evaluatePixel(sample) {{
             "indicator_label": "Vegetation Moisture-Related Indicator",
             "scene_id": scene_info.get("scene_id", "S2-PROCESSED"),
             "acquisition_date": scene_info.get("acquisition_date", f"{end_date}T10:00:00Z"),
-            "cloud_coverage": scene_info.get("cloud_coverage", 0.0),
+            "cloud_coverage": scl_metrics.get("cloud_pct", scene_info.get("cloud_coverage", 0.0)),
             "data_source": "Copernicus Sentinel-2",
             "processing_level": "Level-2A",
             "bands_used": ["B08 (NIR)", "B11 (SWIR)"],
@@ -799,6 +845,7 @@ function evaluatePixel(sample) {{
             "statistics": stats,
             "ndmi_map": ndmi_map,
             "is_demo": scene_info.get("is_demo", False),
+            "provenance": provenance,
             "date_range": {"start_date": start_date, "end_date": end_date},
         }
 
@@ -835,6 +882,15 @@ function evaluatePixel(sample) {{
             ndre, valid_mask=valid_mask, pixel_size_m=10.0, total_aoi_area_km2=aoi_area_km2
         )
         ndre_map = generate_ndre_colormap(ndre, valid_mask=valid_mask, is_demo=scene_info.get("is_demo", False))
+        scl_metrics = extract_scl_cloud_metrics(bands.get("SCL"))
+        provenance = build_provenance_badge(
+            is_demo=scene_info.get("is_demo", False),
+            sensor="Copernicus Sentinel-2 MSI Level-2A",
+            optical_date=scene_info.get("acquisition_date"),
+            cloud_coverage_percentage=scl_metrics.get("cloud_pct", scene_info.get("cloud_coverage", 0.0)),
+            valid_pixel_percentage=stats["valid_pixel_percentage"],
+            scene_id=scene_info.get("scene_id"),
+        )
 
         return {
             "status": "success",
@@ -842,7 +898,7 @@ function evaluatePixel(sample) {{
             "indicator_label": "Red-Edge Vegetation Indicator",
             "scene_id": scene_info.get("scene_id", "S2-PROCESSED"),
             "acquisition_date": scene_info.get("acquisition_date", f"{end_date}T10:00:00Z"),
-            "cloud_coverage": scene_info.get("cloud_coverage", 0.0),
+            "cloud_coverage": scl_metrics.get("cloud_pct", scene_info.get("cloud_coverage", 0.0)),
             "data_source": "Copernicus Sentinel-2",
             "processing_level": "Level-2A",
             "bands_used": ["B08 (NIR)", "B05 (RedEdge)"],
@@ -850,6 +906,7 @@ function evaluatePixel(sample) {{
             "statistics": stats,
             "ndre_map": ndre_map,
             "is_demo": scene_info.get("is_demo", False),
+            "provenance": provenance,
             "date_range": {"start_date": start_date, "end_date": end_date},
         }
 
@@ -887,6 +944,15 @@ function evaluatePixel(sample) {{
             evi, valid_mask=valid_mask, pixel_size_m=10.0, total_aoi_area_km2=aoi_area_km2
         )
         evi_map = generate_evi_colormap(evi, valid_mask=valid_mask, is_demo=scene_info.get("is_demo", False))
+        scl_metrics = extract_scl_cloud_metrics(bands.get("SCL"))
+        provenance = build_provenance_badge(
+            is_demo=scene_info.get("is_demo", False),
+            sensor="Copernicus Sentinel-2 MSI Level-2A",
+            optical_date=scene_info.get("acquisition_date"),
+            cloud_coverage_percentage=scl_metrics.get("cloud_pct", scene_info.get("cloud_coverage", 0.0)),
+            valid_pixel_percentage=stats["valid_pixel_percentage"],
+            scene_id=scene_info.get("scene_id"),
+        )
 
         return {
             "status": "success",
@@ -894,7 +960,7 @@ function evaluatePixel(sample) {{
             "indicator_label": "Enhanced Vegetation Index",
             "scene_id": scene_info.get("scene_id", "S2-PROCESSED"),
             "acquisition_date": scene_info.get("acquisition_date", f"{end_date}T10:00:00Z"),
-            "cloud_coverage": scene_info.get("cloud_coverage", 0.0),
+            "cloud_coverage": scl_metrics.get("cloud_pct", scene_info.get("cloud_coverage", 0.0)),
             "data_source": "Copernicus Sentinel-2",
             "processing_level": "Level-2A",
             "bands_used": ["B02 (Blue)", "B04 (Red)", "B08 (NIR)"],
@@ -902,6 +968,7 @@ function evaluatePixel(sample) {{
             "statistics": stats,
             "evi_map": evi_map,
             "is_demo": scene_info.get("is_demo", False),
+            "provenance": provenance,
             "date_range": {"start_date": start_date, "end_date": end_date},
         }
 
@@ -980,12 +1047,23 @@ function evaluatePixel(sample) {{
         )
         evi_map = generate_evi_colormap(evi, valid_mask=valid_mask, is_demo=is_demo)
 
+        scl_metrics = extract_scl_cloud_metrics(bands.get("SCL"))
+        provenance = build_provenance_badge(
+            is_demo=is_demo,
+            sensor="Copernicus Sentinel-2 MSI Level-2A",
+            optical_date=scene_info.get("acquisition_date"),
+            cloud_coverage_percentage=scl_metrics.get("cloud_pct", scene_info.get("cloud_coverage", 0.0)),
+            valid_pixel_percentage=ndvi_stats["valid_pixel_percentage"],
+            scene_id=scene_info.get("scene_id"),
+        )
+
         return {
             "status": "success",
+            "provenance": provenance,
             "scene": {
                 "scene_id": scene_info.get("scene_id", "S2-PROCESSED"),
                 "acquisition_date": scene_info.get("acquisition_date", f"{end_date}T10:00:00Z"),
-                "cloud_coverage": scene_info.get("cloud_coverage", 0.0),
+                "cloud_coverage": scl_metrics.get("cloud_pct", scene_info.get("cloud_coverage", 0.0)),
                 "data_source": "Copernicus Sentinel-2",
                 "processing_level": "Level-2A",
                 "is_demo": is_demo,

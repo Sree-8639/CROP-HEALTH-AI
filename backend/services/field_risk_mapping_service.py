@@ -641,7 +641,7 @@ class FieldRiskMappingService:
             bounds=bounds,
             legend={
                 "nominal": {"label": "Nominal / Low Stress", "color": "#22c55e"},
-                "potential_stress": {"label": "Potential Early Stress", "color": "#f59e0b"},
+                "potential_stress": {"label": "Potential Vigour Anomaly", "color": "#f59e0b"},
                 "elevated_stress": {"label": "Elevated Potential Stress", "color": "#e11d48"},
             },
         )

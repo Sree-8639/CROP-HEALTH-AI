@@ -1,0 +1,15 @@
+\begin{table}[htbp]
+\centering
+\caption{Forest Canopy Disturbance Performance across Clear Scenes, Cloudy Scenes (SAR Evaluation), and Out-of-Region Hasdeo Arand PEKB Mining Block}
+\label{tab:forest_metrics}
+\begin{tabular}{llllllllll}
+\hline
+\textbf{Model Architecture} & \textbf{Clear Test F1} & \textbf{Clear Test IoU} & \textbf{Clear Precision} & \textbf{Clear Recall} & \textbf{Cloudy Test F1} & \textbf{Cloud F1 Retention (%)} & \textbf{Hasdeo Arand F1 (Out-of-Region)} & \textbf{Hasdeo Arand IoU} & \textbf{Notes / Reference} \\
+\hline
+Multimodal Siamese U-Net (S1+S2) & 0.4858 & 0.3208 & 0.4727 & 0.4996 & 0.0238 & 4.9 & 0.0 & 0.0 & Deep feature difference + SAR microwave fusion \\
+Torres et al. (2021) Early-Concat U-Net & 0.0204 & 0.0103 & 0.0103 & 0.9993 & 0.0204 & 100.0 & 0.0019 & 0.001 & Early optical channel concatenation (S2 only) \\
+Spectral Differencing (Delta-NBR) & 0.1708 & 0.0934 & 0.1135 & 0.3452 & 0.1288 & 75.4 & 0.0063 & 0.0032 & Normalized Burn Ratio threshold differencing \\
+Spectral Differencing (Delta-NDVI) & 0.1739 & 0.0952 & 0.1228 & 0.2978 & 0.025 & 14.4 & 0.0014 & 0.0007 & Normalized Difference Vegetation Index differencing \\
+\hline
+\end{tabular}
+\end{table}

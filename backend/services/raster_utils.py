@@ -1,6 +1,31 @@
+import datetime
 import numpy as np
 from PIL import Image
 from typing import Dict, Any, Tuple, Optional, Union, List
+
+def derive_pinned_timerange(acq_timestamp: str, window_minutes: int = 15) -> Dict[str, str]:
+    """
+    Pins the Process API timeRange tightly around the chosen scene's exact acquisition time.
+    Prevents Sentinel Hub from mosaicking adjacent or recent cloudy scenes across a broad query window.
+    
+    Args:
+        acq_timestamp: ISO-8601 acquisition timestamp (e.g. '2024-01-05T05:02:11.024Z')
+        window_minutes: Half-window width in minutes (default 15 minutes)
+    Returns:
+        dict with 'from' and 'to' UTC ISO strings
+    """
+    if not acq_timestamp:
+        raise ValueError("Cannot pin timeRange: acquisition timestamp is empty.")
+    try:
+        clean_str = acq_timestamp.replace("Z", "+00:00")
+        dt = datetime.datetime.fromisoformat(clean_str)
+        t_from = (dt - datetime.timedelta(minutes=window_minutes)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        t_to = (dt + datetime.timedelta(minutes=window_minutes)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        return {"from": t_from, "to": t_to}
+    except Exception:
+        # Fallback to single calendar day if hours/minutes cannot be parsed
+        day = acq_timestamp.split("T")[0]
+        return {"from": f"{day}T00:00:00Z", "to": f"{day}T23:59:59Z"}
 
 class RasterAlignmentError(ValueError):
     """Raised when raster bands cannot be properly aligned or resampled."""

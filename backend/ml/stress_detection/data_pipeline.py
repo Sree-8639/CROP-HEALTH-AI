@@ -328,7 +328,7 @@ def generate_synthetic_demo_dataset(
     EXPLICIT DEMO LABELING:
     This dataset reflects synthetic agricultural curves for 3 classes:
       0: Nominal
-      1: Potential Early Stress
+      1: Potential Vigour Anomaly
       2: Elevated Stress
     """
     rng = np.random.RandomState(random_state)
@@ -367,7 +367,7 @@ def generate_synthetic_demo_dataset(
             d_vv = float(rng.normal(0.2, 0.5))
             d_vh = float(rng.normal(0.3, 0.5))
 
-        elif cls == 1:  # Potential Early Stress (e.g., initial water strain: NDMI drops first)
+        elif cls == 1:  # Potential Vigour Anomaly (e.g., initial water strain: NDMI drops first)
             opt_ndvi = float(np.clip(rng.normal(0.60, 0.06), 0.45, 0.72))
             opt_ndmi = float(np.clip(rng.normal(0.08, 0.05), -0.05, 0.20))
             opt_ndre = float(np.clip(rng.normal(0.32, 0.05), 0.18, 0.42))

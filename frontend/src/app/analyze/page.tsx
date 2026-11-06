@@ -1372,11 +1372,13 @@ export default function AnalyzePage() {
       />
       {/* Ambient glassmorphic tint so the green fields are vibrant while all UI components remain clear */}
       <div className="fixed inset-0 bg-gradient-to-b from-black/45 via-slate-950/60 to-black/75 pointer-events-none -z-10 backdrop-blur-[1px]" />
-      {/* Global Demo Indicator */}
-      <GlobalDemoIndicator
-        isDemo={satelliteImage?.is_demo ?? true}
-        provenance={satelliteImage?.data_source ?? "Sentinel-2 MSI (Copernicus) & Sentinel-1 C-SAR (ESA)"}
-      />
+      {/* Global Demo Indicator — Rendered strictly only in demo mode */}
+      {satelliteImage?.is_demo && (
+        <GlobalDemoIndicator
+          isDemo={true}
+          provenance={satelliteImage?.data_source ?? "Sentinel-2 MSI (Copernicus) & Sentinel-1 C-SAR (ESA)"}
+        />
+      )}
       {/* Header */}
       <header className="bg-[#244324]/95 border-b border-emerald-800/40 backdrop-blur-md sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -1401,8 +1403,14 @@ export default function AnalyzePage() {
               <span>📈</span>
               <span>History</span>
             </Link>
-            <Link href="/model-performance" className="text-slate-400 hover:text-white transition hidden md:inline">
-              Architecture & Model Targets
+            <Link href="/crop" className="text-emerald-300 hover:text-white font-semibold transition hidden sm:inline">
+              🌱 Crop
+            </Link>
+            <Link href="/deforestation" className="text-teal-300 hover:text-white font-semibold transition hidden sm:inline">
+              🌲 Deforestation
+            </Link>
+            <Link href="/heat" className="text-amber-300 hover:text-white font-semibold transition hidden sm:inline">
+              🔥 Urban Heat
             </Link>
             <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border bg-slate-800/80 border-slate-700">
               <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
@@ -1424,7 +1432,7 @@ export default function AnalyzePage() {
             Agricultural Field Analysis
           </h1>
           <p className="text-slate-200 text-sm sm:text-base max-w-2xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] font-medium leading-relaxed">
-            Locate any farm worldwide, acquire Sentinel-1 SAR &amp; Sentinel-2 optical observations, and run real-time biophysical crop health analytics.
+            Locate any farm worldwide, acquire Sentinel-1 SAR &amp; Sentinel-2 optical observations, and run biophysical crop health analytics.
           </p>
         </div>
 
@@ -2056,12 +2064,12 @@ export default function AnalyzePage() {
               {stressLoading ? (
                 <>
                   <div className="w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
-                  <span>Inferring Stress...</span>
+                  <span>Inferring Vigour Anomaly...</span>
                 </>
               ) : (
                 <>
                   <span>⚡</span>
-                  <span>Early Stress AI</span>
+                  <span>Vigour Anomaly</span>
                 </>
               )}
             </button>
@@ -2175,7 +2183,7 @@ export default function AnalyzePage() {
             <div className="p-4 rounded-xl bg-rose-950/60 border border-rose-600/80 text-rose-200 text-sm flex items-start gap-3">
               <span>⚠️</span>
               <div>
-                <strong className="block font-semibold">Early Crop Stress Detection Notice</strong>
+                <strong className="block font-semibold">Vigour Anomaly Detection Notice</strong>
                 <p>{stressError}</p>
               </div>
             </div>
@@ -2874,14 +2882,14 @@ export default function AnalyzePage() {
                   Multimodal Pipeline Protocol & Machine Learning Boundary
                 </strong>
                 <p className="leading-relaxed">
-                  This pipeline completes the mathematical and geospatial fusion pipeline (temporal matching, canonical UTM reprojection, and quality masking). The exported arrays represent true physical observations. Early Stress Detection, Crop Growth Prediction, and Field Risk models will be trained on these validated multimodal records in downstream model evaluation; no synthetic predictions or fabricated accuracy benchmarks are asserted here.
+                  This pipeline completes the mathematical and geospatial fusion pipeline (temporal matching, canonical UTM reprojection, and quality masking). The exported arrays represent true physical observations. Vigour Anomaly Detection, Crop Growth Prediction, and Field Risk models will be trained on these validated multimodal records in downstream model evaluation; no synthetic predictions or fabricated accuracy benchmarks are asserted here.
                 </p>
               </div>
             </div>
           </section>
         )}
 
-        {/* PHASE 13: AI-POWERED EARLY CROP STRESS DETECTION SECTION */}
+        {/* PHASE 13: AI-POWERED VIGOUR ANOMALY DETECTION SECTION */}
         {stressResult && (
           <section id="early-crop-stress-detection" className="bg-slate-900 border-2 border-rose-500/60 rounded-3xl p-6 sm:p-10 space-y-8 shadow-2xl animate-in fade-in duration-500">
             
@@ -2889,7 +2897,7 @@ export default function AnalyzePage() {
             <div className="text-center space-y-2 border-b border-slate-800 pb-6">
               <div className="flex items-center justify-center gap-2 flex-wrap">
                 <span className="text-xs uppercase tracking-widest text-rose-400 font-extrabold px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20">
-                  AI Early Crop Stress Intelligence
+                  AI Vigour Anomaly Intelligence
                 </span>
                 <span
                   className={`text-xs uppercase tracking-widest font-extrabold px-3 py-1 rounded-full border ${
@@ -2914,7 +2922,7 @@ export default function AnalyzePage() {
                 )}
               </div>
               <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-                EARLY CROP STRESS DETECTION
+                VIGOUR ANOMALY DETECTION
               </h2>
               <p className="text-slate-400 text-sm max-w-3xl mx-auto">
                 Supervised production stress detection is currently unavailable pending independently verified agronomic ground-truth data. Aligns available Sentinel-1 SAR and Sentinel-2 optical observations to detect rule-based canopy vigor and moisture anomalies.
@@ -3127,7 +3135,7 @@ export default function AnalyzePage() {
                   <div className="md:col-span-2 h-72 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center overflow-hidden p-2">
                     <img
                       src={`data:image/png;base64,${stressResult.spatial_stress_map.stress_map_png}`}
-                      alt="Early Crop Stress Probability Map"
+                      alt="Vigour Anomaly Probability Map"
                       className="w-full h-full object-contain"
                     />
                   </div>

@@ -561,9 +561,9 @@ export default function FieldMap({
                   ? "bg-rose-500 text-white font-bold shadow-md shadow-rose-500/25 ring-1 ring-rose-400"
                   : "text-rose-300 hover:text-white hover:bg-slate-800 border border-rose-500/30"
               }`}
-              title="AI Early Stress Detection Probability Map"
+              title="AI Vigour Anomaly Probability Map"
             >
-              <span>⚡ Stress Map</span>
+              <span>⚡ Vigour Anomaly</span>
             </button>
           )}
 
@@ -665,7 +665,7 @@ export default function FieldMap({
         {activeLayer === "stress" && stressOverlayImage && (
           <div className="flex items-center gap-2 text-rose-300">
             <span className="w-2.5 h-2.5 rounded bg-rose-400 inline-block animate-pulse"></span>
-            <span className="font-medium">AI Early Stress Probability:</span>
+            <span className="font-medium">AI Vigour Anomaly Probability:</span>
             <div className="flex items-center gap-1 text-[10px]">
               <span className="px-1.5 py-0.5 rounded bg-emerald-600 text-white font-semibold">Nominal (&lt;0.35)</span>
               <span className="px-1.5 py-0.5 rounded bg-amber-500 text-slate-950 font-bold">Potential (0.35-0.65)</span>

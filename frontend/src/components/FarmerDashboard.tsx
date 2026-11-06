@@ -44,12 +44,12 @@ export type DashboardState =
   | "ERROR"
   | "TIMEOUT";
 
-const REQUEST_TIMEOUT_MS = 40000;
+const REQUEST_TIMEOUT_MS = 60000;
 const WAKE_DETECTION_DELAY_MS = 3500;
 
 export default function FarmerDashboard() {
   const [fieldsList, setFieldsList] = useState<FieldCatalogItem[]>([]);
-  const [activeFieldId, setActiveFieldId] = useState<string>("field_paddy_delta_01");
+  const [activeFieldId, setActiveFieldId] = useState<string>("");
   const [dashboardData, setDashboardData] = useState<FarmerDashboardFullData | null>(null);
 
   // 7-State Lifecycle Management (Phase 20 Issue 4)
@@ -117,17 +117,25 @@ export default function FarmerDashboard() {
       const res = await fetch(`${API_BASE}/api/v1/farmer-dashboard/overview`);
       if (res.ok) {
         const data = await res.json();
-        setFieldsList(data.fields || []);
-        if (data.active_field_id && !activeFieldId) {
-          setActiveFieldId(data.active_field_id);
-        }
+        const catalogFields: FieldCatalogItem[] = data.fields || [];
+        setFieldsList(catalogFields);
+        const targetId = data.active_field_id || catalogFields[0]?.field_id || "field_1";
+        setActiveFieldId((prev) => prev || targetId);
+      } else {
+        const errJson = await res.json().catch(() => ({}));
+        setDashboardState("ERROR");
+        setErrorMessage(errJson.detail || `Server returned status ${res.status} when fetching field catalog.`);
       }
     } catch (err: any) {
       console.warn("Catalog fetch fallback engaged:", err);
+      setDashboardState("ERROR");
+      setErrorMessage(err?.message || "Failed to reach Crop Health AI server.");
     }
   };
 
   const fetchFieldData = async (fieldId: string) => {
+    if (!fieldId) return;
+
     // Prevent duplicate in-flight requests
     if (isFetchingRef.current) {
       activeFetchAbortRef.current?.abort();
@@ -152,19 +160,19 @@ export default function FarmerDashboard() {
       }
     }, WAKE_DETECTION_DELAY_MS);
 
-    // Timeout guardrail (40 seconds)
+    // Timeout guardrail (60 seconds)
     timeoutTimerRef.current = setTimeout(() => {
       if (isFetchingRef.current) {
         controller.abort("TIMEOUT");
         cleanupTimers();
         isFetchingRef.current = false;
         setDashboardState("TIMEOUT");
-        setErrorMessage("Request timed out. The cloud server may still be initializing.");
+        setErrorMessage("Request timed out after 60 seconds. The satellite processing pipeline or cloud server may still be busy.");
       }
     }, REQUEST_TIMEOUT_MS);
 
     try {
-      const res = await fetch(`${API_BASE}/api/v1/farmer-dashboard/field/${fieldId}`, {
+      const res = await fetch(`${API_BASE}/api/v1/farmer-dashboard/field/${encodeURIComponent(fieldId)}`, {
         signal: controller.signal,
       });
 
@@ -191,10 +199,10 @@ export default function FarmerDashboard() {
 
       if (err.name === "AbortError" || controller.signal.aborted) {
         setDashboardState("TIMEOUT");
-        setErrorMessage("Unable to connect to the Crop Health AI server. Please try again.");
+        setErrorMessage("Request timed out. The cloud server may still be initializing or cold-starting.");
       } else {
         setDashboardState("ERROR");
-        setErrorMessage("Unable to connect to the Crop Health AI server. Please try again.");
+        setErrorMessage(err.message || "Unable to connect to the Crop Health AI server. Please try again.");
       }
     }
   };
@@ -202,7 +210,7 @@ export default function FarmerDashboard() {
   const handleRunComparison = async (fieldIds: string[]) => {
     setIsComparing(true);
     try {
-      const query = fieldIds.map((id) => `field_ids=${encodeURIComponent(id)}`).join("&");
+      const query = `fields=${encodeURIComponent(fieldIds.join(","))}`;
       const res = await fetch(`${API_BASE}/api/v1/farmer-dashboard/compare?${query}`);
       if (!res.ok) {
         const errJson = await res.json().catch(() => ({}));
@@ -309,7 +317,7 @@ export default function FarmerDashboard() {
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
           <div className="relative z-10 max-w-2xl">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 mb-3">
-              🌱 Real-Time Field Intelligence Hub
+              {dashboardData?.field_overview?.is_demo === false ? "🌱 Live Field Intelligence Hub" : "🌱 Satellite Field Intelligence Hub"}
             </span>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
               Farmer Agricultural Operations
@@ -320,12 +328,14 @@ export default function FarmerDashboard() {
           </div>
         </div>
 
-        {/* Global Demo & Data Provenance Indicator */}
-        <GlobalDemoIndicator
-          isDemo={dashboardData?.field_overview?.is_demo ?? true}
-          dataSource={dashboardData?.field_overview?.is_demo ? undefined : "Copernicus Sentinel-2 & Sentinel-1 SAR"}
-          acquisitionDate={dashboardData?.crop_condition?.observation_date}
-        />
+        {/* Global Demo Indicator — Rendered strictly only when in demo mode */}
+        {dashboardData?.field_overview?.is_demo && (
+          <GlobalDemoIndicator
+            isDemo={true}
+            dataSource="Demonstration Archive"
+            acquisitionDate={dashboardData?.crop_condition?.observation_date}
+          />
+        )}
 
         {/* Top Controls Bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-slate-900/60 p-4 rounded-2xl border border-slate-800 backdrop-blur-md">
@@ -356,11 +366,10 @@ export default function FarmerDashboard() {
                         setActiveFieldId(f.field_id);
                         setIsFieldSelectorOpen(false);
                       }}
-                      className={`w-full text-left p-2.5 rounded-xl text-xs transition flex items-center justify-between ${
-                        f.field_id === activeFieldId
-                          ? "bg-emerald-950 text-emerald-300 font-bold border border-emerald-500/30"
-                          : "text-slate-300 hover:bg-slate-800"
-                      }`}
+                      className={`w-full text-left p-2.5 rounded-xl text-xs transition flex items-center justify-between ${f.field_id === activeFieldId
+                        ? "bg-emerald-950 text-emerald-300 font-bold border border-emerald-500/30"
+                        : "text-slate-300 hover:bg-slate-800"
+                        }`}
                     >
                       <div>
                         <div className="font-semibold text-white">{f.field_name}</div>
@@ -554,17 +563,18 @@ export default function FarmerDashboard() {
                 {dashboardState === "TIMEOUT" ? "Connection Timed Out" : "Connection Notice"}
               </h3>
               <p className="text-xs text-rose-200/90 leading-relaxed">
-                Unable to connect to the Crop Health AI server. Please try again.
+                {errorMessage || "Unable to connect to the Crop Health AI server. Please try again."}
               </p>
-              {errorMessage && (
-                <p className="text-[11px] text-slate-400 font-mono pt-1">
-                  Detail: {errorMessage}
-                </p>
-              )}
             </div>
             <div className="pt-2">
               <button
-                onClick={() => fetchFieldData(activeFieldId)}
+                onClick={() => {
+                  if (activeFieldId) {
+                    fetchFieldData(activeFieldId);
+                  } else {
+                    fetchCatalog();
+                  }
+                }}
                 className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg transition"
               >
                 Retry Connection
@@ -642,7 +652,7 @@ export default function FarmerDashboard() {
               </div>
             </div>
 
-            {/* 4 & 5: Early Stress Intelligence & Growth Forecast */}
+            {/* 4 & 5: Vigour Anomaly Intelligence & Growth Forecast */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <StressAlertPanel
                 stress={dashboardData.stress_intelligence}

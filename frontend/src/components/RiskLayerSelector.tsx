@@ -22,10 +22,10 @@ export const RISK_LAYER_OPTIONS: LayerOption[] = [
   },
   {
     key: "potential_stress",
-    label: "Stress Probability",
+    label: "Vigour Anomaly",
     category: "Risk & Stress",
     icon: "⚡",
-    description: "Multimodal calibrated early stress probability model inference",
+    description: "Multimodal calibrated vigour anomaly probability model inference",
   },
   {
     key: "ndvi",

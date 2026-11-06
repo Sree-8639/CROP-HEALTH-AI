@@ -1,0 +1,121 @@
+field_id,geometry,latitude,longitude,spatial_block,spatial_block_index,date,crop_type,soil_type,label,label_name
+field_block_tadepalligudem_001,"{""type"": ""Point"", ""coordinates"": [81.524526, 16.817651]}",16.817651,81.524526,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,1,Potential / Mild Stress
+field_block_tadepalligudem_002,"{""type"": ""Point"", ""coordinates"": [81.531384, 16.793522]}",16.793522,81.531384,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_003,"{""type"": ""Point"", ""coordinates"": [81.538112, 16.833888]}",16.833888,81.538112,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_004,"{""type"": ""Point"", ""coordinates"": [81.518722, 16.801487]}",16.801487,81.518722,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_005,"{""type"": ""Point"", ""coordinates"": [81.497901, 16.813829]}",16.813829,81.497901,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_006,"{""type"": ""Point"", ""coordinates"": [81.503742, 16.822447]}",16.822447,81.503742,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_007,"{""type"": ""Point"", ""coordinates"": [81.505415, 16.79658]}",16.79658,81.505415,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_008,"{""type"": ""Point"", ""coordinates"": [81.535566, 16.800758]}",16.800758,81.535566,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_009,"{""type"": ""Point"", ""coordinates"": [81.528264, 16.802034]}",16.802034,81.528264,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,1,Potential / Mild Stress
+field_block_tadepalligudem_010,"{""type"": ""Point"", ""coordinates"": [81.540812, 16.801196]}",16.801196,81.540812,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_011,"{""type"": ""Point"", ""coordinates"": [81.554384, 16.801174]}",16.801174,81.554384,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_012,"{""type"": ""Point"", ""coordinates"": [81.526517, 16.802195]}",16.802195,81.526517,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,2,Elevated / Severe Stress
+field_block_tadepalligudem_013,"{""type"": ""Point"", ""coordinates"": [81.508287, 16.822538]}",16.822538,81.508287,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_014,"{""type"": ""Point"", ""coordinates"": [81.544505, 16.851875]}",16.851875,81.544505,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_015,"{""type"": ""Point"", ""coordinates"": [81.529171, 16.821277]}",16.821277,81.529171,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_016,"{""type"": ""Point"", ""coordinates"": [81.502851, 16.795064]}",16.795064,81.502851,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_017,"{""type"": ""Point"", ""coordinates"": [81.542457, 16.80329]}",16.80329,81.542457,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_018,"{""type"": ""Point"", ""coordinates"": [81.528616, 16.793242]}",16.793242,81.528616,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,1,Potential / Mild Stress
+field_block_tadepalligudem_019,"{""type"": ""Point"", ""coordinates"": [81.535775, 16.800046]}",16.800046,81.535775,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_020,"{""type"": ""Point"", ""coordinates"": [81.539916, 16.818932]}",16.818932,81.539916,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,1,Potential / Mild Stress
+field_block_tadepalligudem_021,"{""type"": ""Point"", ""coordinates"": [81.521962, 16.797612]}",16.797612,81.521962,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,2,Elevated / Severe Stress
+field_block_tadepalligudem_022,"{""type"": ""Point"", ""coordinates"": [81.543095, 16.787578]}",16.787578,81.543095,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_tadepalligudem_023,"{""type"": ""Point"", ""coordinates"": [81.508657, 16.793605]}",16.793605,81.508657,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,1,Potential / Mild Stress
+field_block_tadepalligudem_024,"{""type"": ""Point"", ""coordinates"": [81.531048, 16.822722]}",16.822722,81.531048,block_tadepalligudem,0,2024-01-15,Paddy,Alluvial,0,Healthy / No Stress
+field_block_bhimavaram_001,"{""type"": ""Point"", ""coordinates"": [81.513323, 16.547425]}",16.547425,81.513323,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,1,Potential / Mild Stress
+field_block_bhimavaram_002,"{""type"": ""Point"", ""coordinates"": [81.528073, 16.564432]}",16.564432,81.528073,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_003,"{""type"": ""Point"", ""coordinates"": [81.535329, 16.502704]}",16.502704,81.535329,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_004,"{""type"": ""Point"", ""coordinates"": [81.538637, 16.520719]}",16.520719,81.538637,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_005,"{""type"": ""Point"", ""coordinates"": [81.528357, 16.538705]}",16.538705,81.528357,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_006,"{""type"": ""Point"", ""coordinates"": [81.534156, 16.530161]}",16.530161,81.534156,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_007,"{""type"": ""Point"", ""coordinates"": [81.515474, 16.529873]}",16.529873,81.515474,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,2,Elevated / Severe Stress
+field_block_bhimavaram_008,"{""type"": ""Point"", ""coordinates"": [81.540373, 16.549522]}",16.549522,81.540373,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,2,Elevated / Severe Stress
+field_block_bhimavaram_009,"{""type"": ""Point"", ""coordinates"": [81.530699, 16.534054]}",16.534054,81.530699,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,2,Elevated / Severe Stress
+field_block_bhimavaram_010,"{""type"": ""Point"", ""coordinates"": [81.525633, 16.562578]}",16.562578,81.525633,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,2,Elevated / Severe Stress
+field_block_bhimavaram_011,"{""type"": ""Point"", ""coordinates"": [81.518085, 16.531469]}",16.531469,81.518085,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_012,"{""type"": ""Point"", ""coordinates"": [81.518621, 16.561106]}",16.561106,81.518621,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,2,Elevated / Severe Stress
+field_block_bhimavaram_013,"{""type"": ""Point"", ""coordinates"": [81.519481, 16.542077]}",16.542077,81.519481,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_014,"{""type"": ""Point"", ""coordinates"": [81.518663, 16.536067]}",16.536067,81.518663,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_015,"{""type"": ""Point"", ""coordinates"": [81.529061, 16.539581]}",16.539581,81.529061,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_016,"{""type"": ""Point"", ""coordinates"": [81.544059, 16.527854]}",16.527854,81.544059,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,2,Elevated / Severe Stress
+field_block_bhimavaram_017,"{""type"": ""Point"", ""coordinates"": [81.522602, 16.513218]}",16.513218,81.522602,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_018,"{""type"": ""Point"", ""coordinates"": [81.516511, 16.543535]}",16.543535,81.516511,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_019,"{""type"": ""Point"", ""coordinates"": [81.527523, 16.539115]}",16.539115,81.527523,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_020,"{""type"": ""Point"", ""coordinates"": [81.522889, 16.547097]}",16.547097,81.522889,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_021,"{""type"": ""Point"", ""coordinates"": [81.534279, 16.559142]}",16.559142,81.534279,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_022,"{""type"": ""Point"", ""coordinates"": [81.54376, 16.529973]}",16.529973,81.54376,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,1,Potential / Mild Stress
+field_block_bhimavaram_023,"{""type"": ""Point"", ""coordinates"": [81.555857, 16.550803]}",16.550803,81.555857,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_bhimavaram_024,"{""type"": ""Point"", ""coordinates"": [81.536847, 16.534599]}",16.534599,81.536847,block_bhimavaram,1,2024-01-15,Paddy,Deltaic Silty Clay,0,Healthy / No Stress
+field_block_krishna_001,"{""type"": ""Point"", ""coordinates"": [80.640448, 16.507695]}",16.507695,80.640448,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,1,Potential / Mild Stress
+field_block_krishna_002,"{""type"": ""Point"", ""coordinates"": [80.642517, 16.506337]}",16.506337,80.642517,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,0,Healthy / No Stress
+field_block_krishna_003,"{""type"": ""Point"", ""coordinates"": [80.655104, 16.490265]}",16.490265,80.655104,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,1,Potential / Mild Stress
+field_block_krishna_004,"{""type"": ""Point"", ""coordinates"": [80.645586, 16.515508]}",16.515508,80.645586,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,0,Healthy / No Stress
+field_block_krishna_005,"{""type"": ""Point"", ""coordinates"": [80.643169, 16.494451]}",16.494451,80.643169,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,2,Elevated / Severe Stress
+field_block_krishna_006,"{""type"": ""Point"", ""coordinates"": [80.656342, 16.500849]}",16.500849,80.656342,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,1,Potential / Mild Stress
+field_block_krishna_007,"{""type"": ""Point"", ""coordinates"": [80.667607, 16.509612]}",16.509612,80.667607,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,0,Healthy / No Stress
+field_block_krishna_008,"{""type"": ""Point"", ""coordinates"": [80.644912, 16.501333]}",16.501333,80.644912,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,2,Elevated / Severe Stress
+field_block_krishna_009,"{""type"": ""Point"", ""coordinates"": [80.659727, 16.510098]}",16.510098,80.659727,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,0,Healthy / No Stress
+field_block_krishna_010,"{""type"": ""Point"", ""coordinates"": [80.634993, 16.525691]}",16.525691,80.634993,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,2,Elevated / Severe Stress
+field_block_krishna_011,"{""type"": ""Point"", ""coordinates"": [80.653197, 16.509957]}",16.509957,80.653197,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,1,Potential / Mild Stress
+field_block_krishna_012,"{""type"": ""Point"", ""coordinates"": [80.660711, 16.509594]}",16.509594,80.660711,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,0,Healthy / No Stress
+field_block_krishna_013,"{""type"": ""Point"", ""coordinates"": [80.637285, 16.510596]}",16.510596,80.637285,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,0,Healthy / No Stress
+field_block_krishna_014,"{""type"": ""Point"", ""coordinates"": [80.629747, 16.508822]}",16.508822,80.629747,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,1,Potential / Mild Stress
+field_block_krishna_015,"{""type"": ""Point"", ""coordinates"": [80.657848, 16.48833]}",16.48833,80.657848,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,1,Potential / Mild Stress
+field_block_krishna_016,"{""type"": ""Point"", ""coordinates"": [80.631044, 16.494932]}",16.494932,80.631044,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,1,Potential / Mild Stress
+field_block_krishna_017,"{""type"": ""Point"", ""coordinates"": [80.654192, 16.520651]}",16.520651,80.654192,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,1,Potential / Mild Stress
+field_block_krishna_018,"{""type"": ""Point"", ""coordinates"": [80.650188, 16.493185]}",16.493185,80.650188,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,0,Healthy / No Stress
+field_block_krishna_019,"{""type"": ""Point"", ""coordinates"": [80.635763, 16.492857]}",16.492857,80.635763,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,2,Elevated / Severe Stress
+field_block_krishna_020,"{""type"": ""Point"", ""coordinates"": [80.644406, 16.51938]}",16.51938,80.644406,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,1,Potential / Mild Stress
+field_block_krishna_021,"{""type"": ""Point"", ""coordinates"": [80.669803, 16.506395]}",16.506395,80.669803,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,0,Healthy / No Stress
+field_block_krishna_022,"{""type"": ""Point"", ""coordinates"": [80.647482, 16.485104]}",16.485104,80.647482,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,1,Potential / Mild Stress
+field_block_krishna_023,"{""type"": ""Point"", ""coordinates"": [80.655237, 16.490137]}",16.490137,80.655237,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,2,Elevated / Severe Stress
+field_block_krishna_024,"{""type"": ""Point"", ""coordinates"": [80.659105, 16.504338]}",16.504338,80.659105,block_krishna,2,2024-01-15,Maize,Clayey Alluvium,2,Elevated / Severe Stress
+field_block_guntur_001,"{""type"": ""Point"", ""coordinates"": [80.413777, 16.293998]}",16.293998,80.413777,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,2,Elevated / Severe Stress
+field_block_guntur_002,"{""type"": ""Point"", ""coordinates"": [80.428806, 16.292809]}",16.292809,80.428806,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,0,Healthy / No Stress
+field_block_guntur_003,"{""type"": ""Point"", ""coordinates"": [80.44228, 16.309298]}",16.309298,80.44228,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,0,Healthy / No Stress
+field_block_guntur_004,"{""type"": ""Point"", ""coordinates"": [80.424366, 16.310164]}",16.310164,80.424366,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,2,Elevated / Severe Stress
+field_block_guntur_005,"{""type"": ""Point"", ""coordinates"": [80.419355, 16.307573]}",16.307573,80.419355,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,2,Elevated / Severe Stress
+field_block_guntur_006,"{""type"": ""Point"", ""coordinates"": [80.452493, 16.319787]}",16.319787,80.452493,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,1,Potential / Mild Stress
+field_block_guntur_007,"{""type"": ""Point"", ""coordinates"": [80.422433, 16.286035]}",16.286035,80.422433,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,1,Potential / Mild Stress
+field_block_guntur_008,"{""type"": ""Point"", ""coordinates"": [80.440358, 16.311267]}",16.311267,80.440358,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,2,Elevated / Severe Stress
+field_block_guntur_009,"{""type"": ""Point"", ""coordinates"": [80.494291, 16.314426]}",16.314426,80.494291,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,1,Potential / Mild Stress
+field_block_guntur_010,"{""type"": ""Point"", ""coordinates"": [80.451323, 16.326663]}",16.326663,80.451323,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,1,Potential / Mild Stress
+field_block_guntur_011,"{""type"": ""Point"", ""coordinates"": [80.447885, 16.301971]}",16.301971,80.447885,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,0,Healthy / No Stress
+field_block_guntur_012,"{""type"": ""Point"", ""coordinates"": [80.423661, 16.309175]}",16.309175,80.423661,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,0,Healthy / No Stress
+field_block_guntur_013,"{""type"": ""Point"", ""coordinates"": [80.408491, 16.34142]}",16.34142,80.408491,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,0,Healthy / No Stress
+field_block_guntur_014,"{""type"": ""Point"", ""coordinates"": [80.437703, 16.300482]}",16.300482,80.437703,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,0,Healthy / No Stress
+field_block_guntur_015,"{""type"": ""Point"", ""coordinates"": [80.452834, 16.299621]}",16.299621,80.452834,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,0,Healthy / No Stress
+field_block_guntur_016,"{""type"": ""Point"", ""coordinates"": [80.438428, 16.330106]}",16.330106,80.438428,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,0,Healthy / No Stress
+field_block_guntur_017,"{""type"": ""Point"", ""coordinates"": [80.439747, 16.295745]}",16.295745,80.439747,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,0,Healthy / No Stress
+field_block_guntur_018,"{""type"": ""Point"", ""coordinates"": [80.464151, 16.342536]}",16.342536,80.464151,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,1,Potential / Mild Stress
+field_block_guntur_019,"{""type"": ""Point"", ""coordinates"": [80.439297, 16.276323]}",16.276323,80.439297,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,1,Potential / Mild Stress
+field_block_guntur_020,"{""type"": ""Point"", ""coordinates"": [80.411463, 16.300033]}",16.300033,80.411463,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,0,Healthy / No Stress
+field_block_guntur_021,"{""type"": ""Point"", ""coordinates"": [80.449486, 16.314275]}",16.314275,80.449486,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,0,Healthy / No Stress
+field_block_guntur_022,"{""type"": ""Point"", ""coordinates"": [80.431732, 16.301686]}",16.301686,80.431732,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,0,Healthy / No Stress
+field_block_guntur_023,"{""type"": ""Point"", ""coordinates"": [80.442575, 16.333182]}",16.333182,80.442575,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,1,Potential / Mild Stress
+field_block_guntur_024,"{""type"": ""Point"", ""coordinates"": [80.46127, 16.312359]}",16.312359,80.46127,block_guntur,3,2024-01-15,Cotton,Black Cotton Soil,1,Potential / Mild Stress
+field_block_eluru_001,"{""type"": ""Point"", ""coordinates"": [81.092736, 16.687209]}",16.687209,81.092736,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_002,"{""type"": ""Point"", ""coordinates"": [81.12808, 16.706439]}",16.706439,81.12808,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_003,"{""type"": ""Point"", ""coordinates"": [81.084634, 16.661381]}",16.661381,81.084634,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_004,"{""type"": ""Point"", ""coordinates"": [81.080497, 16.680076]}",16.680076,81.080497,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,1,Potential / Mild Stress
+field_block_eluru_005,"{""type"": ""Point"", ""coordinates"": [81.101961, 16.703399]}",16.703399,81.101961,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_006,"{""type"": ""Point"", ""coordinates"": [81.13522, 16.710878]}",16.710878,81.13522,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,2,Elevated / Severe Stress
+field_block_eluru_007,"{""type"": ""Point"", ""coordinates"": [81.106932, 16.695277]}",16.695277,81.106932,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_008,"{""type"": ""Point"", ""coordinates"": [81.100913, 16.706963]}",16.706963,81.100913,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_009,"{""type"": ""Point"", ""coordinates"": [81.109932, 16.711703]}",16.711703,81.109932,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_010,"{""type"": ""Point"", ""coordinates"": [81.13167, 16.700773]}",16.700773,81.13167,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_011,"{""type"": ""Point"", ""coordinates"": [81.108825, 16.707723]}",16.707723,81.108825,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,2,Elevated / Severe Stress
+field_block_eluru_012,"{""type"": ""Point"", ""coordinates"": [81.103114, 16.702704]}",16.702704,81.103114,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_013,"{""type"": ""Point"", ""coordinates"": [81.112744, 16.70116]}",16.70116,81.112744,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_014,"{""type"": ""Point"", ""coordinates"": [81.121788, 16.72428]}",16.72428,81.121788,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,2,Elevated / Severe Stress
+field_block_eluru_015,"{""type"": ""Point"", ""coordinates"": [81.109444, 16.722193]}",16.722193,81.109444,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_016,"{""type"": ""Point"", ""coordinates"": [81.089348, 16.718276]}",16.718276,81.089348,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,1,Potential / Mild Stress
+field_block_eluru_017,"{""type"": ""Point"", ""coordinates"": [81.10176, 16.709686]}",16.709686,81.10176,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_018,"{""type"": ""Point"", ""coordinates"": [81.117429, 16.699962]}",16.699962,81.117429,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,2,Elevated / Severe Stress
+field_block_eluru_019,"{""type"": ""Point"", ""coordinates"": [81.116482, 16.706735]}",16.706735,81.116482,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,1,Potential / Mild Stress
+field_block_eluru_020,"{""type"": ""Point"", ""coordinates"": [81.103924, 16.703881]}",16.703881,81.103924,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,2,Elevated / Severe Stress
+field_block_eluru_021,"{""type"": ""Point"", ""coordinates"": [81.100315, 16.729582]}",16.729582,81.100315,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_022,"{""type"": ""Point"", ""coordinates"": [81.11281, 16.706412]}",16.706412,81.11281,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress
+field_block_eluru_023,"{""type"": ""Point"", ""coordinates"": [81.098048, 16.714862]}",16.714862,81.098048,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,2,Elevated / Severe Stress
+field_block_eluru_024,"{""type"": ""Point"", ""coordinates"": [81.115978, 16.738685]}",16.738685,81.115978,block_eluru,4,2024-01-15,Pulses,Red Sandy Loam,0,Healthy / No Stress

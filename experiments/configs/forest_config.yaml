@@ -1,0 +1,50 @@
+# experiments/configs/forest_config.yaml
+# Configuration for Forest Disturbance & Canopy Change Experiments
+module: "forest"
+random_seed: 42
+
+reference_dataset:
+  name: "Hansen Global Forest Change v1.11"
+  nominal_resolution_m: 30.0
+  target_resolution_m: 10.0
+  interval_years: [2020, 2021]
+  disclaimer: "Hansen GFC reference labels are 30m resolution and contain noise from temporal attribution lags, unmodeled selective logging, and boundary edge uncertainty."
+
+spatial_split:
+  tile_size: 512
+  patch_size: 256
+  stride: 64
+  train_ratio: 0.60
+  val_ratio: 0.24
+  test_ratio: 0.16
+
+indian_aoi:
+  name: "Hasdeo Arand Forest (Parsa East & Kete Basan Sector)"
+  state: "Chhattisgarh, India"
+  bbox: [82.75, 22.75, 82.85, 22.85]
+  forest_type: "Dry Deciduous Sal & Mixed Teak Forest"
+  threat_profile: "Open-cast coal mining face expansion, haul roads, and canopy fragmentation"
+
+models:
+  spectral_differencing:
+    nbr_threshold: 0.20
+    ndvi_threshold: 0.20
+  torres_unet:
+    in_channels: 14  # 7 S2 before + 7 S2 after
+    epochs: 10
+    learning_rate: 0.001
+    batch_size: 4
+  siamese_unet:
+    in_channels: 10  # 7 S2 + 3 S1 per branch
+    epochs: 12
+    learning_rate: 0.001
+    batch_size: 4
+
+outputs:
+  json_metrics: "results/forest_metrics.json"
+  table_csv: "paper_assets/tables/table2_forest_metrics.csv"
+  table_md: "paper_assets/tables/table2_forest_metrics.md"
+  table_tex: "paper_assets/tables/table2_forest_metrics.tex"
+  table_cm_csv: "paper_assets/tables/table2b_forest_confusion_matrix.csv"
+  figure_png: "paper_assets/figures/fig2_forest_canopy_disturbance.png"
+  figure_cm_png: "paper_assets/figures/fig2b_forest_confusion_matrix.png"

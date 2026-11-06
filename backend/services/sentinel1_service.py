@@ -15,6 +15,9 @@ from services.copernicus_auth import (
     copernicus_auth,
 )
 from services.raster_utils import resample_band, align_bands, validate_band_shapes, RasterAlignmentError
+from services.tile_cache import tile_cache
+from services.http_retry import request_with_retry
+from services.provenance import build_provenance_badge
 
 class Sentinel1Error(Exception):
     """Base exception for Sentinel-1 SAR service operations."""
@@ -117,44 +120,47 @@ class Sentinel1Service:
             payload["query"] = {"sat:orbit_state": {"eq": orbit_direction}}
 
         try:
-            async with httpx.AsyncClient(timeout=25.0) as client:
-                response = await client.post(catalog_url, json=payload, headers=headers)
-                if response.status_code == 401:
-                    self.auth.clear_cached_token()
-                    token = await self.auth.get_access_token(force_refresh=True)
-                    headers["Authorization"] = f"Bearer {token}"
-                    response = await client.post(catalog_url, json=payload, headers=headers)
+            response = await request_with_retry(
+                method="POST",
+                url=catalog_url,
+                headers=headers,
+                json_payload=payload,
+                timeout_seconds=30.0,
+                token_refresh_callback=lambda: self.auth.get_access_token(force_refresh=True),
+            )
+            if response.status_code == 401:
+                raise CopernicusAuthError("Sentinel-1 catalog search failed: Unauthorized access.")
+            if response.status_code != 200:
+                if self.is_demo_mode:
+                    return self._generate_demo_sar_catalog(geometry, start_date, end_date)
+                raise Sentinel1Error(f"Sentinel-1 catalog search failed with status {response.status_code}: {response.text[:200]}")
 
-                if response.status_code != 200:
-                    # In case of remote API hiccup, return demo catalog if permitted
-                    if self.is_demo_mode:
-                        return self._generate_demo_sar_catalog(geometry, start_date, end_date)
-                    raise Sentinel1Error(f"Sentinel-1 catalog search failed with status {response.status_code}.")
+            data = response.json()
+            features = data.get("features", [])
+            if not features:
+                raise NoSARDataFoundError(
+                    f"No Sentinel-1 SAR observations found for the AOI between {start_date} and {end_date}."
+                )
 
-                data = response.json()
-                features = data.get("features", [])
-                if not features:
-                    raise NoSARDataFoundError(
-                        f"No Sentinel-1 SAR observations found for the AOI between {start_date} and {end_date}."
-                    )
+            results = []
+            for f in features:
+                props = f.get("properties", {})
+                results.append({
+                    "scene_id": f.get("id", "S1-UNKNOWN"),
+                    "acquisition_date": props.get("datetime", f"{start_date}T00:00:00Z"),
+                    "product_type": "Sentinel-1 GRD",
+                    "polarization": props.get("sar:polarizations", ["VV", "VH"]),
+                    "orbit_direction": props.get("sat:orbit_state", "descending"),
+                    "instrument_mode": props.get("sar:instrument_mode", "IW"),
+                    "resolution_m": 10,
+                    "data_source": "Copernicus Sentinel-1",
+                    "is_demo": False,
+                })
+            return results
 
-                results = []
-                for f in features:
-                    props = f.get("properties", {})
-                    results.append({
-                        "scene_id": f.get("id", "S1-UNKNOWN"),
-                        "acquisition_date": props.get("datetime", f"{start_date}T00:00:00Z"),
-                        "product_type": "Sentinel-1 GRD",
-                        "polarization": props.get("sar:polarizations", ["VV", "VH"]),
-                        "orbit_direction": props.get("sat:orbit_state", "descending"),
-                        "instrument_mode": props.get("sar:instrument_mode", "IW"),
-                        "resolution_m": 10,
-                        "data_source": "Copernicus Sentinel-1",
-                        "is_demo": False,
-                    })
-                return results
-
-        except (httpx.RequestError, httpx.TimeoutException) as exc:
+        except (NoSARDataFoundError, Sentinel1Error, CopernicusAuthError):
+            raise
+        except Exception as exc:
             if self.is_demo_mode:
                 return self._generate_demo_sar_catalog(geometry, start_date, end_date)
             raise Sentinel1Error(f"Network error querying Sentinel-1 catalog: {str(exc)}")
@@ -229,12 +235,12 @@ class Sentinel1Service:
         self,
         s2_date_str: str,
         s1_catalog: List[Dict[str, Any]],
-        max_window_days: int = 7,
+        max_window_days: int = 3,
     ) -> Dict[str, Any]:
         """
         Temporal Matching:
         Identifies the closest Sentinel-1 observation to a given Sentinel-2 date.
-        If no observation falls within max_window_days, returns an explicit unavailable status
+        If no observation falls within max_window_days (default ±3 days), returns an explicit unavailable status
         without fabricating missing observations.
         """
         if not s1_catalog:
@@ -282,6 +288,7 @@ class Sentinel1Service:
             "orbit_direction": scene.get("orbit_direction", "descending"),
             "data_source": scene.get("data_source", "Copernicus Sentinel-1"),
             "is_demo": scene.get("is_demo", False),
+            "scene": scene,
             "message": f"Matched Sentinel-1 acquisition ({abs(diff_days)} day{'s' if abs(diff_days) != 1 else ''} offset).",
         }
 
@@ -292,6 +299,7 @@ class Sentinel1Service:
         end_date: str,
         width: int = 128,
         height: int = 128,
+        target_scene: Optional[Dict[str, Any]] = None,
     ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, Dict[str, Any]]:
         """
         Retrieves calibrated Sentinel-1 GRD linear backscatter bands (VV, VH)
@@ -304,13 +312,37 @@ class Sentinel1Service:
         if self.is_demo_mode or not self.auth.has_credentials():
             return self._generate_deterministic_sar_data(geometry, start_date, end_date, width, height)
 
+        # Check tile cache
+        cache_date = target_scene.get("acquisition_date") if target_scene else f"{start_date}_{end_date}"
+        cache_key = tile_cache.generate_cache_key(
+            "s1_grd",
+            geometry,
+            cache_date,
+            {"width": width, "height": height, "scene_id": target_scene.get("scene_id") if target_scene else "auto"},
+        )
+        cached_result = tile_cache.get(cache_key)
+        if cached_result is not None:
+            cached_bands, cached_meta = cached_result
+            mask = cached_bands.get("mask", np.ones((height, width), dtype=np.float32)) > 0.5
+            return cached_bands["VV"], cached_bands["VH"], mask, cached_meta
+
         token = await self.auth.get_access_token()
-        process_url = f"{self.base_url}/api/v1/process"
+        process_endpoint = os.getenv("COPERNICUS_PROCESS_ENDPOINT", "/api/v1/process")
+        process_url = f"{self.base_url}{process_endpoint}"
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/json",
             "Accept": "image/tiff",
         }
+
+        from services.raster_utils import derive_pinned_timerange
+        if target_scene and target_scene.get("acquisition_date"):
+            pinned_timerange = derive_pinned_timerange(target_scene["acquisition_date"])
+        else:
+            pinned_timerange = {
+                "from": f"{start_date}T00:00:00Z",
+                "to": f"{end_date}T23:59:59Z",
+            }
 
         # Evalscript retrieving orthorectified Gamma0/Sigma0 VV and VH
         evalscript = """//VERSION=3
@@ -334,10 +366,7 @@ function evaluatePixel(samples) {
                     {
                         "type": "sentinel-1-grd",
                         "dataFilter": {
-                            "timeRange": {
-                                "from": f"{start_date}T00:00:00Z",
-                                "to": f"{end_date}T23:59:59Z"
-                            },
+                            "timeRange": pinned_timerange,
                             "acquisitionMode": "IW",
                             "polarization": "DV"
                         },
@@ -357,43 +386,68 @@ function evaluatePixel(samples) {
         }
 
         try:
-            async with httpx.AsyncClient(timeout=30.0) as client:
-                resp = await client.post(process_url, json=payload, headers=headers)
-                if resp.status_code == 401:
-                    self.auth.clear_cached_token()
-                    token = await self.auth.get_access_token(force_refresh=True)
-                    headers["Authorization"] = f"Bearer {token}"
-                    resp = await client.post(process_url, json=payload, headers=headers)
+            resp = await request_with_retry(
+                method="POST",
+                url=process_url,
+                headers=headers,
+                json_payload=payload,
+                timeout_seconds=50.0,
+                token_refresh_callback=lambda: self.auth.get_access_token(force_refresh=True),
+            )
 
-                if resp.status_code == 200 and resp.content:
-                    import tifffile
-                    with io.BytesIO(resp.content) as bio:
-                        tiff_data = tifffile.imread(bio)
-                        # Shape is (H, W, 3) or (3, H, W)
-                        if tiff_data.ndim == 3:
-                            if tiff_data.shape[0] == 3:
-                                vv_linear = tiff_data[0].astype(np.float32)
-                                vh_linear = tiff_data[1].astype(np.float32)
-                                mask = (tiff_data[2] > 0.5)
-                            else:
-                                vv_linear = tiff_data[:, :, 0].astype(np.float32)
-                                vh_linear = tiff_data[:, :, 1].astype(np.float32)
-                                mask = (tiff_data[:, :, 2] > 0.5)
+            if resp.status_code in (401, 403):
+                raise CopernicusAuthError("Sentinel-1 SAR processing failed: Unauthorized access.")
+            if resp.status_code == 429:
+                raise Sentinel1Error("Sentinel-1 processing rate limit reached. Please retry in a few moments.")
+            if resp.status_code >= 400:
+                raise Sentinel1Error(f"Sentinel-1 Process API error ({resp.status_code}): {resp.text[:200]}")
 
-                            # Clean extreme values
-                            vv_linear = np.nan_to_num(vv_linear, nan=0.0, posinf=0.0, neginf=0.0)
-                            vh_linear = np.nan_to_num(vh_linear, nan=0.0, posinf=0.0, neginf=0.0)
-                            return vv_linear, vh_linear, mask, {
-                                "scene_id": "S1_GRD_LIVE_OBSERVATION",
-                                "acquisition_date": f"{end_date}T00:38:15Z",
-                                "data_source": "Copernicus Sentinel-1 GRD",
-                                "is_demo": False,
-                                "polarization": ["VV", "VH"],
-                            }
-        except Exception:
-            pass
+            if resp.status_code == 200 and resp.content:
+                import tifffile
+                with io.BytesIO(resp.content) as bio:
+                    tiff_data = tifffile.imread(bio)
+                    # Shape is (H, W, 3) or (3, H, W)
+                    if tiff_data.ndim == 3:
+                        if tiff_data.shape[0] == 3:
+                            vv_linear = tiff_data[0].astype(np.float32)
+                            vh_linear = tiff_data[1].astype(np.float32)
+                            mask = (tiff_data[2] > 0.5)
+                        else:
+                            vv_linear = tiff_data[:, :, 0].astype(np.float32)
+                            vh_linear = tiff_data[:, :, 1].astype(np.float32)
+                            mask = (tiff_data[:, :, 2] > 0.5)
 
-        # Fallback to deterministic demo SAR data if live fetch failed
+                        # Clean extreme values
+                        vv_linear = np.nan_to_num(vv_linear, nan=0.0, posinf=0.0, neginf=0.0)
+                        vh_linear = np.nan_to_num(vh_linear, nan=0.0, posinf=0.0, neginf=0.0)
+                        
+                        scene_meta = {
+                            "scene_id": target_scene.get("scene_id", "S1_GRD_LIVE_OBSERVATION") if target_scene else "S1_GRD_LIVE_OBSERVATION",
+                            "acquisition_date": target_scene.get("acquisition_date", f"{end_date}T00:38:15Z") if target_scene else f"{end_date}T00:38:15Z",
+                            "data_source": "Copernicus Sentinel-1 GRD",
+                            "is_demo": False,
+                            "polarization": target_scene.get("polarization", ["VV", "VH"]) if target_scene else ["VV", "VH"],
+                            "orbit_direction": target_scene.get("orbit_direction", "descending") if target_scene else "descending",
+                        }
+
+                        # Save to tile cache
+                        tile_cache.put(
+                            cache_key,
+                            {"VV": vv_linear, "VH": vh_linear, "mask": mask.astype(np.float32)},
+                            scene_meta,
+                        )
+                        return vv_linear, vh_linear, mask, scene_meta
+        except (Sentinel1Error, CopernicusAuthError):
+            raise
+        except Exception as exc:
+            if self.is_demo_mode:
+                return self._generate_deterministic_sar_data(geometry, start_date, end_date, width, height)
+            raise Sentinel1Error(f"Sentinel-1 SAR data retrieval failed: {str(exc)}")
+
+        if not self.is_demo_mode:
+            raise Sentinel1Error("Failed to retrieve valid Sentinel-1 GRD image response.")
+
+        # Fallback to deterministic demo SAR data if permitted in demo mode
         return self._generate_deterministic_sar_data(geometry, start_date, end_date, width, height)
 
     def _generate_deterministic_sar_data(
@@ -619,15 +673,35 @@ function evaluatePixel(samples) {
 
         # 2. Temporal matching if S2 date provided
         temporal_match = None
+        chosen_scene = None
         if s2_date:
-            temporal_match = self.find_closest_sentinel1_observation(s2_date, catalog, max_window_days=7)
+            temporal_match = self.find_closest_sentinel1_observation(s2_date, catalog, max_window_days=3)
+            if temporal_match.get("matched"):
+                chosen_scene = temporal_match.get("scene")
 
-        # 3. Download/synthesize bands
-        vv_lin, vh_lin, mask, scene_meta = await self.get_sar_bands(geometry, start_date, end_date)
+        if chosen_scene is None and catalog:
+            chosen_scene = catalog[-1]
+
+        # 3. Download/synthesize bands with exact pinned timeRange
+        vv_lin, vh_lin, mask, scene_meta = await self.get_sar_bands(
+            geometry, start_date, end_date, target_scene=chosen_scene
+        )
 
         # 4. Compute SAR features & colormaps
         features_result = self.compute_sar_features(
             vv_lin, vh_lin, mask, total_aoi_area_km2=aoi_area_km2
+        )
+
+        # 5. Build standardized provenance badge
+        provenance = build_provenance_badge(
+            is_demo=scene_meta.get("is_demo", False),
+            sensor="Copernicus Sentinel-1 C-SAR GRD",
+            sar_date=scene_meta.get("acquisition_date"),
+            optical_date=s2_date,
+            temporal_gap_days=temporal_match.get("date_difference_days") if temporal_match else None,
+            valid_pixel_percentage=features_result["quality"]["valid_pixel_percentage"],
+            scene_id=scene_meta.get("scene_id"),
+            orbit_direction=scene_meta.get("orbit_direction"),
         )
 
         return {
@@ -642,6 +716,7 @@ function evaluatePixel(samples) {
             "temporal_match": temporal_match,
             "sar_features": features_result["features"],
             "quality": features_result["quality"],
+            "provenance": provenance,
             "available_catalog_scenes": len(catalog),
         }
 

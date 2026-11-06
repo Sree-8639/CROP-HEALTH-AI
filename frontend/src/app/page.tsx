@@ -6,6 +6,7 @@ import GlobalDemoIndicator from "@/components/GlobalDemoIndicator";
 
 export default function Home() {
   const [apiStatus, setApiStatus] = useState<"checking" | "connected" | "offline">("checking");
+  const [isDemo, setIsDemo] = useState<boolean>(false);
 
   useEffect(() => {
     async function checkBackend() {
@@ -16,11 +17,16 @@ export default function Home() {
         });
         if (res.ok) {
           setApiStatus("connected");
+          const data = await res.json().catch(() => ({}));
+          const demoActive = data.demo_mode ?? (process.env.NEXT_PUBLIC_DEMO_MODE === "true");
+          setIsDemo(Boolean(demoActive));
         } else {
           setApiStatus("offline");
+          setIsDemo(process.env.NEXT_PUBLIC_DEMO_MODE === "true");
         }
       } catch {
         setApiStatus("offline");
+        setIsDemo(process.env.NEXT_PUBLIC_DEMO_MODE === "true");
       }
     }
     checkBackend();
@@ -28,11 +34,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 relative">
-      {/* Global Demo / Provenance Discloser Banner */}
-      <GlobalDemoIndicator
-        isDemo={true}
-        provenance="Sentinel-2 L2A (Copernicus) & Sentinel-1 GRD (ESA) Archive"
-      />
+      {/* Global Demo Indicator — visible strictly only in demo mode */}
+      {isDemo && (
+        <GlobalDemoIndicator
+          isDemo={true}
+          provenance="Sentinel-2 L2A (Copernicus) & Sentinel-1 GRD (ESA) Archive"
+        />
+      )}
 
       {/* Top Header / Navigation Bar */}
       <header className="bg-[#244324]/95 border-b border-emerald-800/40 backdrop-blur-md sticky top-0 z-50 shadow-md">
@@ -50,23 +58,32 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Standardized Navigation Links (Issue 10) */}
-          <nav className="flex items-center gap-4 sm:gap-6 text-sm">
+          {/* Standardized Navigation Links with Three Core Modules */}
+          <nav className="flex items-center gap-3 sm:gap-5 text-sm">
             <Link href="/" className="font-bold text-white px-2 py-1 border-b-2 border-amber-300">
               HOME
             </Link>
-            <Link href="/analyze" className="font-semibold text-emerald-100 hover:text-white transition">
-              ANALYZE
+            <Link href="/crop" className="font-bold text-emerald-300 hover:text-white transition flex items-center gap-1">
+              <span>🌱</span>
+              <span>CROP</span>
             </Link>
-            <Link href="/farmer-dashboard" className="font-semibold text-amber-200 hover:text-amber-100 transition flex items-center gap-1">
+            <Link href="/deforestation" className="font-bold text-teal-300 hover:text-white transition flex items-center gap-1">
+              <span>🌲</span>
+              <span>DEFORESTATION</span>
+            </Link>
+            <Link href="/heat" className="font-bold text-amber-300 hover:text-white transition flex items-center gap-1">
+              <span>🔥</span>
+              <span>URBAN HEAT</span>
+            </Link>
+            <Link href="/farmer-dashboard" className="font-semibold text-amber-200 hover:text-amber-100 transition hidden sm:inline flex items-center gap-1">
               <span>🌾</span>
               <span>FARMER HUB</span>
             </Link>
-            <Link href="/history" className="font-semibold text-emerald-100 hover:text-white transition hidden md:inline">
-              HISTORY
+            <Link href="/analyze" className="font-semibold text-emerald-100 hover:text-white transition hidden md:inline">
+              ANALYZE
             </Link>
             <Link href="/model-performance" className="font-semibold text-emerald-100 hover:text-white transition hidden lg:inline">
-              Architecture & Model Targets
+              METRICS
             </Link>
             <div className="flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border bg-emerald-950/70 border-emerald-600/40">
               <span
