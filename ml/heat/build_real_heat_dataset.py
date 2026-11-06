@@ -1,3 +1,4 @@
+# pyright: reportMissingImports=false
 """
 ml/heat/build_real_heat_dataset.py:
 Fetches 100% REAL satellite observations for Visakhapatnam Urban Heat Island (UHI) analysis:
@@ -20,11 +21,11 @@ import json
 import urllib.request
 import urllib.parse
 from typing import Dict, Any, Tuple, Optional
-import numpy as np
-import rasterio
-from rasterio.windows import from_bounds
-from rasterio.warp import transform_bounds
-import cv2
+import numpy as np  # type: ignore[import-not-found,import-untyped]
+import rasterio  # type: ignore[import-not-found,import-untyped]
+from rasterio.windows import from_bounds  # type: ignore[import-not-found,import-untyped]
+from rasterio.warp import transform_bounds  # type: ignore[import-not-found,import-untyped]
+import cv2  # type: ignore[import-not-found,import-untyped]
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "data")
 CACHE_FILE = os.path.join(OUTPUT_DIR, "real_visakhapatnam_heat_benchmark.npz")

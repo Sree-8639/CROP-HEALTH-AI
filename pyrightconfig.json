@@ -1,0 +1,11 @@
+{
+  "pythonPath": "C:\\Users\\shanm\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+  "extraPaths": [
+    "C:\\Users\\shanm\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages",
+    ".",
+    "backend",
+    "ml"
+  ],
+  "reportMissingImports": "none",
+  "reportMissingTypeStubs": "none"
+}
